@@ -3,10 +3,7 @@ package ca.mcgill.ecse211.lab1;
 import static ca.mcgill.ecse211.lab1.Resources.*;
 
 public class BangBangController extends UltrasonicController {
-  private final int bandCenter=30;
-  private final int bandwidth=3;
-  private final int MOTOR_LOW;
-  private final int MOTOR_HIGH;
+
   private final int DELTA_SPEED=MOTOR_HIGH-MOTOR_LOW;
 
   public BangBangController() {
@@ -19,8 +16,8 @@ public class BangBangController extends UltrasonicController {
   @Override
   public void processUSData(int distance) {
      filter(distance);
-     int offset = bandCenter-distance;
-     if(Math.abs(offset)>bandwidth){
+     int offset = BAND_CENTER-this.distance;
+     if(Math.abs(offset)>BAND_WIDTH){
        if(offset>0){
          LEFT_MOTOR.setSpeed(MOTOR_HIGH+DELTA_SPEED);
          RIGHT_MOTOR.setSpeed(0);

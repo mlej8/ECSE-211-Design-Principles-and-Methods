@@ -10,7 +10,7 @@ public abstract class UltrasonicController {
   int distance;
   
   int filterControl;
-  
+ 
   /**
    * Perform an action based on the US data input.
    * 
