@@ -1,0 +1,2 @@
+Is it possible that in main, readUSDistance is called before processUSData (means that UltrasonicController's distance has not yet been assigned)
+https://www.fourmilab.ch/hackdiet/www/subsection1_2_3_0_5.html
