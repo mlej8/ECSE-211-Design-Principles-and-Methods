@@ -1,0 +1,9 @@
+1. Install the 32-bit (x86) Java 7 SDK on your machine: www.oracle.com/java/technologies/javase-java-archive-javase7-downloads.html
+2. Configure Eclipse settings according to requirements "ecse2210eclipse-preferences.epf
+3. Download LeJOS Plugin: Install the Eclipse plugin. Open Eclipse, and navigate to Help → Install New Software.... Paste this link in the “Work with. . . ” textbox: http://lejos.sourceforge.net/ tools/eclipse/plugin/ev3. Then select “Add. . . ” and enter LeJOS EV3 Eclipse plugin as a repository name. Check the “leJOS EV3 Support” box and follow the prompts.
+4. Set LeJOS in preferences: Windows > Preferences > EV3_HOME = LeJOS package location on your computer
+                                                     Connect to named brick Name: "BRICK" ip address
+                                                     Run Tools in separate JVM: Checked
+                                                     Use ssh and scp: Unchecked
+                                                     Run program after upload: Checked
+5. Install LeJOS on the brick.
