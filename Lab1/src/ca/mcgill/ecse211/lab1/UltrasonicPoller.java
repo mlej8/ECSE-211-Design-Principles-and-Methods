@@ -36,7 +36,7 @@ public class UltrasonicPoller implements Runnable {
       distance = (int) (usData[0] * 100.0); // extract from buffer (region of a physical memory storage used to temporarily store data while it is being moved from one place to another), convert to cm, cast to int
       controller.processUSData(distance);   // now take action depending on value
       try {
-        Thread.sleep(50);
+        Thread.sleep(SLEEPINT);
       } catch (Exception e) {
       } // Poor man's timed sampling
     }
