@@ -27,6 +27,9 @@ public class PController extends UltrasonicController {
     // TODO: process a movement based on the us distance passed in (P style)
     int error = BAND_CENTER - this.distance; // (distance between the US sensor and an obstacle in cm) - (Standard offset from the wall cm). We need to tweak BAND_CENTER and BAND_WIDTH in order to make the robot smooth
     
+    // log information 
+    System.out.println("BANG_CENTER: " + BAND_CENTER + " US Distance: " + readUSDistance() + " Error: " + error); 
+       
     if (Math.abs(error) <= BAND_WIDTH) {
       LEFT_MOTOR.setSpeed(MOTOR_SPEED);
       RIGHT_MOTOR.setSpeed(MOTOR_SPEED);
@@ -38,7 +41,7 @@ public class PController extends UltrasonicController {
       LEFT_MOTOR.forward();
       RIGHT_MOTOR.forward();
     } else if (error < 0) { // if error is smaller than 0, this means that the vehicle is too far from the wall, which means we need to turn left
-      LEFT_MOTOR.setSpeed(MOTOR_SPEED - calcGain(error));
+      LEFT_MOTOR.setSpeed(MOTOR_SPEED - calcGain(error));  
       RIGHT_MOTOR.setSpeed(MOTOR_SPEED + calcGain(error));
       LEFT_MOTOR.forward();
       RIGHT_MOTOR.forward();
@@ -71,8 +74,8 @@ public class PController extends UltrasonicController {
     int DELTASPD =  error * ERROR_ROTATION_SCALE;
     System.out.println("Proportional control: " + DELTASPD); // log in console the value of proportional control 
     
-    if (DELTASPD > 100) { // filter out error too big.
-       DELTASPD = 100;
+    if (DELTASPD > 130) { // filter out error too big since motor 
+       DELTASPD = 130;
     }
     
     return DELTASPD;    
