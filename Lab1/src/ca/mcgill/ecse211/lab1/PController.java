@@ -5,7 +5,7 @@ import static ca.mcgill.ecse211.lab1.Resources.*;
 public class PController extends UltrasonicController {
 
   
-  private static final int ERROR_ROTATION_SCALE = 6;
+  private static final int ERROR_ROTATION_SCALE = 4;
 
   public PController() {
     LEFT_MOTOR.setSpeed(MOTOR_SPEED); // Initialize motor rolling forward
@@ -26,9 +26,11 @@ public class PController extends UltrasonicController {
     
     // TODO: process a movement based on the us distance passed in (P style)
     int error = BAND_CENTER - this.distance; // (distance between the US sensor and an obstacle in cm) - (Standard offset from the wall cm). We need to tweak BAND_CENTER and BAND_WIDTH in order to make the robot smooth
+    int LOW_SPEED = MOTOR_SPEED - calcGain(error);
+    int HIGH_SPEED = MOTOR_SPEED + calcGain(error);
     
     // log information 
-    System.out.println("BANG_CENTER: " + BAND_CENTER + " US Distance: " + readUSDistance() + " Error: " + error); 
+    System.out.println("BANG_CENTER: " + BAND_CENTER + " US Distance: " + readUSDistance() + " Error: " + error + " LOW_SPEED: " + LOW_SPEED  + " HIGH_SPEED: " + HIGH_SPEED + " Correction: " + calcGain(error));
        
     if (Math.abs(error) <= BAND_WIDTH) {
       LEFT_MOTOR.setSpeed(MOTOR_SPEED);
@@ -36,13 +38,13 @@ public class PController extends UltrasonicController {
       LEFT_MOTOR.forward();
       RIGHT_MOTOR.forward();
     } else if (error > 0) { // if error is bigger than 0, this means that the vehicle is too close from the wall which means we need to turn right
-      LEFT_MOTOR.setSpeed(MOTOR_SPEED + calcGain(error));
-      RIGHT_MOTOR.setSpeed(MOTOR_SPEED - calcGain(error));
+      LEFT_MOTOR.setSpeed(HIGH_SPEED);
+      RIGHT_MOTOR.setSpeed(HIGH_SPEED); // LOW_SPEED 
       LEFT_MOTOR.forward();
-      RIGHT_MOTOR.forward();
+      RIGHT_MOTOR.backward();
     } else if (error < 0) { // if error is smaller than 0, this means that the vehicle is too far from the wall, which means we need to turn left
-      LEFT_MOTOR.setSpeed(MOTOR_SPEED - calcGain(error));  
-      RIGHT_MOTOR.setSpeed(MOTOR_SPEED + calcGain(error));
+      LEFT_MOTOR.setSpeed(LOW_SPEED);  
+      RIGHT_MOTOR.setSpeed(HIGH_SPEED);
       LEFT_MOTOR.forward();
       RIGHT_MOTOR.forward();
     }
@@ -71,13 +73,16 @@ public class PController extends UltrasonicController {
     // Proportional control: Scaling the correction, i.e. DELTASPD, according to error.
     error = Math.abs(error);
     
+    // Compute correction using ERROR_ROTATION SCALE    
     int DELTASPD =  error * ERROR_ROTATION_SCALE;
+    
+    // Log correction
     System.out.println("Proportional control: " + DELTASPD); // log in console the value of proportional control 
     
-    if (DELTASPD > 130) { // filter out error too big since motor 
-       DELTASPD = 130;
-    }
-    
+    // Set a maximum correction, filter out corrections that are too big to an upper bound
+    if (DELTASPD > 55) { 
+       DELTASPD = 55; 
+    }    
     return DELTASPD;    
   }  
 }

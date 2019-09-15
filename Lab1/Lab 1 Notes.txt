@@ -1,0 +1,2 @@
+bigger constants adjustments are more evident (more oscillations), since we've put a filter, all turns at convex and concave are the same )
+smaller scale constant, less oscillations, when going straight, 
