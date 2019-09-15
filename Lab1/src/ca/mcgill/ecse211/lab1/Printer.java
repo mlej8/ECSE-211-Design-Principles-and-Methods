@@ -14,7 +14,7 @@ public class Printer implements Runnable {
     controller = Main.selectedController;
   }
 
-  public void run() {
+  public void run() {       
     while (true) { // operates continuously
       TEXT_LCD.clear();
       // print header
@@ -28,9 +28,9 @@ public class Printer implements Runnable {
       
       // print last US reading
       TEXT_LCD.drawString("US Distance: " + controller.readUSDistance(), 0, 2);
-
+      
       try {
-        Thread.sleep(4*SLEEPINT); // sleep for 200 mS
+        Thread.sleep(4*SLEEPINT); // sleep for 200 ms
       } catch (Exception e) {
         System.out.println("Error: " + e.getMessage());
       }

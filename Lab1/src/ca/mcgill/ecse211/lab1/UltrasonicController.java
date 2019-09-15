@@ -7,9 +7,9 @@ import static ca.mcgill.ecse211.lab1.Resources.*;
  */
 public abstract class UltrasonicController {
 
-  int distance;
-  
-  int filterControl;
+  int distance;         // distance detected by UltrasonicController 
+    
+  int filterControl;    
   
   /**
    * Perform an action based on the US data input.
@@ -42,5 +42,6 @@ public abstract class UltrasonicController {
       this.distance = distance;
     }
   }
+
   
 }

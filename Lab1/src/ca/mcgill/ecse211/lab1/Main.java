@@ -20,27 +20,18 @@ public class Main {
    * @param args
    */
   public static void main(String[] args) {
+    
     // Set up the display on the EV3 screen and wait for a button press. 
     // The button ID (option) determines what type of control to use
     Printer.printMainMenu();
-    int option = Button.waitForAnyPress(3000);  // set 5000 ms timeout (wait for 5 seconds, then continue)
-
-    // Adding an UI for choosing controller type 
-    String[] controllers = {"Bang-Bang", "P-Type"};
-    int choice = JOptionPane.showOptionDialog(null,
-        "Choose controller type",   // pop-up message 
-        "Controller selection",     // pop-up message title 
-        JOptionPane.DEFAULT_OPTION, 
-        JOptionPane.INFORMATION_MESSAGE, 
-        null, 
-        controllers, 
-        controllers[0]);
+    int option = Button.waitForAnyPress();  // set 5000 ms timeout (wait for 5 seconds, then continue) 
     
-    if (option == Button.ID_LEFT || choice == 0) {
+    if (option == Button.ID_LEFT) {
       selectedController = new BangBangController();
-    } else if (option == Button.ID_RIGHT || choice == 1) {
+    } else if (option == Button.ID_RIGHT) {
       selectedController = new PController();
     } else {
+      
       showErrorAndExit("Error - invalid button!");
     }
 
