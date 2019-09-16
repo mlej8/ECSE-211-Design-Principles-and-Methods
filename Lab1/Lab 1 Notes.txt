@@ -12,3 +12,10 @@ If the optimal control switches between one extreme to the other (i.e. is strict
 Example:
 Let say you can set a desired room temperature T on a electric heater. If the actual room temperature is below T, then the heater will go full power to heat it up. If it is above T, the heater will not do anything waiting for the room to cool down. So this controller can only switch between two states: "full power" and "no power at all". This is bang-bang control.
 An old-fashioned house thermostat, for example, uses bang-bang control. When the temperature drops to a predetermined low set point, the thermostat switches the heating system on. When the temperature reaches a pre-determined high set point, the thermostat switches the heating system off. Depending upon the set points, this can result in a fairly wide range of acceptable temperatures and cause the heating system to have a fairly long response time. 
+
+Proportional Control: In process control, Proportional control is a type of linear feedback control system in which the correction applied to the controlled vaariable is proportional to the error (difference between the desired value and the mesured value)
+
+Bang-Bang controler will work where the overall system has a relatively long response time, but can result in instability if the system being controlled has a rapid response time. 
+Proportional control overcomes this by the applying the optimum quantity of proportional gain (correction) to the controlling device as fast as practicable. 
+
+A drawback of proportional control is that it cannot eliminate the residual SP − PV error in processes with compensation e.g. temperature control, as it requires an error to generate a proportional output. To overcome this the PI controller was devised, which uses a proportional term (P) to remove the gross error, and an integral term (I) to eliminate the residual offset error by integrating the error over time to produce an "I" component for the controller output.

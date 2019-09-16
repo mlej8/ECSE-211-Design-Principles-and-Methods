@@ -40,30 +40,32 @@ public class BangBangController extends UltrasonicController {
       RIGHT_MOTOR.setSpeed(MOTOR_SPEED);
       LEFT_MOTOR.forward();
       RIGHT_MOTOR.forward();
-    }
-
-    if (error > 12) { // SHARP TURN RIGHT
-      LEFT_MOTOR.setSpeed(MOTOR_SPEED);
-      RIGHT_MOTOR.setSpeed(MOTOR_SPEED + SHARP_TURN);
-      LEFT_MOTOR.forward();
-      RIGHT_MOTOR.backward();
-    } else if (error < -13) { // SHARP TURN LEFT Value before: 18
-      LEFT_MOTOR.setSpeed(MOTOR_SPEED - SHARP_TURN);
-      RIGHT_MOTOR.setSpeed(MOTOR_SPEED + SHARP_TURN);
-      LEFT_MOTOR.forward();
-      RIGHT_MOTOR.forward();
-    } else if (error > 0) { // if error is bigger than 0, it means that current distance is too close from the obstacle,
-                            // so we need to turn right
-      LEFT_MOTOR.setSpeed(MOTOR_SPEED + DELTASPD);
-      RIGHT_MOTOR.setSpeed(MOTOR_SPEED - DELTASPD);
-      LEFT_MOTOR.forward();
-      RIGHT_MOTOR.forward();
-    } else if (error < 0) { // if error is smaller than 0, means that current distance is too far from the obstacle, so
-                            // we need to turn left
-      LEFT_MOTOR.setSpeed(MOTOR_SPEED - DELTASPD); // reduce speed on left motor, in order to turn right
-      RIGHT_MOTOR.setSpeed(MOTOR_SPEED + DELTASPD);
-      LEFT_MOTOR.forward();
-      RIGHT_MOTOR.forward();
+    } else {
+      if (error > 12) { // SHARP TURN RIGHT
+        LEFT_MOTOR.setSpeed(MOTOR_SPEED);
+        RIGHT_MOTOR.setSpeed(MOTOR_SPEED + SHARP_TURN);
+        LEFT_MOTOR.forward();
+        RIGHT_MOTOR.backward();
+      } else if (error < -13) { // SHARP TURN LEFT Value before: 18
+        LEFT_MOTOR.setSpeed(MOTOR_SPEED - SHARP_TURN);
+        RIGHT_MOTOR.setSpeed(MOTOR_SPEED + SHARP_TURN);
+        LEFT_MOTOR.forward();
+        RIGHT_MOTOR.forward();
+      } else if (error > 0) { // if error is bigger than 0, it means that current distance is too close from the
+                              // obstacle,
+                              // so we need to turn right
+        LEFT_MOTOR.setSpeed(MOTOR_SPEED + DELTASPD);
+        RIGHT_MOTOR.setSpeed(MOTOR_SPEED - DELTASPD);
+        LEFT_MOTOR.forward();
+        RIGHT_MOTOR.forward();
+      } else if (error < 0) { // if error is smaller than 0, means that current distance is too far from the obstacle,
+                              // so
+                              // we need to turn left
+        LEFT_MOTOR.setSpeed(MOTOR_SPEED - DELTASPD); // reduce speed on left motor, in order to turn right
+        RIGHT_MOTOR.setSpeed(MOTOR_SPEED + DELTASPD);
+        LEFT_MOTOR.forward();
+        RIGHT_MOTOR.forward();
+      }
     }
   }
 
