@@ -10,8 +10,8 @@ public class PController extends UltrasonicController {
   public PController() {
     LEFT_MOTOR.setSpeed(MOTOR_SPEED); // Initialize motor rolling forward
     RIGHT_MOTOR.setSpeed(MOTOR_SPEED);
-    LEFT_MOTOR.forward();
-    RIGHT_MOTOR.forward();
+//    LEFT_MOTOR.forward();
+//    RIGHT_MOTOR.forward();
   }
 
   /**  
@@ -30,8 +30,8 @@ public class PController extends UltrasonicController {
     int HIGH_SPEED = MOTOR_SPEED + calcGain(error);
     
     // log information 
-    System.out.println("BANG_CENTER: " + BAND_CENTER + " US Distance: " + readUSDistance() + " Error: " + error + " LOW_SPEED: " + LOW_SPEED  + " HIGH_SPEED: " + HIGH_SPEED + " Correction: " + calcGain(error));
-       
+    System.out.println("BANG_CENTER: " + BAND_CENTER + " US Distance: " + readUSDistance() + " Error: " + error + " Correction: " + calcGain(error)); 
+    
     if (Math.abs(error) <= BAND_WIDTH) {
       LEFT_MOTOR.setSpeed(MOTOR_SPEED);
       RIGHT_MOTOR.setSpeed(MOTOR_SPEED);
@@ -39,7 +39,7 @@ public class PController extends UltrasonicController {
       RIGHT_MOTOR.forward();
     } else if (error > 0) { // if error is bigger than 0, this means that the vehicle is too close from the wall which means we need to turn right
       LEFT_MOTOR.setSpeed(HIGH_SPEED);
-      RIGHT_MOTOR.setSpeed(HIGH_SPEED); // LOW_SPEED 
+      RIGHT_MOTOR.setSpeed(HIGH_SPEED); 
       LEFT_MOTOR.forward();
       RIGHT_MOTOR.backward();
     } else if (error < 0) { // if error is smaller than 0, this means that the vehicle is too far from the wall, which means we need to turn left
@@ -70,19 +70,22 @@ public class PController extends UltrasonicController {
    * @return proportional gain
    */  
   private static int calcGain(int error) { 
+    
+    // Filter out error 
+    if (error < -200) {
+      error = -200;
+    }
+    
     // Proportional control: Scaling the correction, i.e. DELTASPD, according to error.
     error = Math.abs(error);
     
     // Compute correction using ERROR_ROTATION SCALE    
     int DELTASPD =  error * ERROR_ROTATION_SCALE;
     
-    // Log correction
-    System.out.println("Proportional control: " + DELTASPD); // log in console the value of proportional control 
-    
     // Set a maximum correction, filter out corrections that are too big to an upper bound
     if (DELTASPD > 55) { 
        DELTASPD = 55; 
-    }    
+    } 
     return DELTASPD;    
   }  
 }

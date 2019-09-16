@@ -39,12 +39,12 @@ public class BangBangController extends UltrasonicController {
       RIGHT_MOTOR.forward();
     }
        
-      if (error > 13) { // SHARP TURN RIGHT 
-      LEFT_MOTOR.setSpeed(MOTOR_SPEED );
+      if (error > 12) { // SHARP TURN RIGHT 
+      LEFT_MOTOR.setSpeed(MOTOR_SPEED);
       RIGHT_MOTOR.setSpeed(MOTOR_SPEED + SHARP_TURN); 
       LEFT_MOTOR.forward();
       RIGHT_MOTOR.backward();
-      } else if (error < -18) { // SHARP TURN LEFT 
+      } else if (error < -15) { // SHARP TURN LEFT Value before: 18
       LEFT_MOTOR.setSpeed(MOTOR_SPEED - SHARP_TURN);
       RIGHT_MOTOR.setSpeed(MOTOR_SPEED + SHARP_TURN);
       LEFT_MOTOR.forward();

@@ -45,7 +45,7 @@ public class Resources {
   /**
    * Number of times to filter out (ignore) data 
    */
-  public static final int FILTER_OUT = 20;
+  public static final int FILTER_OUT = 30;
 
   /**
    * The LCD screen used for displaying text.
