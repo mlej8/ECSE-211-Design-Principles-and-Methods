@@ -1,3 +1,14 @@
 bigger constants adjustments are more evident (more oscillations), since we've put a filter, all turns at convex and concave are the same )
 smaller scale constant, less oscillations, when going straight
 TA Question: We did not detect any false negative, is it possible? What is 21497 blahblahblah?
+
+Bang-Bang Controller: In control theory, a bang-bang controller (on-off controller), also known as a hysteresis controller -- the word hysteresis describes a lag in response to change (e.g. long response time), is a feedback controller that outputs/switches strictly between two commands/states.
+
+They are often used to control a system that accepts a binary input. 
+
+In optimal control problems, the control is restricted to be between a lower and an upper bound. 
+If the optimal control switches between one extreme to the other (i.e. is strictly never in between the bounds), then that control is referred to as a Bang-Bang solution.
+
+Example:
+Let say you can set a desired room temperature T on a electric heater. If the actual room temperature is below T, then the heater will go full power to heat it up. If it is above T, the heater will not do anything waiting for the room to cool down. So this controller can only switch between two states: "full power" and "no power at all". This is bang-bang control.
+An old-fashioned house thermostat, for example, uses bang-bang control. When the temperature drops to a predetermined low set point, the thermostat switches the heating system on. When the temperature reaches a pre-determined high set point, the thermostat switches the heating system off. Depending upon the set points, this can result in a fairly wide range of acceptable temperatures and cause the heating system to have a fairly long response time. 
