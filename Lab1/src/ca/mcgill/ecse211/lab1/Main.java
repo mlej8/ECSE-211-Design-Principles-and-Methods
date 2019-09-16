@@ -1,7 +1,6 @@
 package ca.mcgill.ecse211.lab1;
 
 import lejos.hardware.Button;
-
 import static ca.mcgill.ecse211.lab1.Resources.*;
 import javax.swing.JOptionPane;
 
@@ -9,7 +8,7 @@ import javax.swing.JOptionPane;
  * Main class of the program.
  */
 public class Main {
-  
+
   /**
    * The US controller selected by the user (bang-bang or P-type).
    */
@@ -17,21 +16,22 @@ public class Main {
 
   /**
    * Main entry point - instantiate objects used and set up sensor
+   * 
    * @param args
    */
   public static void main(String[] args) {
-    
-    // Set up the display on the EV3 screen and wait for a button press. 
+
+    // Set up the display on the EV3 screen and wait for a button press.
     // The button ID (option) determines what type of control to use
     Printer.printMainMenu();
-    int option = Button.waitForAnyPress();  // set 5000 ms timeout (wait for 5 seconds, then continue) 
-    
+    int option = Button.waitForAnyPress(); // set 5000 ms timeout (wait for 5 seconds, then continue)
+
     if (option == Button.ID_LEFT) {
       selectedController = new BangBangController();
     } else if (option == Button.ID_RIGHT) {
       selectedController = new PController();
     } else {
-      
+
       showErrorAndExit("Error - invalid button!");
     }
 
@@ -40,7 +40,7 @@ public class Main {
     new Thread(new Printer()).start();
 
     // Wait here until button pressed to terminate wall follower
-    Button.waitForAnyPress();   // if button is pressed, program will go to next line.
+    Button.waitForAnyPress(); // if button is pressed, program will go to next line.
     System.exit(0);
   }
 
@@ -50,14 +50,14 @@ public class Main {
   public static void showErrorAndExit(String errorMessage) {
     TEXT_LCD.clear();
     System.err.println(errorMessage);
-    
+
     // Sleep for 2 seconds so user can read error message
     try {
-      Thread.sleep(40*SLEEPINT);
+      Thread.sleep(40 * SLEEPINT);
     } catch (InterruptedException e) {
     }
-    
+
     System.exit(-1);
   }
-  
+
 }

@@ -5,7 +5,7 @@ import static ca.mcgill.ecse211.lab1.Resources.*;
 public class BangBangController extends UltrasonicController {
 
   private static final int DELTASPD = 30; // 60
-  private static final int SHARP_TURN = 65; // 150
+  private static final int SHARP_TURN = 55; // 150 65
 
   public BangBangController() {
     LEFT_MOTOR.setSpeed(MOTOR_SPEED); // Start robot moving forward
@@ -42,12 +42,12 @@ public class BangBangController extends UltrasonicController {
       RIGHT_MOTOR.forward();
     }
 
-    if (error > 12) { // SHARP TURN RIGHT
+    if (error > 13) { // SHARP TURN RIGHT
       LEFT_MOTOR.setSpeed(MOTOR_SPEED);
       RIGHT_MOTOR.setSpeed(MOTOR_SPEED + SHARP_TURN);
       LEFT_MOTOR.forward();
       RIGHT_MOTOR.backward();
-    } else if (error < -13) { // SHARP TURN LEFT Value before: 18
+    } else if (error < -14) { // SHARP TURN LEFT Value before: 18
       LEFT_MOTOR.setSpeed(MOTOR_SPEED - SHARP_TURN);
       RIGHT_MOTOR.setSpeed(MOTOR_SPEED + SHARP_TURN);
       LEFT_MOTOR.forward();
