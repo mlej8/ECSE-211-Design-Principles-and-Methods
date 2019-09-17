@@ -5,13 +5,13 @@ import static ca.mcgill.ecse211.lab1.Resources.*;
 public class PController extends UltrasonicController {
 
 
-  private static final int ERROR_ROTATION_SCALE = 4;
+  private static final int PROPORTION_GAIN_SCALE = 4;
 
   public PController() {
     LEFT_MOTOR.setSpeed(MOTOR_SPEED); // Initialize motor rolling forward
     RIGHT_MOTOR.setSpeed(MOTOR_SPEED);
-    // LEFT_MOTOR.forward();
-    // RIGHT_MOTOR.forward();
+    LEFT_MOTOR.forward();
+    RIGHT_MOTOR.forward();
   }
 
   /**
@@ -25,7 +25,6 @@ public class PController extends UltrasonicController {
   public void processUSData(int distance) {
     filter(distance);
 
-    // TODO: process a movement based on the us distance passed in (P style)
     int error = BAND_CENTER - this.distance; // (distance between the US sensor and an obstacle in cm) - (Standard
                                              // offset from the wall cm). We need to tweak BAND_CENTER and BAND_WIDTH in
                                              // order to make the robot smooth
@@ -86,7 +85,7 @@ public class PController extends UltrasonicController {
     error = Math.abs(error);
 
     // Compute correction using ERROR_ROTATION SCALE
-    int DELTASPD = error * ERROR_ROTATION_SCALE;
+    int DELTASPD = error * PROPORTION_GAIN_SCALE;
 
     // Set a maximum correction, filter out corrections that are too big to an upper bound
     if (DELTASPD > 55) {

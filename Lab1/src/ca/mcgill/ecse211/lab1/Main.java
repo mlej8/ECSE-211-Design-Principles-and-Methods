@@ -2,7 +2,6 @@ package ca.mcgill.ecse211.lab1;
 
 import lejos.hardware.Button;
 import static ca.mcgill.ecse211.lab1.Resources.*;
-import javax.swing.JOptionPane;
 
 /**
  * Main class of the program.

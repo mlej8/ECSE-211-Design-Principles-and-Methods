@@ -71,22 +71,10 @@ public class Resources {
   /**
    * The left motor.
    */
-  public static final EV3LargeRegulatedMotor LEFT_MOTOR = new EV3LargeRegulatedMotor(LocalEV3.get().getPort("A")); // left
-                                                                                                                   // motor
-                                                                                                                   // is
-                                                                                                                   // plugged
-                                                                                                                   // into
-                                                                                                                   // Port
-                                                                                                                   // A
-
+  public static final EV3LargeRegulatedMotor LEFT_MOTOR = new EV3LargeRegulatedMotor(LocalEV3.get().getPort("A")); 
+  
   /**
    * The right motor.
    */
-  public static final EV3LargeRegulatedMotor RIGHT_MOTOR = new EV3LargeRegulatedMotor(LocalEV3.get().getPort("D")); // right
-                                                                                                                    // motor
-                                                                                                                    // is
-                                                                                                                    // plugged
-                                                                                                                    // into
-                                                                                                                    // Port
-                                                                                                                    // D
+  public static final EV3LargeRegulatedMotor RIGHT_MOTOR = new EV3LargeRegulatedMotor(LocalEV3.get().getPort("D"));                                                                                                                 // D
 }
