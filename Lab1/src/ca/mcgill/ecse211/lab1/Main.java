@@ -8,55 +8,55 @@ import static ca.mcgill.ecse211.lab1.Resources.*;
  */
 public class Main {
 
-  /**
-   * The US controller selected by the user (bang-bang or P-type).
-   */
-  public static UltrasonicController selectedController;
+	/**
+	 * The US controller selected by the user (bang-bang or P-type).
+	 */
+	public static UltrasonicController selectedController;
 
-  /**
-   * Main entry point - instantiate objects used and set up sensor
-   * 
-   * @param args
-   */
-  public static void main(String[] args) {
+	/**
+	 * Main entry point - instantiate objects used and set up sensor
+	 * 
+	 * @param args
+	 */
+	public static void main(String[] args) {
 
-    // Set up the display on the EV3 screen and wait for a button press.
-    // The button ID (option) determines what type of control to use
-    Printer.printMainMenu();
-    int option = Button.waitForAnyPress(); // set 5000 ms timeout (wait for 5 seconds, then continue)
+		// Set up the display on the EV3 screen and wait for a button press.
+		// The button ID (option) determines what type of control to use
+		Printer.printMainMenu();
+		int option = Button.waitForAnyPress(); // set 5000 ms timeout (wait for 5 seconds, then continue)
 
-    if (option == Button.ID_LEFT) {
-      selectedController = new BangBangController();
-    } else if (option == Button.ID_RIGHT) {
-      selectedController = new PController();
-    } else {
+		if (option == Button.ID_LEFT) {
+			selectedController = new BangBangController();
+		} else if (option == Button.ID_RIGHT) {
+			selectedController = new PController();
+		} else {
 
-      showErrorAndExit("Error - invalid button!");
-    }
+			showErrorAndExit("Error - invalid button!");
+		}
 
-    // Start the poller and printer threads
-    new Thread(new UltrasonicPoller()).start();
-    new Thread(new Printer()).start();
+		// Start the poller and printer threads
+		new Thread(new UltrasonicPoller()).start();
+		new Thread(new Printer()).start();
 
-    // Wait here until button pressed to terminate wall follower
-    Button.waitForAnyPress(); // if button is pressed, program will go to next line.
-    System.exit(0);
-  }
+		// Wait here until button pressed to terminate wall follower
+		Button.waitForAnyPress(); // if button is pressed, program will go to next line.
+		System.exit(0);
+	}
 
-  /**
-   * Shows error and exits program.
-   */
-  public static void showErrorAndExit(String errorMessage) {
-    TEXT_LCD.clear();
-    System.err.println(errorMessage);
+	/**
+	 * Shows error and exits program.
+	 */
+	public static void showErrorAndExit(String errorMessage) {
+		TEXT_LCD.clear();
+		System.err.println(errorMessage);
 
-    // Sleep for 2 seconds so user can read error message
-    try {
-      Thread.sleep(40 * SLEEPINT);
-    } catch (InterruptedException e) {
-    }
+		// Sleep for 2 seconds so user can read error message
+		try {
+			Thread.sleep(40 * SLEEPINT);
+		} catch (InterruptedException e) {
+		}
 
-    System.exit(-1);
-  }
+		System.exit(-1);
+	}
 
 }

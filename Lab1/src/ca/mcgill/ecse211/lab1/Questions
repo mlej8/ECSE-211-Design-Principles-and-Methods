@@ -1,2 +1,6 @@
 Is it possible that in main, readUSDistance is called before processUSData (means that UltrasonicController's distance has not yet been assigned)
 Bang-bang vs proportional control: https://www.fourmilab.ch/hackdiet/www/subsection1_2_3_0_5.html
+
+Do we need flowchart for threading?
+
+For BB flowchart, we have two states but one of the states contain many states depending on the error, is this okay or not ? 
