@@ -19,3 +19,10 @@ Bang-Bang controler will work where the overall system has a relatively long res
 Proportional control overcomes this by the applying the optimum quantity of proportional gain (correction) to the controlling device as fast as practicable. 
 
 A drawback of proportional control is that it cannot eliminate the residual SP − PV error in processes with compensation e.g. temperature control, as it requires an error to generate a proportional output. To overcome this the PI controller was devised, which uses a proportional term (P) to remove the gross error, and an integral term (I) to eliminate the residual offset error by integrating the error over time to produce an "I" component for the controller output.
+
+PID Controller uses a control loop feedback to ensure the output wanted is what you'll get. 
+You set the controller value you want to keep constant and it'll keep the output constant based on feedback from input (i.e. sensor).
+
+Software upgrades: Use a PID control allows to provide correction (control action) and reattain threshold sooner.
+
+Hardware upgrades: Use two US Sensors (one pointing forward, the other pointing to the wall) or use another type of sensor 
