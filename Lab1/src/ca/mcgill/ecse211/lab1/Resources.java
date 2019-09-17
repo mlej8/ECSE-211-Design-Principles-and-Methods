@@ -16,8 +16,6 @@ import lejos.hardware.sensor.EV3UltrasonicSensor;
  */
 public class Resources {
 
-	// Parameters: adjust these for desired performance
-
 	/**
 	 * Offset (standoff distance) from the wall (cm).
 	 */
@@ -34,7 +32,7 @@ public class Resources {
 	public static final int MOTOR_LOW = 100;
 
 	/**
-	 * Fixed Motor Speed
+	 * Fixed Motor Speed.
 	 */
 	public static final int MOTOR_SPEED = 150;
 
@@ -44,7 +42,7 @@ public class Resources {
 	public static final int MOTOR_HIGH = 200;
 
 	/**
-	 * Number of times to filter out (ignore) data
+	 * Number of times to filter out (ignore) data.
 	 */
 	public static final int FILTER_OUT = 30;
 
@@ -56,7 +54,7 @@ public class Resources {
 																		// screen
 
 	/**
-	 * Sleep interval = 50ms = 20 Hz
+	 * Sleep interval = 50ms = 20 Hz.
 	 */
 	public static final int SLEEPINT = 50;
 
