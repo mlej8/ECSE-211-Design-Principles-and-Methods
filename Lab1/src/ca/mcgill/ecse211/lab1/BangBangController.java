@@ -21,8 +21,8 @@ public class BangBangController extends UltrasonicController {
    */
   @Override
   public void processUSData(int distance) {
-    filter(distance);// Rudimentary filter - toss out invalid samples corresponding to null signal and assigns distance
-                     // value for current controller.
+    filter(distance); // Rudimentary filter - toss out invalid samples corresponding to null signal and assigns distance
+                      // value for current controller.
 
     int error = BAND_CENTER - this.distance; // (distance between the US sensor and an obstacle in cm) - (Standard
                                              // offset from the wall cm). We need to tweak BAND_CENTER and BAND_WIDTH in
