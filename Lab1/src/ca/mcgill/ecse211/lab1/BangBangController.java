@@ -21,16 +21,13 @@ public class BangBangController extends UltrasonicController {
    */
   @Override
   public void processUSData(int distance) {
-    // Rudimentary filter - toss out invalid samples corresponding to null signal and assigns distance value for current
-    // controller.
-    filter(distance);
+    filter(distance); // Rudimentary filter - toss out invalid samples corresponding to null signal and assigns distance
+                      // value for current controller.
 
-    // compute the error
     int error = BAND_CENTER - this.distance; // (distance between the US sensor and an obstacle in cm) - (Standard
                                              // offset from the wall cm). We need to tweak BAND_CENTER and BAND_WIDTH in
                                              // order to make the robot smooth
 
-    // log information
     System.out.println("BANG_CENTER: " + BAND_CENTER + " US Distance: " + readUSDistance() + " Error: " + error);
 
     if (Math.abs(error) <= BAND_WIDTH) { // if the error is smaller than threshold, continue forward.
@@ -50,15 +47,13 @@ public class BangBangController extends UltrasonicController {
         LEFT_MOTOR.forward();
         RIGHT_MOTOR.forward();
       } else if (error > 0) { // if error is bigger than 0, it means that current distance is too close from the
-                              // obstacle,
-                              // so we need to turn right
+                              // obstacle,so we need to turn right
         LEFT_MOTOR.setSpeed(MOTOR_SPEED + DELTASPD);
         RIGHT_MOTOR.setSpeed(MOTOR_SPEED - DELTASPD);
         LEFT_MOTOR.forward();
         RIGHT_MOTOR.forward();
       } else if (error < 0) { // if error is smaller than 0, means that current distance is too far from the obstacle,
-                              // so
-                              // we need to turn left
+                              // so we need to turn left
         LEFT_MOTOR.setSpeed(MOTOR_SPEED - DELTASPD); // reduce speed on left motor, in order to turn right
         RIGHT_MOTOR.setSpeed(MOTOR_SPEED + DELTASPD);
         LEFT_MOTOR.forward();
