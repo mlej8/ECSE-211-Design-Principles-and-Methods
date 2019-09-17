@@ -4,31 +4,31 @@ import static ca.mcgill.ecse211.lab1.Resources.*;
 
 public class BangBangController extends UltrasonicController {
 
-  private static final int BANGBANG_DELTASPD = 30;
+  private static final int DELTASPD_BANGBANG = 30;
   private static final int SHARP_TURN = 55;
-  
+
   public BangBangController() {
-    LEFT_MOTOR.setSpeed(MOTOR_SPEED); 
+    LEFT_MOTOR.setSpeed(MOTOR_SPEED);
     RIGHT_MOTOR.setSpeed(MOTOR_SPEED);
     LEFT_MOTOR.forward();
     RIGHT_MOTOR.forward();
   }
 
-	/**
-	 * Perform an action based on the US data input in (BANG-BANG style).
-	 * 
-	 * @param distance -- the distance between the US sensor and an obstacle in cm.
-	 */
-	@Override
-	public void processUSData(int distance) {
-		filter(distance); // Rudimentary filter - toss out invalid samples corresponding to null signal
-							// and assigns distance
-							// value for current controller.
+  /**
+   * Perform an action based on the US data input in (BANG-BANG style).
+   * 
+   * @param distance -- the distance between the US sensor and an obstacle in cm
+   */
+  @Override
+  public void processUSData(int distance) {
+    filter(distance); // Rudimentary filter - toss out invalid samples corresponding to null signal
+                      // and assigns distance
+                      // value for current controller.
 
-		int error = BAND_CENTER - this.distance; // (distance between the US sensor and an obstacle in cm) - (Standard
-													// offset from the wall cm). We need to tweak BAND_CENTER and
-													// BAND_WIDTH in
-													// order to make the robot smooth
+    int error = BAND_CENTER - this.distance; // (distance between the US sensor and an obstacle in cm) - (Standard
+                                             // offset from the wall cm). We need to tweak BAND_CENTER and
+                                             // BAND_WIDTH in
+                                             // order to make the robot smooth
 
     if (Math.abs(error) <= BAND_WIDTH) { // if the error is smaller than threshold, continue forward.
       LEFT_MOTOR.setSpeed(MOTOR_SPEED);
@@ -53,8 +53,8 @@ public class BangBangController extends UltrasonicController {
         LEFT_MOTOR.forward();
         RIGHT_MOTOR.forward();
       } else if (error < 0) { // if error is smaller than 0, means that current distance is too far from the obstacle,
-                              // so we need to turn left
-        LEFT_MOTOR.setSpeed(MOTOR_SPEED - DELTASPD_BANGBANG); // reduce speed on left motor, in order to turn right
+                              // so we need to turn left by reducing speed on left motor, in order to turn right
+        LEFT_MOTOR.setSpeed(MOTOR_SPEED - DELTASPD_BANGBANG); 
         RIGHT_MOTOR.setSpeed(MOTOR_SPEED + DELTASPD_BANGBANG);
         LEFT_MOTOR.forward();
         RIGHT_MOTOR.forward();
@@ -62,13 +62,13 @@ public class BangBangController extends UltrasonicController {
     }
   }
 
-	/**
-	 * Returns the distance between the US sensor and an obstacle in cm.
-	 * 
-	 * @return the distance between the US sensor and an obstacle in cm
-	 */
-	@Override
-	public int readUSDistance() {
-		return this.distance;
-	}
+  /**
+   * Returns the distance between the US sensor and an obstacle in cm.
+   * 
+   * @return the distance between the US sensor and an obstacle in cm
+   */
+  @Override
+  public int readUSDistance() {
+    return this.distance;
+  }
 }
