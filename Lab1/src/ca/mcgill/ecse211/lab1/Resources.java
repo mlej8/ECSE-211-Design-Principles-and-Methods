@@ -46,7 +46,22 @@ public class Resources {
    * Number of times to filter out (ignore) data
    */
   public static final int FILTER_OUT = 30;
-
+  
+  /**
+   * Change of Motor Speed applied to gentle turns in bang-bang controller
+   */
+  public static final int DELTASPD_BANGBANG = 30;
+  
+  /**
+   * Change of Motor Speed applied to sharp turns in bang-bang-controller
+   */
+  public static final int SHARP_TURN = 55;
+  
+  /**
+   * Proportional Gain value used in P-type Controller
+   */
+  public static final int PROPORTION_GAIN_SCALE = 4;
+  
   /**
    * The LCD screen used for displaying text.
    */
