@@ -19,7 +19,7 @@ public class UltrasonicPoller implements Runnable {
     usData = new float[US_SENSOR.sampleSize()]; // create an array of float of size corresponding to the number of
                                                 // elements in a sample. The number of elements does not change during
                                                 // runtime.
-    controller = Main.selectedController; // create a ultrasonic controller
+    controller = Main.selectedController; // create a UltraSonic controller
   }
 
   /*
@@ -43,5 +43,4 @@ public class UltrasonicPoller implements Runnable {
       } // Poor man's timed sampling
     }
   }
-
 }
