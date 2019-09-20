@@ -58,15 +58,9 @@ public class Resources {
   public static final int SLEEPINT = 50;
 
   /**
-   * The ultrasonic sensor.
+   * The ultrasonic sensor plugged into port S1.
    */
-  public static final EV3UltrasonicSensor US_SENSOR = new EV3UltrasonicSensor(LocalEV3.get().getPort("S1")); // ultrasonic
-                                                                                                             // sensor
-                                                                                                             // is
-                                                                                                             // plugged
-                                                                                                             // into
-                                                                                                             // port
-                                                                                                             // S1
+  public static final EV3UltrasonicSensor US_SENSOR = new EV3UltrasonicSensor(LocalEV3.get().getPort("S1")); 
 
   /**
    * The left motor.

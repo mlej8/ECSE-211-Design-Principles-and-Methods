@@ -2,6 +2,11 @@ package ca.mcgill.ecse211.lab1;
 
 import static ca.mcgill.ecse211.lab1.Resources.*;
 
+/**
+ * This class implements the Wall Follower using Proportional Control controller for Lab 1 on the EV3 platform
+ * 
+ * @author Michael Li and Cecilia Jiang
+ */
 public class PController extends UltrasonicController {
 
   private static final int PROPORTION_GAIN_SCALE = 4;
