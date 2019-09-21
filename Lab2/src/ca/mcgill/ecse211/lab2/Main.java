@@ -1,10 +1,8 @@
-// Lab2.java
 package ca.mcgill.ecse211.lab2;
 
 import lejos.hardware.Button;
-
-// static import to avoid duplicating variables and make the code easier to read
-import static ca.mcgill.ecse211.lab2.Resources.*;
+import static ca.mcgill.ecse211.lab2.Resources.*; // static import to avoid duplicating variables and make the code
+                                                  // easier to read
 
 /**
  * The main driver class for the odometry lab.
@@ -19,7 +17,7 @@ public class Main {
   public static void main(String[] args) {
     int buttonChoice;
     new Thread(odometer).start(); // TODO implement Odometer
-    
+
     buttonChoice = chooseDriveInSquareOrFloatMotors();
 
     if (buttonChoice == Button.ID_LEFT) {
@@ -31,11 +29,11 @@ public class Main {
       }
       SquareDriver.drive();
     }
-    
+
     new Thread(new Display()).start();
-    while (Button.waitForAnyPress() != Button.ID_ESCAPE) {
-    } // do nothing
-    
+    while (Button.waitForAnyPress() != Button.ID_ESCAPE) { // Do nothing until the escape button is pressed
+    } 
+
     System.exit(0);
   }
 
@@ -56,18 +54,15 @@ public class Main {
    */
   private static int chooseDriveInSquareOrFloatMotors() {
     int buttonChoice;
-    Display.showText("< Left | Right >",
-                     "       |        ",
-                     " Float | Drive  ",
-                     "motors | in a   ",
-                     "       | square ");
-    
+    Display.showText("< Left | Right >", "       |        ", " Float | Drive  ", "motors | in a   ",
+        "       | square ");
+
     do {
       buttonChoice = Button.waitForAnyPress(); // left or right press
     } while (buttonChoice != Button.ID_LEFT && buttonChoice != Button.ID_RIGHT);
     return buttonChoice;
   }
-  
+
   /**
    * Asks the user whether odometry correction should be run or not.
    * 
@@ -75,18 +70,15 @@ public class Main {
    */
   private static int chooseCorrectionOrNot() {
     int buttonChoice;
-    Display.showText("< Left | Right >",
-                     "  No   | with   ",
-                     " corr- | corr-  ",
-                     " ection| ection ",
-                     "       |        ");
+    Display.showText("< Left | Right >", "  No   | with   ", " corr- | corr-  ", " ection| ection ",
+        "       |        ");
 
     do {
       buttonChoice = Button.waitForAnyPress();
     } while (buttonChoice != Button.ID_LEFT && buttonChoice != Button.ID_RIGHT);
     return buttonChoice;
   }
-  
+
   /**
    * Sleeps current thread for the specified duration.
    * 
@@ -99,5 +91,5 @@ public class Main {
       // There is nothing to be done here
     }
   }
-  
+
 }

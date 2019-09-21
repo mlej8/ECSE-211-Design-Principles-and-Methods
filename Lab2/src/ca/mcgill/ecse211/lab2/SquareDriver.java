@@ -13,15 +13,13 @@ public class SquareDriver {
    * correction classes to allow testing their functionality.
    */
   public static void drive() {
-    (new Thread() { 
-      // spawn a new Thread to avoid this method blocking
+    (new Thread() { // spawn a new Thread to avoid this method blocking
       public void run() {
         // reset the motors
         leftMotor.stop();
         rightMotor.stop();
         leftMotor.setAcceleration(ACCELERATION);
         rightMotor.setAcceleration(ACCELERATION);
-
 
         // Sleep for 2 seconds
         Main.sleepFor(TIMEOUT_PERIOD);
