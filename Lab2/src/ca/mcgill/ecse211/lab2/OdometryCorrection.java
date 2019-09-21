@@ -40,7 +40,7 @@ public class OdometryCorrection implements Runnable {
         position = calculateNewPosition(findRightAngleOrientation(odometer.getXYT()[2]));
         // TODO Update odometer with new calculated (and more accurate) values, eg:
         // odometer.setXYT(0.3, 19.23, 5.0);
-        odometer.setXYT(position[1], position[2], position[3]);
+        odometer.setXYT(position[0], position[1], position[2]);
       }
       lastIntensity = curIntensity;
       // this ensures the odometry correction occurs only once every period
