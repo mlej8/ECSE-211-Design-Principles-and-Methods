@@ -4,7 +4,7 @@ import static ca.mcgill.ecse211.lab2.Resources.*;
 
 public class OdometryCorrection implements Runnable {
   private static final long CORRECTION_PERIOD = 10;
-
+  private float[] colorSensorData;
   /*
    * Here is where the odometer correction code should be run.
    */
@@ -13,7 +13,11 @@ public class OdometryCorrection implements Runnable {
 
     while (true) {
       correctionStart = System.currentTimeMillis();
-
+      
+      // Fetching values from the color sensor 
+      colorSensor.fetchSample(colorSensorData, 0);
+      
+      
       // TODO Trigger correction (When do I have information to correct?)
       
       // TODO Calculate new (accurate) robot position
