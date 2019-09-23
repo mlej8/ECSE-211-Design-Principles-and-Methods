@@ -70,7 +70,7 @@ public class Resources {
   /**
    * The color sampler.
    */
-  public static final SampleProvider colorSensorSampler = colorSensor.getMode("Red");
+  public static final SampleProvider colorSensorSampler = colorSensor.getRedMode();
   
   /**
    * The LCD.
