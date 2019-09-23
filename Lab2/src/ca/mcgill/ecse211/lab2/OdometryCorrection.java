@@ -1,12 +1,13 @@
 package ca.mcgill.ecse211.lab2;
 
 import static ca.mcgill.ecse211.lab2.Resources.*;
+import lejos.hardware.Sound;
 
 public class OdometryCorrection implements Runnable {
   private static final long CORRECTION_PERIOD = 10;
   private static final int MINIMUM_NONBLACK_INTENSITY = 200;
   private static final double CUR_LAST_INTENSITY_RATIO_THRESHOLD = 0.5;
-  private float[] colorSensorData;
+  private float[] colorSensorData = new float[colorSensorSampler.sampleSize()];
   private int lastIntensity = 1000;
   private int curIntensity;
   private double worldX = TILE_SIZE;
@@ -23,23 +24,28 @@ public class OdometryCorrection implements Runnable {
       correctionStart = System.currentTimeMillis();
 
       // Fetching values from the color sensor
-      colorSensor.getRedMode().fetchSample(colorSensorData, 0);
+      colorSensorSampler.fetchSample(colorSensorData, 0);
 
       // TODO Trigger correction (When do I have information to correct?)
       curIntensity = (int) colorSensorData[0] * 1000;
       System.out.println("CurIntensity is:" + curIntensity);
       if (curIntensity < MINIMUM_NONBLACK_INTENSITY) {
         touchedBlackLine = true;
-      } else if (curIntensity / lastIntensity < CUR_LAST_INTENSITY_RATIO_THRESHOLD) {
-        touchedBlackLine = true;
-      } else {
+        Sound.beep();
+      } 
+//        else if (curIntensity / lastIntensity < CUR_LAST_INTENSITY_RATIO_THRESHOLD) {
+//        touchedBlackLine = true;
+////        Sound.beep();
+//      }
+    else {
         touchedBlackLine = false;
       }
+      
       // TODO Calculate new (accurate) robot position
       if (touchedBlackLine) {
         position = calculateNewPosition(findRightAngleOrientation(odometer.getXYT()[2]));
-        // TODO Update odometer with new calculated (and more accurate) values, eg:
-        // odometer.setXYT(0.3, 19.23, 5.0);
+        
+        // Update odometer with new calculated 
         odometer.setXYT(position[0], position[1], position[2]);
       }
       lastIntensity = curIntensity;

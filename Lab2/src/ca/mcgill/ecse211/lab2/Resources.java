@@ -5,6 +5,7 @@ import lejos.hardware.lcd.TextLCD;
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
 import lejos.hardware.port.SensorPort;
 import lejos.hardware.sensor.EV3ColorSensor;
+import lejos.robotics.SampleProvider;
 
 /**
  * This class is used to define static resources in one place for easy access and to avoid 
@@ -65,7 +66,12 @@ public class Resources {
    * The color sensor.
    */
   public static final EV3ColorSensor colorSensor = new EV3ColorSensor(SensorPort.S1);
-
+  
+  /**
+   * The color sampler.
+   */
+  public static final SampleProvider colorSensorSampler = colorSensor.getMode("Red");
+  
   /**
    * The LCD.
    */
