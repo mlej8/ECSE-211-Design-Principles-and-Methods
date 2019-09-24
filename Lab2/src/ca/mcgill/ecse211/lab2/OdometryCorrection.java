@@ -5,15 +5,14 @@ import lejos.hardware.Sound;
 
 public class OdometryCorrection implements Runnable {
   private static final long CORRECTION_PERIOD = 10;
-  private static final int MINIMUM_NONBLACK_INTENSITY = 200;
+  private static final int MINIMUM_NONBLACK_INTENSITY = 300;
   private float[] colorSensorData = new float[colorSensorSampler.sampleSize()];
-  private int lastIntensity;
   private int curIntensity;
   private double worldX = TILE_SIZE;
   private double worldY = TILE_SIZE;
   private Boolean touchedBlackLine;
   private double[] position = new double[3];
-  private int lineNum=0;
+
   /*
    * Here is where the odometer correction code should be run.
    */
@@ -43,12 +42,10 @@ public class OdometryCorrection implements Runnable {
       // TODO Calculate new (accurate) robot position
       if (touchedBlackLine) {
         position = calculateNewPosition(findRightAngleOrientation(odometer.getXYT()[2]));
-        lineNum++;
         // Update odometer with new calculated 
         odometer.setXYT(position[0], position[1], position[2]);
         System.out.println("CORRECTED"+" lineNum");
       }
-      lastIntensity = curIntensity;
       // this ensures the odometry correction occurs only once every period
       correctionEnd = System.currentTimeMillis();
       if (correctionEnd - correctionStart < CORRECTION_PERIOD) {
