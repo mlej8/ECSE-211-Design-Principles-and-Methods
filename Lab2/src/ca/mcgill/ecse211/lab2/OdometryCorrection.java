@@ -6,9 +6,9 @@ import lejos.hardware.Sound;
 public class OdometryCorrection implements Runnable {
   private static final long CORRECTION_PERIOD = 10;
   private static final int MINIMUM_NONBLACK_INTENSITY = 300;
-  private static final double INTENSITY_RATIO = 1.8;
+  private static final double INTENSITY_RATIO = 1.3;
   private float[] colorSensorData = new float[colorSensorSampler.sampleSize()];
-  private int lastIntensity = 250;
+  private int lastIntensity = -1;
   private int curIntensity;
   private double worldX = TILE_SIZE;
   private double worldY = TILE_SIZE;
@@ -31,19 +31,20 @@ public class OdometryCorrection implements Runnable {
       curIntensity = (int)(colorSensorData[0] * 1000);
       
       // Log current light intensity 
-      System.out.println("CurIntensity is:" + curIntensity);
+//      System.out.println("CurIntensity is:" + curIntensity);
+//      System.out.println("Ratio: " + lastIntensity/(double)curIntensity);
       
       // Trigger correction when a black line is detected
-//      if (curIntensity < MINIMUM_NONBLACK_INTENSITY) {
-//        touchedBlackLine = true;
-//        Sound.beep();
-//      } else 
-        if (lastIntensity/curIntensity > INTENSITY_RATIO ){
+      if (curIntensity < MINIMUM_NONBLACK_INTENSITY) {
+        touchedBlackLine = true;
+        Sound.beep();
+      } else if (lastIntensity/(double) curIntensity > INTENSITY_RATIO){
         touchedBlackLine = true;
         Sound.beep();
       } else {
         touchedBlackLine = false;
       }
+       
       
       // TODO Calculate new (accurate) robot position
       if (touchedBlackLine) {
