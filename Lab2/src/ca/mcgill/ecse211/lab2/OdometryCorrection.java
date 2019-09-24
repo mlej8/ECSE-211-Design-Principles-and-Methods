@@ -6,8 +6,9 @@ import lejos.hardware.Sound;
 public class OdometryCorrection implements Runnable {
   private static final long CORRECTION_PERIOD = 10;
   private static final int MINIMUM_NONBLACK_INTENSITY = 200;
+  private static final double INTENSITY_RATIO = 1.8;
   private float[] colorSensorData = new float[colorSensorSampler.sampleSize()];
-  private int lastIntensity;
+  private int lastIntensity = 250;
   private int curIntensity;
   private double worldX = TILE_SIZE;
   private double worldY = TILE_SIZE;
@@ -30,10 +31,14 @@ public class OdometryCorrection implements Runnable {
       curIntensity = (int)(colorSensorData[0] * 1000);
       
       // Log current light intensity 
-//      System.out.println("CurIntensity is:" + curIntensity);
+      System.out.println("CurIntensity is:" + curIntensity);
       
       // Trigger correction when a black line is detected
-      if (curIntensity < MINIMUM_NONBLACK_INTENSITY) {
+//      if (curIntensity < MINIMUM_NONBLACK_INTENSITY) {
+//        touchedBlackLine = true;
+//        Sound.beep();
+//      } else 
+        if (lastIntensity/curIntensity > INTENSITY_RATIO ){
         touchedBlackLine = true;
         Sound.beep();
       } else {
@@ -47,7 +52,7 @@ public class OdometryCorrection implements Runnable {
         // Update odometer with new calculated 
         odometer.setXYT(position[0], position[1], position[2]);
         System.out.println("CORRECTED"+" lineNum");
-      }
+      } 
       lastIntensity = curIntensity;
       // this ensures the odometry correction occurs only once every period
       correctionEnd = System.currentTimeMillis();
