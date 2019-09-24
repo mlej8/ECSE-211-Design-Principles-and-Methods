@@ -18,12 +18,12 @@ public class Resources {
   /**
    * The wheel radius in centimeters.
    */
-  public static final double WHEEL_RAD = 2.150;
+  public static final double WHEEL_RAD = 2.115;
   
   /**
    * The robot's width in centimeters.
    */
-  public static final double TRACK = 15.4;
+  public static final double TRACK = 15.625; // 15.4 15.225
   
   /**
    * The speed at which the robot moves forward in degrees per second.
@@ -38,7 +38,7 @@ public class Resources {
   /**
    * The motor acceleration in degrees per second squared.
    */
-  public static final int ACCELERATION = 3000;
+  public static final int ACCELERATION = 2500;
   
   /**
    * Timeout period in milliseconds.
