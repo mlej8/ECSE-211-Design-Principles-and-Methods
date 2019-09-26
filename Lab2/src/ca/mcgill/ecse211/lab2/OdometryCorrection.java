@@ -33,10 +33,10 @@ public class OdometryCorrection implements Runnable {
       // Trigger correction when a black line is detected
       if (curIntensity < MINIMUM_NONBLACK_INTENSITY) {
         touchedBlackLine = true;
-//        Sound.beep();
+        Sound.beep();
       } else if (lastIntensity/(double) curIntensity > INTENSITY_RATIO){
         touchedBlackLine = true;
-//        Sound.beep();
+        Sound.beep();
       } else {
         touchedBlackLine = false;
       }
