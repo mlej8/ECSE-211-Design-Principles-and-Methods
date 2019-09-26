@@ -63,6 +63,7 @@ public class Resources {
       new EV3LargeRegulatedMotor(LocalEV3.get().getPort("D"));
   
   /**
+   * 
    * The color sensor.
    */
   public static final EV3ColorSensor colorSensor = new EV3ColorSensor(SensorPort.S1);

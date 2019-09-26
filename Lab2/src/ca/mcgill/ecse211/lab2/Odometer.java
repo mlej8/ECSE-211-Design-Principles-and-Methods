@@ -60,10 +60,10 @@ public class Odometer implements Runnable {
   private static Odometer odo; // Returned as singleton
 
   // Motor-related variables
-  private static int leftMotorTachoCount = 0; // current left wheel's tachometer count
+  private static int leftMotorTachoCount = 0;  // current left wheel's tachometer count
   private static int rightMotorTachoCount = 0; // current right wheel's tachometer count
-  private static int lastTachoCountL; // left wheel's last tachometer count
-  private static int lastTachoCountR; // right wheel's last tachometer count
+  private static int lastTachoCountL;          // left wheel's last tachometer count
+  private static int lastTachoCountR;          // right wheel's last tachometer count
 
   /**
    * The odometer update period in ms.
@@ -96,8 +96,7 @@ public class Odometer implements Runnable {
   public void run() {
     long updateStart, updateEnd;
 
-    // Clear tacho counts and put motors in freewheel mode (Set position to starting point (default = 0,0))
-    // Then initialize tacho count variable to its current state.
+    // Clear tacho counts and put motors in freewheel mode (i.e. set position to starting point (default = 0,0))
     leftMotor.resetTachoCount();
     rightMotor.resetTachoCount();
 
@@ -107,10 +106,11 @@ public class Odometer implements Runnable {
 
     while (true) {
       updateStart = System.currentTimeMillis();
-      // initialize temporary variables to store displacement measurements
+      
+      // Initialize temporary variables to store displacement measurements
       double distL, distR, deltaD, deltaT, dX, dY;
 
-      // Read left and right tacho counts
+      // Read left and right tacho counts (i.e. initialize tacho count variable to its current state)
       leftMotorTachoCount = leftMotor.getTachoCount(); // returns the tachometer count in degrees. A tachometer is a an
                                                        // instrument which measures the working speed of a vehicle,
                                                        // typically in revolutions per minute.
@@ -127,8 +127,8 @@ public class Odometer implements Runnable {
       lastTachoCountL = leftMotorTachoCount;
       lastTachoCountR = rightMotorTachoCount;
 
-      deltaD = (distL + distR) * 0.5; // compute vehicle displacement (average of distance travelled by left and right
-                                      // wheel). Displacement (magnitude): dh ≈ (d1 + d2) / 2
+      deltaD = (distL + distR) * 0.5;   // compute vehicle displacement (average of distance travelled by left and right
+                                        // wheel). Displacement (magnitude): dh ≈ (d1 + d2) / 2
       deltaT = (distL - distR) / TRACK; // compute change in heading. New heading: θheading = old heading + θ where
                                         // θ = d/TRACK, where d = distance travelled by left wheel - distance travelled
                                         // by right wheel
@@ -152,8 +152,6 @@ public class Odometer implements Runnable {
     }
   }
 
-  // IT IS NOT NECESSARY TO MODIFY ANYTHING BELOW THIS LINE
-
   /**
    * Returns the Odometer data.
    * <p>
@@ -164,7 +162,7 @@ public class Odometer implements Runnable {
    * @return the odometer data.
    */
   public double[] getXYT() {
-    double[] position = new double[3];
+    position = new double[3];
     lock.lock();
     try {
       while (isResetting) { // If a reset operation is being executed, wait until it is over.
@@ -178,7 +176,6 @@ public class Odometer implements Runnable {
     } finally {
       lock.unlock();
     }
-
     return position;
   }
 
