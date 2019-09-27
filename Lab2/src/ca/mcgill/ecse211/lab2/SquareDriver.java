@@ -24,7 +24,7 @@ public class SquareDriver {
         // Sleep for 2 seconds
         Main.sleepFor(TIMEOUT_PERIOD);
 
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 19; i++) {
           // drive forward three tiles
           leftMotor.setSpeed(FORWARD_SPEED);
           rightMotor.setSpeed(FORWARD_SPEED);
