@@ -22,7 +22,7 @@ public class Navigation implements Runnable{
   /**
    * {@code true} when robot is traveling.
    */
-  public static boolean traveling; // booleans are false by default
+  public static boolean traveling = false; // false by default
   
   /**
    * {@code true} when obstacle is avoided.
@@ -47,4 +47,10 @@ public class Navigation implements Runnable{
   
   public static void travelTo(double x,double y, boolean avoid) {
   }
+  
+  public static boolean isNavigating() {	  
+	return traveling;
+	  
+  }
+  
 }
