@@ -7,22 +7,22 @@ import lejos.hardware.Button;
 
 public class Main {
 	public static void main(String args[]) {
+		
 		int buttonChoice = chooseObstaclesOrNot();
 		int selectedRoute = 0;
-		
+
 		if (buttonChoice == Button.ID_LEFT) {
 			// run with obstacles
+			new Thread(usPoller).start(); // Running a thread running ultrasonic to sensor to keep detecting the walls
 			new Thread(odometer).start();
-			new Thread(usPoller).start();
-			// Running a thread running ultrasonic to sensor to keep detecting the walls
-//			new Thread(obstacleAvoidance).start();
+	        // new Thread(obstacleAvoidance).start();
 		} else {
 			// run without obstacles
 			new Thread(navigator).start();
 			new Thread(odometer).start();
-			
+
 		}
-		
+
 		// Display information on LCD screen
 		new Thread(new Display()).start();
 
@@ -38,16 +38,21 @@ public class Main {
 	 */
 	private static int chooseObstaclesOrNot() {
 		int buttonChoice;
-		Display.showText("< Left  | Right >",
-						 "        |        ",
-						 "  With  | Without",
-						 "Obstacle|Obstacle", 
-						 "        |        ");
+		Display.showText("< Left  | Right >", "        |        ", "  With  | Without", "Obstacle|Obstacle",
+				"        |        ");
 
 		do {
 			buttonChoice = Button.waitForAnyPress();
 		} while (buttonChoice != Button.ID_LEFT && buttonChoice != Button.ID_RIGHT);
 		return buttonChoice;
+	}
+
+	public static void sleepFor(long duration) {
+		try {
+			Thread.sleep(duration);
+		} catch (InterruptedException e) {
+			// There is nothing to be done here
+		}
 	}
 
 }

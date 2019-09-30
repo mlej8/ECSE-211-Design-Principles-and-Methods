@@ -12,20 +12,6 @@ public class Navigation implements Runnable {
 	private static int[][] currentWaypoints;
 
 	/**
-	 * The possible states that the robot could be in.
-	 */
-	enum State {
-		/** The initial state. */
-		INIT,
-		/** The turning state. */
-		TURNING,
-		/** The traveling state. */
-		TRAVELING,
-		/** The emergency state. */
-		EMERGENCY
-	};
-
-	/**
 	 * Navigation class implements the singleton pattern
 	 */
 	private Navigation() {
@@ -33,8 +19,7 @@ public class Navigation implements Runnable {
 	}
 
 	/**
-	 * Get instance of the Navigation class. Only allows one thread at a time
-	 * calling this method.
+	 * Get instance of the Navigation class. Only allows one thread at a time calling this method.
 	 */
 	public synchronized static Navigation getNavigator() {
 		if (navigator == null) {
@@ -44,34 +29,15 @@ public class Navigation implements Runnable {
 	}
 
 	/**
-	 * The current state of the robot.
-	 */
-	static State state;
-
-	/**
 	 * {@code true} when robot is traveling.
 	 */
-	public static boolean traveling = false; // false by default
-
-	/**
-	 * {@code true} when obstacle is avoided.
-	 */
-	public static boolean safe;
-
-	/**
-	 * The destination x.
-	 */
-	public static double destx;
-
-	/**
-	 * The destination y.
-	 */
-	public static double desty;
+	private static boolean traveling = false; // false by default
 
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
+		
 		int selectedRoute = 1;
+		
 		switch (selectedRoute) {
 		case 1:
 			currentWaypoints = waypoints1;
@@ -89,10 +55,15 @@ public class Navigation implements Runnable {
 			System.out.println("Please select a valid circuit");
 			break;
 		}
+		
 		for (int[] waypoint : currentWaypoints) {
-			navigator.travelTo(waypoint[0]*TILE_SIZE, waypoint[1]*TILE_SIZE);
+			navigator.travelTo(waypoint[0]*TILE_SIZE, waypoint[1]*TILE_SIZE);			
+			
+			// Sleep while it is traveling
+			while (navigator.isNavigating()) {
+				Main.sleepFor(10 * SLEEPINT);
+			}
 		}
-
 	}
 
 	private void travelTo(double x, double y) {
@@ -105,30 +76,36 @@ public class Navigation implements Runnable {
 		 */
 		// Traveling
 		traveling = true;
+		
+		System.out.println("DestX: " + x + " DestY: " + y + " Current y: " + odometer.getXYT()[1]);
 
 		// Compute displacement
 		double dx = x - odometer.getXYT()[0];
 		double dy = y - odometer.getXYT()[1];
-		double distance = Math.sqrt((dx * dx) + (dy * dy));
+		
+		// Calculate the distance to waypoint
+		double distance = Math.hypot(dx, dy);
 
+		System.out.println("Angle to destination" + Math.toDegrees(Math.atan2(dx, dy)));
+		
 		// Compute the angle needed to turn; dx and dy are intentionally switched in
 		// order to compute angle w.r.t. the y-axis and not w.r.t. the x-axis
 		double theta = Math.toDegrees(Math.atan2(dx, dy)) - odometer.getXYT()[2];
 		
 		// Find error
-		System.out.println("dx: "+ dx +" dy: " + " theta: " + theta );
+		System.out.println("dx: "+ dx + " dy: " + dy + " theta: " + theta );
 		
-		// If theta is bigger than 180 or smaller than -180, set it to smallest minimal turning angle
-		if (theta > 180.0) {
-			theta = 360.0 - theta;
-		}	else if (theta < -180.0) {
-			theta = 360.0 + theta;
-		}
+//		// If theta is bigger than 180 or smaller than -180, set it to smallest minimal turning angle
+//		if (theta > 180.0) {
+//			theta = 360.0 - theta;
+//		}	else if (theta < -180.0) {
+//			theta = 360.0 + theta;
+//		}
 
 		// Turn to the correct angle
 		turnTo(theta);
 
-		// Calculate the distance to waypoint
+		// Turn on motor 
 		leftMotor.setSpeed(MOTOR_SPEED);
 		rightMotor.setSpeed(MOTOR_SPEED);
 		leftMotor.rotate(convertDistance(distance), true);
@@ -138,7 +115,6 @@ public class Navigation implements Runnable {
 		leftMotor.stop(true);
 		rightMotor.stop(true);
 		traveling = false;
-
 	}
 
 	private boolean isNavigating() {
@@ -154,6 +130,10 @@ public class Navigation implements Runnable {
 		 * This method causes the robot to turn (on point) to the absolute heading
 		 * theta. This method should turn a MINIMAL angle to its target.
 		 */
+		
+		// Log theta 
+		System.out.println(theta);
+		
 		// Set rotate speed
 		leftMotor.setSpeed(ROTATE_SPEED);
 		rightMotor.setSpeed(ROTATE_SPEED);

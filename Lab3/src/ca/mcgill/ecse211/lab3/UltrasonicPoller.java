@@ -1,5 +1,6 @@
 package ca.mcgill.ecse211.lab3;
 import static ca.mcgill.ecse211.lab3.Resources.*;
+
 /**
  * Samples the US sensor and invokes the selected controller on each cycle.
  * 
@@ -15,8 +16,7 @@ public class UltrasonicPoller implements Runnable {
   public UltrasonicPoller() {
     usData = new float[usSensor.sampleSize()]; // create an array of float of size corresponding to the number of
                                                 // elements in a sample. The number of elements does not change
-                                                // during
-   
+                                                // during   
   }
 
   /*
