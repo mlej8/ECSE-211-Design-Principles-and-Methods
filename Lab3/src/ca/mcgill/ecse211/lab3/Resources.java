@@ -94,7 +94,7 @@ public class Resources {
 	/**
 	 * The ultrasonic sensor.
 	 */
-	public static final EV3UltrasonicSensor usSensor = new EV3UltrasonicSensor(SensorPort.S1);
+//	public static final EV3UltrasonicSensor usSensor = new EV3UltrasonicSensor(SensorPort.S1);
 
 	/**
 	 * The ultrasonic poller.
