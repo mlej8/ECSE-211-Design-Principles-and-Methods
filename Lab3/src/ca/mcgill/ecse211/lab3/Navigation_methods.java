@@ -2,10 +2,6 @@ package ca.mcgill.ecse211.lab3;
 
 import static ca.mcgill.ecse211.lab3.Resources.*;
 import static ca.mcgill.ecse211.lab3.Navigation_methods.State.*;
-import static ca.mcgill.ecse211.lab3.ObstacleAvoidance.State.EMERGENCY;
-import static ca.mcgill.ecse211.lab3.ObstacleAvoidance.State.INIT;
-import static ca.mcgill.ecse211.lab3.ObstacleAvoidance.State.TRAVELING;
-import static ca.mcgill.ecse211.lab3.ObstacleAvoidance.State.TURNING;
 
 public class Navigation_methods implements Runnable {
 
@@ -91,28 +87,40 @@ public class Navigation_methods implements Runnable {
       case 4:
         currentWaypoints = waypoints4;
         break;
-    }
+        
+     for (int[] waypoint : currentWaypoints) {
+          navigator.travelTo(waypoint[0]*TILE_SIZE, waypoint[1]*TILE_SIZE);           
+          // Sleep while it is traveling
+          while (navigator.isNavigating()) {
+              Main.sleepFor(10 * SLEEPINT);
+          }
+      }
+    
     state = INIT;
     while (true) {
       if (state == INIT) {
-        if (traveling) {
+        if (isNavigating()) {
           state = TURNING;
         }
       } else if (state == TURNING) {
-        double destAngle = Navigation.getDestAngle(destx, desty);
-        Navigation.turnTo(destAngle, true);
-        if (Navigation.facingDest(destAngle)) {
-          Navigation.setSpeeds(0, 0);
+          double destAngle = findMinAngle(destx, desty);
+          turnTo(destAngle);
+          leftMotor.setSpeed(0);
+          rightMotor.setSpeed(0);
           state = TRAVELING;
-        }
+        
       } else if (state == TRAVELING) {
         checkEmergency();
         if (state == EMERGENCY) { // order matters!
         
         } else if (!isDoneTravelling(destx, desty)) {
-          updateTravel();
+          leftMotor.forward();
+          rightMotor.forward();
+          leftMotor.setSpeed(MOTOR_SPEED);
+          rightMotor.setSpeed(MOTOR_SPEED);
         } else { // Arrived!
-          Navigation.setSpeeds(0, 0);
+          leftMotor.setSpeed(0);
+          rightMotor.setSpeed(0);
           traveling = false;
           state = INIT;
         }
@@ -122,32 +130,24 @@ public class Navigation_methods implements Runnable {
         }
       }
       try {
-        
+        Thread.sleep(50);
       }catch(Exception e) {
         
       }
     }
   }
 
-  private void travelTo(double x, double y, boolean avoid) {
+  private void travelTo(double x, double y) {
     /**
      * This method causes the robot to travel to the absolute field location (x, y), specified in tile points. This
      * method should continuously call turnTo(double theta) and then set the motor speed to forward (straight). This
      * will make sure that your heading is updated until you reach your exact goal. This method will poll the odometer
      * for information.
      */
-    // TODO: Implement this method
-    double minAngle=findMinAngle(x,y);
-    turnTo(minAngle);
-    while(!isDoneTravelling(x,y)) {
-      leftMotor.forward();
-      rightMotor.forward();
-      leftMotor.setSpeed(MOTOR_SPEED);
-      rightMotor.setSpeed(MOTOR_SPEED);
-    }
-    leftMotor.setSpeed(0);
-    rightMotor.setSpeed(0);
-    traveling = true;
+    destx = x;
+    desty = y;
+    // This will trigger the state machine running in the obstacleAvoidance thread
+    traveling = true; 
   }
 
   private boolean isNavigating() {
