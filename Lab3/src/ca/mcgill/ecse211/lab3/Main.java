@@ -6,9 +6,6 @@ import ca.mcgill.ecse211.lab3.Display;
 import lejos.hardware.Button;
 
 public class Main {
-
-
-
 	public static void main(String args[]) {
 		int buttonChoice = chooseObstaclesOrNot();
 		int selectedRoute = 0;
@@ -33,7 +30,6 @@ public class Main {
 		while (Button.waitForAnyPress() != Button.ID_ESCAPE)
 			System.exit(0);
 	}
-
 
 	/**
 	 * Choose with obstacles or not.

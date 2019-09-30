@@ -13,10 +13,6 @@ public class PController extends UltrasonicController {
   private static final int PROPORTION_GAIN_SCALE = 4;
 
   public PController() {
-    leftMotor.setSpeed(MOTOR_SPEED);
-    rightMotor.setSpeed(MOTOR_SPEED);
-    leftMotor.forward();
-    rightMotor.forward();
   }
 
   /**

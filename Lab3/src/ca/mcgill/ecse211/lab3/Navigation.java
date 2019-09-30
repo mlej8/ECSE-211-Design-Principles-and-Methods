@@ -103,7 +103,7 @@ public class Navigation implements Runnable {
 		 * sure that your heading is updated until you reach your exact goal. This
 		 * method will poll the odometer for information.
 		 */
-		// Travelling
+		// Traveling
 		traveling = true;
 
 		// Compute displacement
@@ -114,6 +114,9 @@ public class Navigation implements Runnable {
 		// Compute the angle needed to turn; dx and dy are intentionally switched in
 		// order to compute angle w.r.t. the y-axis and not w.r.t. the x-axis
 		double theta = Math.toDegrees(Math.atan2(dx, dy)) - odometer.getXYT()[2];
+		
+		// Find error
+		System.out.println("dx: "+ dx +" dy: " + " theta: " + theta );
 		
 		// If theta is bigger than 180 or smaller than -180, set it to smallest minimal turning angle
 		if (theta > 180.0) {
