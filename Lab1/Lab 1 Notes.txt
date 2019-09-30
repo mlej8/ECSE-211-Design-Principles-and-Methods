@@ -1,5 +1,5 @@
-bigger constants adjustments are more evident (more oscillations), since we've put a filter, all turns at convex and concave are the same )
-smaller scale constant, less oscillations, when going straight
+Bigger constants adjustments are more evident (more oscillations), since we've put a filter, all turns at convex and concave are the same )
+Smaller scale constant, less oscillations, when going straight
 TA Question: We did not detect any false negative, is it possible? What is 21497 blahblahblah?
 
 Bang-Bang Controller: In control theory, a bang-bang controller (on-off controller), also known as a hysteresis controller -- the word hysteresis describes a lag in response to change (e.g. long response time), is a feedback controller that outputs/switches strictly between two commands/states.

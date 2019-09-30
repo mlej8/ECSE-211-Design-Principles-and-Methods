@@ -1,7 +1,8 @@
-package ca.mcgill.ecse211.lab2;
+package ca.mcgill.ecse211.lab3;
+
 
 import java.text.DecimalFormat;
-import static ca.mcgill.ecse211.lab2.Resources.*; // static import to avoid duplicating variables and make the code
+import static ca.mcgill.ecse211.lab3.Resources.*; // static import to avoid duplicating variables and make the code
                                                   // easier to read
 
 /**
