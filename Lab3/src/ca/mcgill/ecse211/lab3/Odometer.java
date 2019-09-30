@@ -19,17 +19,16 @@ import static ca.mcgill.ecse211.lab3.Resources.*;
 
 public class Odometer implements Runnable {
 
-  /**
-   * The x-axis position in cm.
-   */
-  private volatile double x; // volatile keyword in Java is a keyword for making class thread safe. Thread safe means
-                             // that a method or class instance can be used by multiple threads at the same time without
-                             // any problem
+	/**
+	 * The x-axis position in cm.
+	 */
+	private volatile double x = TILE_SIZE; // volatile keyword in Java is a keyword for making class thread safe.
+										   // Thread safe means that a method or class instance can be used by multiple threads at the same time without any problem
 
   /**
    * The y-axis position in cm.
    */
-  private volatile double y;
+  private volatile double y = TILE_SIZE;
 
   /**
    * The orientation of the head of the robot in degrees.

@@ -1,5 +1,7 @@
 package ca.mcgill.ecse211.lab3;
 
+import ca.mcgill.ecse211.lab3.PController;
+import ca.mcgill.ecse211.lab3.UltrasonicController;
 import ca.mcgill.ecse211.lab3.Odometer;
 import lejos.hardware.ev3.LocalEV3;
 import lejos.hardware.lcd.TextLCD;
@@ -20,19 +22,54 @@ public class Resources {
 	public static final double TRACK = 15;
 
 	/**
+	 * Fixed Motor Speed.
+	 */
+	public static final int MOTOR_SPEED = 200;
+
+	/**
+	 * The speed at which the robot rotates in degrees per second.
+	 */
+	public static final int ROTATE_SPEED = 150;
+
+	/**
 	 * The acceleration.
 	 */
 	public static final int ACCELERATION = 3000;
 
 	/**
-	 * The degree error.
+	 * Number of times to filter out (ignore) data.
 	 */
-	public static final double DEG_ERR = 3.0;
+	public static final int FILTER_OUT = 30;
 
 	/**
-	 * The cm error.
+	 * Offset (standoff distance) from the wall (cm).
 	 */
-	public static final double CM_ERR = 1.0;
+	public static final int BAND_CENTER = 32;
+
+	/**
+	 * Width of dead band (cm) i.e. error threshold.
+	 */
+	public static final int BAND_WIDTH = 6;
+
+	/**
+	 * Use PController for obstacle avoidance
+	 */
+	public static UltrasonicController PController = new PController();
+
+//	/**
+//	 * The degree error.
+//	 */
+//	public static final double DEG_ERR = 3.0;
+//
+//	/**
+//	 * The cm error.
+//	 */
+//	public static final double CM_ERR = 1.0;
+
+	/**
+	 * Sleep interval = 50ms = 20 Hz.
+	 */
+	public static final int SLEEPINT = 50;
 
 	/**
 	 * The tile size in centimeters.
