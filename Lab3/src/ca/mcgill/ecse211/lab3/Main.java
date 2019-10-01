@@ -9,7 +9,6 @@ public class Main {
 	public static void main(String args[]) {
 		
 		int buttonChoice = chooseObstaclesOrNot();
-		int selectedRoute = 0;
 
 		if (buttonChoice == Button.ID_LEFT) {
 			// run with obstacles

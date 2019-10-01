@@ -5,7 +5,10 @@ import ca.mcgill.ecse211.lab3.UltrasonicController;
 import ca.mcgill.ecse211.lab3.Odometer;
 import lejos.hardware.ev3.LocalEV3;
 import lejos.hardware.lcd.TextLCD;
+import lejos.hardware.motor.BaseRegulatedMotor;
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
+import lejos.hardware.motor.EV3MediumRegulatedMotor;
+import lejos.hardware.motor.NXTRegulatedMotor;
 import lejos.hardware.port.SensorPort;
 import lejos.hardware.sensor.EV3UltrasonicSensor;
 
@@ -17,9 +20,19 @@ public class Resources {
 	public static final double WHEEL_RAD = 2.115;
 
 	/**
+	 * Threshold value determining when the robots starts to follow the wall
+	 */
+	public static final double THRESHOLD = 30;
+
+	/**
 	 * The robot's width in centimeters.
 	 */
 	public static final double TRACK = 15;
+
+	/**
+	 * Turning 90 degrees to start follow the wall 
+	 */
+	public static final double EMERGENCY_TURN_ANGLE = 90.0;
 
 	/**
 	 * Fixed Motor Speed.
@@ -44,7 +57,7 @@ public class Resources {
 	/**
 	 * Offset (standoff distance) from the wall (cm).
 	 */
-	public static final int BAND_CENTER = 32;
+	public static final int BAND_CENTER = 20;
 
 	/**
 	 * Width of dead band (cm) i.e. error threshold.
@@ -110,6 +123,11 @@ public class Resources {
 	 * The odometer.
 	 */
 	public static Odometer odometer = Odometer.getOdometer();
+
+	/**
+	 * Motor that rotates the sensor.
+	 */
+	public static final EV3MediumRegulatedMotor rotateMotor = new EV3MediumRegulatedMotor(LocalEV3.get().getPort("C"));
 
 	/**
 	 * Routes
