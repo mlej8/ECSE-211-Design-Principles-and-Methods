@@ -33,7 +33,12 @@ public class Resources {
 	 * Turning 90 degrees to start follow the wall 
 	 */
 	public static final double EMERGENCY_TURN_ANGLE = 90.0;
-
+	
+	/**
+	 * If robot enters this zone, start emergency turn
+	 */
+	public static final double EMERGENCY_ZONE = 10;
+	
 	/**
 	 * Fixed Motor Speed.
 	 */
@@ -119,6 +124,10 @@ public class Resources {
 	 */
 	public static Navigation navigator = Navigation.getNavigator();
 
+	   /**
+     * Instance of the Navigation class
+     */
+    public static NavigationWithObstacles navigatorOb = NavigationWithObstacles.getNavigator();
 	/**
 	 * The odometer.
 	 */
