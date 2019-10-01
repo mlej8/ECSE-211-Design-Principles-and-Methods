@@ -3,7 +3,6 @@ package ca.mcgill.ecse211.lab3;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
-
 // static import to avoid duplicating variables and make the code easier to read
 import static ca.mcgill.ecse211.lab3.Resources.*;
 
@@ -76,8 +75,7 @@ public class Odometer implements Runnable {
 	 * variables once. It cannot be accessed externally.
 	 */
 	private Odometer() {
-		// Set starting position at (TILE_SIZE, TILE_SIZE)
-		setXYT(TILE_SIZE, TILE_SIZE, 0);
+		setXYT(0, 0, 0);
 	}
 
 	/**
@@ -96,16 +94,11 @@ public class Odometer implements Runnable {
 	/**
 	 * This method is where the logic for the odometer will run.
 	 */
-	public void run() {		
-		long updateStart, updateEnd;	
+	public void run() {
+		long updateStart, updateEnd;
 
-	    // Clear tacho counts and put motors in freewheel mode (i.e. set position to starting point (default = 0,0))
-	    leftMotor.resetTachoCount();
-	    rightMotor.resetTachoCount();
-
-	    // Read left and right tacho counts. Save as last_tacho_l and last_tacho_r respectively.
-	    lastTachoCountL = leftMotor.getTachoCount();
-	    lastTachoCountR = rightMotor.getTachoCount();
+		// Set starting point at (TILE_SIZE, TILE_SIZE)
+		odo.update(TILE_SIZE, TILE_SIZE, 0);
 
 		while (true) {
 			updateStart = System.currentTimeMillis();
