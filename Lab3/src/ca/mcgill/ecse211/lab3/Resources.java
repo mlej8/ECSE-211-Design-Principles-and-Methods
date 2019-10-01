@@ -15,6 +15,26 @@ import lejos.hardware.sensor.EV3UltrasonicSensor;
 public class Resources {
 
 	/**
+	 * If the robot is traveling clockwise lower bound.
+	 */
+	public static final double CLOCKWISE_LOWER_BOUND = 0.0;
+	
+	/**
+	 * If the robot is traveling clockwise upper bound.
+	 */
+	public static final double CLOCKWISE_UPPER_BOUND = 180.0;
+	
+	/**
+	 * If the robot is traveling counter clockwise lower bound
+	 */
+	public static final double COUNTERCLOCKWISE_LOWER_BOUND = 180.0;
+	
+	/**
+	 * If the robot is traveling counter clockwise upper bound
+	 */
+	public static final double COUNTERCLOCKWISE_UPPER_BOUND = 360.0;
+	
+	/**
 	 * The wheel radius in centimeters.
 	 */
 	public static final double WHEEL_RAD = 2.115;
@@ -33,11 +53,6 @@ public class Resources {
 	 * Turning 90 degrees to start follow the wall 
 	 */
 	public static final double EMERGENCY_TURN_ANGLE = 90.0;
-	
-	/**
-	 * If robot enters this zone, start emergency turn
-	 */
-	public static final double EMERGENCY_ZONE = 10;
 	
 	/**
 	 * Fixed Motor Speed.
@@ -62,7 +77,7 @@ public class Resources {
 	/**
 	 * Offset (standoff distance) from the wall (cm).
 	 */
-	public static final int BAND_CENTER = 20;
+	public static final int BAND_CENTER = 15;
 
 	/**
 	 * Width of dead band (cm) i.e. error threshold.
@@ -74,11 +89,11 @@ public class Resources {
 	 */
 	public static UltrasonicController PController = new PController();
 
-//	/**
-//	 * The degree error.
-//	 */
-//	public static final double DEG_ERR = 3.0;
-//
+	/**
+	 * The degree error margin for when to stop following the wall.
+	 */
+	public static final double DEG_ERR = 2.0;
+
 //	/**
 //	 * The cm error.
 //	 */
@@ -102,12 +117,12 @@ public class Resources {
 	/**
 	 * The left motor.
 	 */
-	public static final EV3LargeRegulatedMotor leftMotor = new EV3LargeRegulatedMotor(LocalEV3.get().getPort("A"));
+	public static final EV3LargeRegulatedMotor LEFT_MOTOR = new EV3LargeRegulatedMotor(LocalEV3.get().getPort("A"));
 
 	/**
 	 * The right motor.
 	 */
-	public static final EV3LargeRegulatedMotor rightMotor = new EV3LargeRegulatedMotor(LocalEV3.get().getPort("D"));
+	public static final EV3LargeRegulatedMotor RIGHT_MOTOR = new EV3LargeRegulatedMotor(LocalEV3.get().getPort("D"));
 
 	/**
 	 * The ultrasonic sensor.
@@ -127,7 +142,7 @@ public class Resources {
 	   /**
      * Instance of the Navigation class
      */
-    public static NavigationWithObstacles navigatorOb = NavigationWithObstacles.getNavigator();
+    public static NavigationWithObstacles navigatorObstacle = NavigationWithObstacles.getNavigatorObstacle();
 	/**
 	 * The odometer.
 	 */

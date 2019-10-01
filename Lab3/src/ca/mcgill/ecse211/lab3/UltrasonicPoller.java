@@ -24,7 +24,6 @@ public class UltrasonicPoller implements Runnable {
    * 
    * @see java.lang.Thread#run()
    */
-
   public void run() {
     int distance;
     while (true) {

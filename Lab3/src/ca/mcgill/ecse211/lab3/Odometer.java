@@ -99,12 +99,12 @@ public class Odometer implements Runnable {
 		long updateStart, updateEnd;
 		
 	    // Clear tacho counts and put motors in freewheel mode (i.e. set position to starting point (default = 0,0))
-	    leftMotor.resetTachoCount();
-	    rightMotor.resetTachoCount();
+	    LEFT_MOTOR.resetTachoCount();
+	    RIGHT_MOTOR.resetTachoCount();
 
 	    // Read left and right tacho counts. Save as last_tacho_l and last_tacho_r respectively.
-	    lastTachoCountL = leftMotor.getTachoCount();
-	    lastTachoCountR = rightMotor.getTachoCount();
+	    lastTachoCountL = LEFT_MOTOR.getTachoCount();
+	    lastTachoCountR = RIGHT_MOTOR.getTachoCount();
 
 		while (true) {
 			updateStart = System.currentTimeMillis();
@@ -114,12 +114,12 @@ public class Odometer implements Runnable {
 
 			// Read left and right tacho counts (i.e. initialize tacho count variable to its
 			// current state)
-			leftMotorTachoCount = leftMotor.getTachoCount(); // returns the tachometer count in degrees. A tachometer is
+			leftMotorTachoCount = LEFT_MOTOR.getTachoCount(); // returns the tachometer count in degrees. A tachometer is
 																// a an
 																// instrument which measures the working speed of a
 																// vehicle,
 																// typically in revolutions per minute.
-			rightMotorTachoCount = rightMotor.getTachoCount();
+			rightMotorTachoCount = RIGHT_MOTOR.getTachoCount();
 
 			distL = Math.PI * WHEEL_RAD * (leftMotorTachoCount - lastTachoCountL) / 180; // compute distance travelled
 																							// by left

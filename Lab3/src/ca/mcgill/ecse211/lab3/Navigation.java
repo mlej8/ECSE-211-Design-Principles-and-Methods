@@ -99,14 +99,14 @@ public class Navigation implements Runnable {
 		turnTo(theta);
 		
 		// Turn on motor 
-		leftMotor.setSpeed(MOTOR_SPEED);
-		rightMotor.setSpeed(MOTOR_SPEED);
-		leftMotor.rotate(convertDistance(distance), true);
-		rightMotor.rotate(convertDistance(distance), false);
+		LEFT_MOTOR.setSpeed(MOTOR_SPEED);
+		RIGHT_MOTOR.setSpeed(MOTOR_SPEED);
+		LEFT_MOTOR.rotate(convertDistance(distance), true);
+		RIGHT_MOTOR.rotate(convertDistance(distance), false);
 
 		// Once the destination is reached, stop both motors
-		leftMotor.stop(true);
-		rightMotor.stop(true);
+		LEFT_MOTOR.stop(true);
+		RIGHT_MOTOR.stop(true);
 		traveling = false;
 	}
 
@@ -125,17 +125,17 @@ public class Navigation implements Runnable {
 		 */
 		
 		// Set rotate speed
-		leftMotor.setSpeed(ROTATE_SPEED);
-		rightMotor.setSpeed(ROTATE_SPEED);
+		LEFT_MOTOR.setSpeed(ROTATE_SPEED);
+		RIGHT_MOTOR.setSpeed(ROTATE_SPEED);
 		
 		if (theta < 0) {
 			// If angle is negative, turn left
-			leftMotor.rotate(convertAngle(theta), true);
-			rightMotor.rotate(-convertAngle(theta), false);
+			LEFT_MOTOR.rotate(convertAngle(theta), true);
+			RIGHT_MOTOR.rotate(-convertAngle(theta), false);
 		} else {
 			// If angle is positive, turn right
-			leftMotor.rotate(convertAngle(theta), true);
-			rightMotor.rotate(-convertAngle(theta), false);
+			LEFT_MOTOR.rotate(convertAngle(theta), true);
+			RIGHT_MOTOR.rotate(-convertAngle(theta), false);
 		}
 	}
 
