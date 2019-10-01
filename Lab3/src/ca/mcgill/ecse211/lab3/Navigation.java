@@ -76,8 +76,6 @@ public class Navigation implements Runnable {
 		 */
 		// Traveling
 		traveling = true;
-		
-		System.out.println("DestX: " + x + " DestY: " + y + " Current y: " + odometer.getXYT()[1]);
 
 		// Compute displacement
 		double dx = x - odometer.getXYT()[0];
@@ -85,26 +83,21 @@ public class Navigation implements Runnable {
 		
 		// Calculate the distance to waypoint
 		double distance = Math.hypot(dx, dy);
-
-		System.out.println("Angle to destination" + Math.toDegrees(Math.atan2(dx, dy)));
 		
 		// Compute the angle needed to turn; dx and dy are intentionally switched in
 		// order to compute angle w.r.t. the y-axis and not w.r.t. the x-axis
 		double theta = Math.toDegrees(Math.atan2(dx, dy)) - odometer.getXYT()[2];
 		
-		// Find error
-		System.out.println("dx: "+ dx + " dy: " + dy + " theta: " + theta );
-		
-//		// If theta is bigger than 180 or smaller than -180, set it to smallest minimal turning angle
-//		if (theta > 180.0) {
-//			theta = 360.0 - theta;
-//		}	else if (theta < -180.0) {
-//			theta = 360.0 + theta;
-//		}
+		// If theta is bigger than 180 or smaller than -180, set it to smallest minimal turning angle
+		if (theta > 180.0) {
+			theta = 360.0 - theta;
+		}	else if (theta < -180.0) {
+			theta = 360.0 + theta;
+		}
 
 		// Turn to the correct angle
 		turnTo(theta);
-
+		
 		// Turn on motor 
 		leftMotor.setSpeed(MOTOR_SPEED);
 		rightMotor.setSpeed(MOTOR_SPEED);
@@ -131,21 +124,18 @@ public class Navigation implements Runnable {
 		 * theta. This method should turn a MINIMAL angle to its target.
 		 */
 		
-		// Log theta 
-		System.out.println(theta);
-		
 		// Set rotate speed
 		leftMotor.setSpeed(ROTATE_SPEED);
 		rightMotor.setSpeed(ROTATE_SPEED);
 		
-		if (theta > 0) {
-			// If angle is positive, turn right
+		if (theta < 0) {
+			// If angle is negative, turn left
 			leftMotor.rotate(convertAngle(theta), true);
 			rightMotor.rotate(-convertAngle(theta), false);
 		} else {
-			// If angle is negative, turn left
-			leftMotor.rotate(-convertAngle(theta), true);
-			rightMotor.rotate(convertAngle(theta), false);
+			// If angle is positive, turn right
+			leftMotor.rotate(convertAngle(theta), true);
+			rightMotor.rotate(-convertAngle(theta), false);
 		}
 	}
 

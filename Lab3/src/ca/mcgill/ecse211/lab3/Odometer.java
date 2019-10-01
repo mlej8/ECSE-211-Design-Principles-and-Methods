@@ -3,6 +3,7 @@ package ca.mcgill.ecse211.lab3;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+
 // static import to avoid duplicating variables and make the code easier to read
 import static ca.mcgill.ecse211.lab3.Resources.*;
 
@@ -60,10 +61,10 @@ public class Odometer implements Runnable {
 	private static Odometer odo; // Returned as singleton
 
 	// Motor-related variables
-	private static int leftMotorTachoCount = 0; // current left wheel's tachometer count
-	private static int rightMotorTachoCount = 0; // current right wheel's tachometer count
-	private static int lastTachoCountL = 0; // left wheel's last tachometer count
-	private static int lastTachoCountR = 0; // right wheel's last tachometer count
+	private static int leftMotorTachoCount;  // current left wheel's tachometer count
+	private static int rightMotorTachoCount; // current right wheel's tachometer count
+	private static int lastTachoCountL = 0;  // left wheel's last tachometer count
+	private static int lastTachoCountR = 0;  // right wheel's last tachometer count
 
 	/**
 	 * The odometer update period in ms.
@@ -75,7 +76,7 @@ public class Odometer implements Runnable {
 	 * variables once. It cannot be accessed externally.
 	 */
 	private Odometer() {
-		setXYT(0, 0, 0);
+		setXYT(TILE_SIZE, TILE_SIZE, 0);
 	}
 
 	/**
@@ -96,9 +97,14 @@ public class Odometer implements Runnable {
 	 */
 	public void run() {
 		long updateStart, updateEnd;
+		
+	    // Clear tacho counts and put motors in freewheel mode (i.e. set position to starting point (default = 0,0))
+	    leftMotor.resetTachoCount();
+	    rightMotor.resetTachoCount();
 
-		// Set starting point at (TILE_SIZE, TILE_SIZE)
-		odo.update(TILE_SIZE, TILE_SIZE, 0);
+	    // Read left and right tacho counts. Save as last_tacho_l and last_tacho_r respectively.
+	    lastTachoCountL = leftMotor.getTachoCount();
+	    lastTachoCountR = rightMotor.getTachoCount();
 
 		while (true) {
 			updateStart = System.currentTimeMillis();
