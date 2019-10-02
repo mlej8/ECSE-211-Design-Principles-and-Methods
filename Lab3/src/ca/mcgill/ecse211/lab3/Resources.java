@@ -35,12 +35,12 @@ public class Resources {
 	/**
 	 * The wheel radius in centimeters.
 	 */
-	public static final double WHEEL_RAD = 2.090; //2.115
+	public static final double WHEEL_RAD = 2.115; //2.115
 
 	/**
 	 * The robot's width in centimeters.
 	 */
-	public static final double TRACK = 14.90; //15.1 15.05 14.87
+	public static final double TRACK = 15.1; //15.1 15.05 14.87
 
 	/**
 	 * Turning 90 degrees to start position parallel the wall 
@@ -167,13 +167,16 @@ public class Resources {
 	
 	// Thresholds
 	/**
-	 * Threshold value determining when the robots starts to follow the wall
+	 * Threshold value determining when the robots starts to follow the wall.
 	 */
 	public static final double THRESHOLD = 20;
 	
+	/**
+	 * Error margin from destination waypoint.
+	 */
 	public static final double ERROR_MARGIN = 1.0;
 	/**
-	 * Threshold value determining the smallest angle where we can stop following the wall 
+	 * Threshold value determining the smallest angle where to stop following the wall 
 	 */
 	public static final double STOP_THRESHOLD = 5.0;
 
