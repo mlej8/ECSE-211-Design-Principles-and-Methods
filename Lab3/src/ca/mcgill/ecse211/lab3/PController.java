@@ -59,7 +59,7 @@ public class PController extends UltrasonicController {
 				
 				if ((theta >= CLOCKWISE_LOWER_BOUND - RIGHT_ANGLE && theta <= 360) || (theta >= 0 && theta <= CLOCKWISE_UPPER_BOUND - RIGHT_ANGLE)) {
 				// If robot is traveling counterclockwise, turn left
-					sharpTurnLeft();
+					sharpTurnRight();
 				
 				} else if (theta >= COUNTERCLOCKWISE_LOWER_BOUND - RIGHT_ANGLE && theta <= COUNTERCLOCKWISE_UPPER_BOUND - RIGHT_ANGLE)  { 
 				// If going clockwise, turn right
@@ -74,7 +74,7 @@ public class PController extends UltrasonicController {
 					sharpTurnRight();
 				} else if (theta >= COUNTERCLOCKWISE_LOWER_BOUND && theta <= COUNTERCLOCKWISE_UPPER_BOUND) { 
 				// If going counter clockwise, turn left
-					sharpTurnLeft();
+					sharpTurnRight();
 					}
 
 			} else if (x < 2 * TILE_SIZE && y < 2 * TILE_SIZE) {
@@ -86,7 +86,7 @@ public class PController extends UltrasonicController {
 				
 				} else if (theta >= COUNTERCLOCKWISE_LOWER_BOUND - RIGHT_ANGLE && theta <= COUNTERCLOCKWISE_UPPER_BOUND - RIGHT_ANGLE)  { 
 				// If going counter clockwise, turn left
-					sharpTurnLeft();
+					sharpTurnRight();
 					}
 
 			} else if (x > 2 * TILE_SIZE && y < 2 * TILE_SIZE) { 
@@ -94,7 +94,7 @@ public class PController extends UltrasonicController {
 				
 				if ((theta >= CLOCKWISE_LOWER_BOUND && theta <= 360) || (theta >= 0 && theta <= CLOCKWISE_UPPER_BOUND)) {
 				// If robot is traveling counterclockwise, turn left
-					sharpTurnLeft();
+					sharpTurnRight();
 				
 				} else if (theta >= COUNTERCLOCKWISE_LOWER_BOUND && theta <= COUNTERCLOCKWISE_UPPER_BOUND)  { 
 				// If robot is traveling clockwise, turn right
@@ -108,16 +108,17 @@ public class PController extends UltrasonicController {
 				// Switch state to following wall
 				state = State.FOLLOWING_WALL;
 
-		} else if (state == State.FOLLOWING_WALL) {
+		} else if (state == State.FOLLOWING_WALL) {		
 			
-			while (!stopFollowing()) {
-				System.out.println(this.distance);
+				System.out.println("Distance" + this.distance);
 				
 				// Compute error
 				int error = BAND_CENTER - this.distance; // (distance between the US sensor and an obstacle in cm) -
 															// (Standard offset from the wall cm). We need to tweak
 															// BAND_CENTER and BAND_WIDTH in order to make the robot
 															// smooth.
+				
+				System.out.println("Error: " + error);
 
 				// Compute low and high speed using the calcGain function.
 				int lowSpeed = MOTOR_SPEED - calcGain(error);
@@ -130,14 +131,16 @@ public class PController extends UltrasonicController {
 				} else if (error < 0) {
 					turnLeft(lowSpeed, highSpeed);
 				}
-			}
-			// Switch state back to INIT
-			state = State.PASSED;
 			
-			// Stop motors
-			LEFT_MOTOR.stop(true);
-			RIGHT_MOTOR.stop(false);
-
+			if (stopFollowing()) {			
+				// Switch state back to INIT
+				
+				state = State.PASSED;
+				System.out.println("Navigation state switched to PASSED");
+				// Stop motors
+				LEFT_MOTOR.stop(true);
+				RIGHT_MOTOR.stop(false);
+				}
 		} else if (state == State.PASSED) {
 			
 			// Rotate sensor back to looking forward
@@ -149,9 +152,12 @@ public class PController extends UltrasonicController {
 //			LEFT_MOTOR.rotate(angle, true);
 //			RIGHT_MOTOR.rotate(angle, false);
 			NavigationWithObstacles.travelTo(navigatorObstacle.getDestX(), navigatorObstacle.getDestY());
+			// TODO find a way to fix this without using travelTo "public"
 			
 			// Change state back to INIT
 			state = State.INIT;
+
+			System.out.println("Navigation state switched to INIT");
 		}
 	}
 
@@ -228,8 +234,8 @@ public class PController extends UltrasonicController {
 
 		// Set a maximum correction, filter out corrections that are too big to an upper
 		// bound
-		if (DELTASPD > 55) {
-			DELTASPD = 55;
+		if (DELTASPD > 70) {
+			DELTASPD = 70;
 		}
 		return DELTASPD;
 	}

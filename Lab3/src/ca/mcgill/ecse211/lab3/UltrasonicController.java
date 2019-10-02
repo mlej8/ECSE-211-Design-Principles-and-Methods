@@ -3,6 +3,8 @@ package ca.mcgill.ecse211.lab3;
 
 import static ca.mcgill.ecse211.lab3.Resources.*;
 
+import ca.mcgill.ecse211.lab3.PController.State;
+
 /**
  * Controller that controls the robot's movements based on UltraSonic data.
  */

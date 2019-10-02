@@ -75,7 +75,7 @@ public class Resources {
 	/**
 	 * Offset (standoff distance) from the wall (cm).
 	 */
-	public static final int BAND_CENTER = 15;
+	public static final int BAND_CENTER = 15;  //32
 
 	/**
 	 * Width of dead band (cm) i.e. error threshold.
@@ -153,7 +153,7 @@ public class Resources {
 	/**
 	 * Threshold value determining when the robots starts to follow the wall
 	 */
-	public static final double THRESHOLD = 20;
+	public static final double THRESHOLD = 15;
 	
 	/**
 	 * Threshold value determining the smallest angle where we can stop following the wall 

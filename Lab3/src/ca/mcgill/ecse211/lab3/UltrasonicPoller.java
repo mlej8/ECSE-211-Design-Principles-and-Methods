@@ -1,6 +1,7 @@
 package ca.mcgill.ecse211.lab3;
 import static ca.mcgill.ecse211.lab3.Resources.*;
-
+import ca.mcgill.ecse211.lab3.PController.State;
+import static ca.mcgill.ecse211.lab3.PController.state;
 /**
  * Samples the US sensor and invokes the selected controller on each cycle.
  * 
@@ -26,7 +27,11 @@ public class UltrasonicPoller implements Runnable {
    */
   public void run() {
     int distance;
+    int limitAngle = (int) SENSOR_ROTATION;
     while (true) {
+    	if (state == State.INIT) {
+    		rotateMotor.rotateTo(limitAngle, true);    		
+    	}
       usSensor.getDistanceMode().fetchSample(usData, 0); // acquire distance data in meters and store it in
                                                           // usData (an array of float)
       distance = (int) (usData[0] * 100.0); // extract from buffer (region of a physical memory storage used to
