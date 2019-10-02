@@ -80,9 +80,6 @@ public class NavigationWithObstacles implements Runnable {
 			// Sleep while it is traveling
 			while (navigatorObstacle.isNavigating()) {
 				Main.sleepFor(10 * SLEEPINT);
-				if (state == State.INIT) {
-					traveling = false;
-				}
 			}
 
 		}
@@ -129,7 +126,7 @@ public class NavigationWithObstacles implements Runnable {
 
 		if (state == State.TURNING || state == State.FOLLOWING_WALL) {
 			LEFT_MOTOR.stop(true);
-			RIGHT_MOTOR.stop(true);
+			RIGHT_MOTOR.stop(false);
 			return;
 		}
 
@@ -152,7 +149,6 @@ public class NavigationWithObstacles implements Runnable {
 		 * This method causes the robot to turn (on point) to the absolute heading theta.
 		 * This method should turn a MINIMAL angle to its target.
 		 */
-
 		// Set rotate speed
 		LEFT_MOTOR.setSpeed(ROTATE_SPEED);
 		RIGHT_MOTOR.setSpeed(ROTATE_SPEED);
@@ -203,19 +199,20 @@ public class NavigationWithObstacles implements Runnable {
 	public double getDestY() {
 		return this.destY;
 	}
-
+	
 	/**
-	 * Compute the angle
+	 * Getters method for traveling
+	 * @return traveling
 	 */
-	public double getAngle() {
-		// Compute displacement
-		double dx = this.destX - odometer.getXYT()[0];
-		double dy = this.destY - odometer.getXYT()[1];
-		
-		// Compute the angle needed to turn; dx and dy are intentionally switched in
-		// order to compute angle w.r.t. the y-axis and not w.r.t. the x-axis
-		double theta = Math.toDegrees(Math.atan2(dx, dy)) - odometer.getXYT()[2];
-		
-		return theta;
+	public static boolean isTraveling() {
+		return traveling;
+	}
+	
+	/**
+	 * Setter method for traveling
+	 * @param traveling
+	 */
+	public static void setTraveling(boolean traveling) {
+		NavigationWithObstacles.traveling = traveling;
 	}
 }

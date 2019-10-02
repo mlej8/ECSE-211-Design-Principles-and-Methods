@@ -5,10 +5,8 @@ import ca.mcgill.ecse211.lab3.UltrasonicController;
 import ca.mcgill.ecse211.lab3.Odometer;
 import lejos.hardware.ev3.LocalEV3;
 import lejos.hardware.lcd.TextLCD;
-import lejos.hardware.motor.BaseRegulatedMotor;
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
 import lejos.hardware.motor.EV3MediumRegulatedMotor;
-import lejos.hardware.motor.NXTRegulatedMotor;
 import lejos.hardware.port.SensorPort;
 import lejos.hardware.sensor.EV3UltrasonicSensor;
 
@@ -17,22 +15,22 @@ public class Resources {
 	/**
 	 * If the robot is traveling clockwise lower bound.
 	 */
-	public static final double CLOCKWISE_LOWER_BOUND = 0.0;
+	public static final double CLOCKWISE_LOWER_BOUND = 300.0;
 	
 	/**
 	 * If the robot is traveling clockwise upper bound.
 	 */
-	public static final double CLOCKWISE_UPPER_BOUND = 180.0;
+	public static final double CLOCKWISE_UPPER_BOUND = 120.0;
 	
 	/**
 	 * If the robot is traveling counter clockwise lower bound
 	 */
-	public static final double COUNTERCLOCKWISE_LOWER_BOUND = 180.0;
+	public static final double COUNTERCLOCKWISE_LOWER_BOUND = 120.0;
 	
 	/**
 	 * If the robot is traveling counter clockwise upper bound
 	 */
-	public static final double COUNTERCLOCKWISE_UPPER_BOUND = 360.0;
+	public static final double COUNTERCLOCKWISE_UPPER_BOUND = 300.0;
 	
 	/**
 	 * The wheel radius in centimeters.
@@ -40,19 +38,19 @@ public class Resources {
 	public static final double WHEEL_RAD = 2.115;
 
 	/**
-	 * Threshold value determining when the robots starts to follow the wall
-	 */
-	public static final double THRESHOLD = 30;
-
-	/**
 	 * The robot's width in centimeters.
 	 */
 	public static final double TRACK = 15;
 
 	/**
-	 * Turning 90 degrees to start follow the wall 
+	 * Turning 90 degrees to start position parallel the wall 
 	 */
-	public static final double EMERGENCY_TURN_ANGLE = 90.0;
+	public static final double RIGHT_ANGLE = 90.0;
+	
+	/**
+	 * Rotation of the sensor.
+	 */
+	public static final double SENSOR_ROTATION = 30.0;
 	
 	/**
 	 * Fixed Motor Speed.
@@ -88,16 +86,6 @@ public class Resources {
 	 * Use PController for obstacle avoidance
 	 */
 	public static UltrasonicController PController = new PController();
-
-	/**
-	 * The degree error margin for when to stop following the wall.
-	 */
-	public static final double DEG_ERR = 2.0;
-
-//	/**
-//	 * The cm error.
-//	 */
-//	public static final double CM_ERR = 1.0;
 
 	/**
 	 * Sleep interval = 50ms = 20 Hz.
@@ -160,5 +148,16 @@ public class Resources {
 	public static final int[][] waypoints2 = { { 2, 2 }, { 1, 3 }, { 3, 3 }, { 3, 2 }, { 2, 1 } };
 	public static final int[][] waypoints3 = { { 2, 1 }, { 3, 2 }, { 3, 3 }, { 1, 3 }, { 2, 2 } };
 	public static final int[][] waypoints4 = { { 1, 2 }, { 2, 3 }, { 2, 1 }, { 3, 2 }, { 3, 3 } };
+	
+	// Thresholds
+	/**
+	 * Threshold value determining when the robots starts to follow the wall
+	 */
+	public static final double THRESHOLD = 25;
+	
+	/**
+	 * Threshold value determining the smallest angle where we can stop following the wall 
+	 */
+	public static final double STOP_THRESHOLD = 3.0;
 
 }
