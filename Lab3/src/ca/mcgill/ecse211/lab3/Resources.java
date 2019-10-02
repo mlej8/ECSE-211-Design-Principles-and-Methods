@@ -35,12 +35,12 @@ public class Resources {
 	/**
 	 * The wheel radius in centimeters.
 	 */
-	public static final double WHEEL_RAD = 2.115;
+	public static final double WHEEL_RAD = 2.090; //2.115
 
 	/**
 	 * The robot's width in centimeters.
 	 */
-	public static final double TRACK = 15.05; //15.1
+	public static final double TRACK = 14.90; //15.1 15.05 14.87
 
 	/**
 	 * Turning 90 degrees to start position parallel the wall 
@@ -171,7 +171,7 @@ public class Resources {
 	 */
 	public static final double THRESHOLD = 20;
 	
-	public static final double ERROR_MARGIN= 0.5;
+	public static final double ERROR_MARGIN = 1.0;
 	/**
 	 * Threshold value determining the smallest angle where we can stop following the wall 
 	 */

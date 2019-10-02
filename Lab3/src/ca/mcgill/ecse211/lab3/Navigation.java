@@ -40,7 +40,7 @@ public class Navigation implements Runnable {
 	@Override
 	public void run() {
 		
-		int selectedRoute = 1;
+		int selectedRoute = 3;
 		
 		switch (selectedRoute) {
 		case 1:
@@ -64,11 +64,19 @@ public class Navigation implements Runnable {
 			this.destX=waypoint[0]*TILE_SIZE;
 			this.destY=waypoint[1]*TILE_SIZE;
 			
+			System.out.println("Destination: " + waypoint[0] + " " + waypoint[1]);
+			System.out.println("X diff: " + (this.destX - odometer.getXYT()[0]));
+			System.out.println("Y diff: " + (this.destY - odometer.getXYT()[1]));
+			
+			while (Math.abs(this.destX-odometer.getXYT()[0]) > ERROR_MARGIN || Math.abs(this.destY-odometer.getXYT()[1]) > ERROR_MARGIN) {
+			
+				// Naigate to destination 
 			navigator.travelTo(destX, destY);
 			
 			// Sleep while it is traveling
 			while (navigator.isNavigating()) {
 				Main.sleepFor(10 * SLEEPINT);
+				}
 			}
 		}
 	}
@@ -111,7 +119,7 @@ public class Navigation implements Runnable {
 		RIGHT_MOTOR.setSpeed(MOTOR_SPEED);
 		LEFT_MOTOR.rotate(convertDistance(distance), true);
 		RIGHT_MOTOR.rotate(convertDistance(distance), false);
-
+		
 		// Once the destination is reached, stop both motors
 		LEFT_MOTOR.stop(true);
 		RIGHT_MOTOR.stop(true);

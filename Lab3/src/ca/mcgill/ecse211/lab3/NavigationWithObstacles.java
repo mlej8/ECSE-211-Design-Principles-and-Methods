@@ -74,7 +74,8 @@ public class NavigationWithObstacles implements Runnable {
 			destX = waypoint[0] * TILE_SIZE;
 			destY = waypoint[1] * TILE_SIZE;
 
-			
+			while (Math.abs(this.destX-odometer.getXYT()[0]) > ERROR_MARGIN || Math.abs(this.destY-odometer.getXYT()[1]) > ERROR_MARGIN) {
+				
 			// Travel to next waypoint
 			navigatorObstacle.travelTo(destX, destY);
 
@@ -82,11 +83,11 @@ public class NavigationWithObstacles implements Runnable {
 			while (navigatorObstacle.isNavigating()) {
 				Main.sleepFor(10 * SLEEPINT);
 				}
-			
+			}
 		}
 	}
 
-	public static void travelTo(double x, double y) {
+	public void travelTo(double x, double y) {
 		/**
 		 * This method causes the robot to travel to the absolute field location (x, y),
 		 * specified in tile points. This method should continuously call turnTo(double
@@ -145,7 +146,7 @@ public class NavigationWithObstacles implements Runnable {
 		return traveling;
 	}
 
-	private static void turnTo(double theta) {
+	private void turnTo(double theta) {
 		/**
 		 * This method causes the robot to turn (on point) to the absolute heading theta.
 		 * This method should turn a MINIMAL angle to its target.
