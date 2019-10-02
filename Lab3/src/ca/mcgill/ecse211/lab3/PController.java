@@ -175,7 +175,7 @@ public class PController extends UltrasonicController {
 //			int angle = NavigationWithObstacles.convertDistance(distanceToWaypoint);
 //			LEFT_MOTOR.rotate(angle, true);
 //			RIGHT_MOTOR.rotate(angle, false);
-			navigatorObstacle.travelTo(navigatorObstacle.getDestX(), navigatorObstacle.getDestY());
+			// navigatorObstacle.travelTo(navigatorObstacle.getDestX(), navigatorObstacle.getDestY());
 			// TODO find a way to fix this without using travelTo "public"
 			
 			// Change state back to INIT

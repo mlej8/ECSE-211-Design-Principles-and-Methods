@@ -10,6 +10,9 @@ import lejos.hardware.motor.EV3MediumRegulatedMotor;
 import lejos.hardware.port.SensorPort;
 import lejos.hardware.sensor.EV3UltrasonicSensor;
 
+/**
+ * Stores all constants for lab 3
+ */
 public class Resources {
 
 	/**
@@ -165,15 +168,19 @@ public class Resources {
 	public static final int[][] waypoints3 = { { 2, 1 }, { 3, 2 }, { 3, 3 }, { 1, 3 }, { 2, 2 } };
 	public static final int[][] waypoints4 = { { 1, 2 }, { 2, 3 }, { 2, 1 }, { 3, 2 }, { 3, 3 } };
 	
-	// Thresholds
+
 	/**
-	 * Threshold value determining when the robots starts to follow the wall
+	 * Threshold value determining when the robots starts to follow the wall.
 	 */
 	public static final double THRESHOLD = 20;
 	
-	public static final double ERROR_MARGIN = 1.0;
 	/**
-	 * Threshold value determining the smallest angle where we can stop following the wall 
+	 * Error bound determining if the robot has reached waypoint.
+	 */
+	public static final double ERROR_MARGIN = 1.0;
+	
+	/**
+	 * Threshold value determining the smallest angle where we can stop following the wall. 
 	 */
 	public static final double STOP_THRESHOLD = 5.0;
 

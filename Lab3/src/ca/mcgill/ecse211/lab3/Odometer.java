@@ -162,7 +162,6 @@ public class Odometer implements Runnable {
 
 	/**
 	 * Returns the Odometer data.
-	 * <p>
 	 * Writes the current position and orientation of the robot onto the odoData
 	 * array. {@code odoData[0] =
 	 * x, odoData[1] = y; odoData[2] = theta;}

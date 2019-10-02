@@ -14,22 +14,22 @@ public class NavigationWithObstacles implements Runnable {
 	private static boolean traveling = false; // false by default
 
 	/**
-	 * Variable destination's x coordinate
+	 * Variable destination's x coordinate.
 	 */
 	private double destX;
 
 	/**
-	 * Variable destination's y coordinate
+	 * Variable destination's y coordinate.
 	 */
 	private double destY;
 
 	/**
-	 * Variable storing current route
+	 * Variable storing current route.
 	 */
 	private static int[][] currentWaypoints;
 
 	/**
-	 * Navigation class implements the singleton pattern
+	 * Navigation class implements the singleton pattern.
 	 */
 	private NavigationWithObstacles() {
 
@@ -75,7 +75,7 @@ public class NavigationWithObstacles implements Runnable {
 			destY = waypoint[1] * TILE_SIZE;
 
 			while (Math.abs(this.destX-odometer.getXYT()[0]) > ERROR_MARGIN || Math.abs(this.destY-odometer.getXYT()[1]) > ERROR_MARGIN) {
-				
+			 
 			// Travel to next waypoint
 			navigatorObstacle.travelTo(destX, destY);
 
@@ -126,11 +126,10 @@ public class NavigationWithObstacles implements Runnable {
 		LEFT_MOTOR.rotate(convertDistance(distance), true);
 		RIGHT_MOTOR.rotate(convertDistance(distance), false);
 
-		if (state == State.TURNING || state == State.FOLLOWING_WALL) {
-			LEFT_MOTOR.stop(true);
-			RIGHT_MOTOR.stop(false);
-			return;
-		}
+    /*
+     * if (state == State.TURNING || state == State.FOLLOWING_WALL) { LEFT_MOTOR.stop(true); RIGHT_MOTOR.stop(false);
+     * return; }
+     */
 
 		// Once the destination is reached, stop both motors
 		LEFT_MOTOR.stop(true);
