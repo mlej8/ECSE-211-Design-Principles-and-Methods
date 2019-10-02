@@ -1,8 +1,6 @@
 package ca.mcgill.ecse211.lab3;
 
 import static ca.mcgill.ecse211.lab3.Resources.*;
-import ca.mcgill.ecse211.lab3.PController.State;
-import static ca.mcgill.ecse211.lab3.PController.*;
 
 public class NavigationWithObstacles implements Runnable {
 
@@ -87,15 +85,15 @@ public class NavigationWithObstacles implements Runnable {
 			}
 		}
 	}
-
+	
+    /**
+     * This method causes the robot to travel to the absolute field location (x, y),
+     * specified in tile points. This method should continuously call turnTo(double
+     * theta) and then set the motor speed to forward (straight). This will make
+     * sure that your heading is updated until you reach your exact goal. This
+     * method will poll the odometer for information.
+     */
 	public void travelTo(double x, double y) {
-		/**
-		 * This method causes the robot to travel to the absolute field location (x, y),
-		 * specified in tile points. This method should continuously call turnTo(double
-		 * theta) and then set the motor speed to forward (straight). This will make
-		 * sure that your heading is updated until you reach your exact goal. This
-		 * method will poll the odometer for information.
-		 */
 		// Traveling
 		traveling = true;
 
