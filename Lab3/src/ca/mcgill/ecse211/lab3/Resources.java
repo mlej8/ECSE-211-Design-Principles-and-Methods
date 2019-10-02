@@ -11,7 +11,7 @@ import lejos.hardware.port.SensorPort;
 import lejos.hardware.sensor.EV3UltrasonicSensor;
 
 /**
- * Stores all constants for lab 3
+ * Stores all constants for Lab 3.
  */
 public class Resources {
 
@@ -38,12 +38,12 @@ public class Resources {
 	/**
 	 * The wheel radius in centimeters.
 	 */
-	public static final double WHEEL_RAD = 2.115; //2.115
+	public static final double WHEEL_RAD = 2.115; 
 
 	/**
 	 * The robot's width in centimeters.
 	 */
-	public static final double TRACK = 15.1; //15.1 15.05 14.87
+	public static final double TRACK = 15.1; 
 
 	/**
 	 * Turning 90 degrees to start position parallel the wall 
@@ -127,7 +127,7 @@ public class Resources {
 	public static final EV3LargeRegulatedMotor RIGHT_MOTOR = new EV3LargeRegulatedMotor(LocalEV3.get().getPort("D"));
 	
 	/**
-	 * The motor USensor based on
+	 * Instance of the thread executing US sensor rotation.
 	 */
 	public static SensorRotation sensorRotator = new SensorRotation();
 	
@@ -142,12 +142,12 @@ public class Resources {
 	public static UltrasonicPoller usPoller = new UltrasonicPoller();
 
 	/**
-	 * Instance of the Navigation class
+	 * Instance of the Navigation class.
 	 */
 	public static Navigation navigator = Navigation.getNavigator();
 
 	   /**
-     * Instance of the Navigation class
+     * Instance of the NavigationWithObstacles class
      */
     public static NavigationWithObstacles navigatorObstacle = NavigationWithObstacles.getNavigatorObstacle();
 	/**
@@ -180,7 +180,7 @@ public class Resources {
 	public static final double ERROR_MARGIN = 1.0;
 	
 	/**
-	 * Threshold value determining the smallest angle where to stop following the wall 
+	 * Threshold value determining the smallest angle where to stop following the wall.
 	 */
 	public static final double STOP_THRESHOLD = 5.0;
 

@@ -9,8 +9,8 @@ public class NavigationWithObstacles implements Runnable {
 	/**
 	 * {@code true} when robot is traveling.
 	 */
-	private static boolean traveling = false; // false by default
-
+	private boolean traveling = false; // false by default
+	
 	/**
 	 * Variable destination's x coordinate.
 	 */
@@ -80,22 +80,25 @@ public class NavigationWithObstacles implements Runnable {
 
 				// Sleep while it is traveling
 				while (navigatorObstacle.isNavigating()) {
-					Main.sleepFor(10 * SLEEPINT);
+					Main.sleepFor(10 * SLEEPINT); 
+					System.out.println(navigatorObstacle.isNavigating());
 				}
+
+				System.out.println(navigatorObstacle.isNavigating());
 			}
 		}
 	}
-	
-    /**
-     * This method causes the robot to travel to the absolute field location (x, y),
-     * specified in tile points. This method should continuously call turnTo(double
-     * theta) and then set the motor speed to forward (straight). This will make
-     * sure that your heading is updated until you reach your exact goal. This
-     * method will poll the odometer for information.
-     */
+
+	/**
+	 * This method causes the robot to travel to the absolute field location (x, y),
+	 * specified in tile points. This method should continuously call turnTo(double
+	 * theta) and then set the motor speed to forward (straight). This will make
+	 * sure that your heading is updated until you reach your exact goal. This
+	 * method will poll the odometer for information.
+	 */
 	public void travelTo(double x, double y) {
 		// Traveling
-		traveling = true;
+		this.traveling = true;
 
 		// Compute displacement
 		double dx = x - odometer.getXYT()[0];
@@ -128,7 +131,7 @@ public class NavigationWithObstacles implements Runnable {
 		// Once the destination is reached, stop both motors
 		LEFT_MOTOR.stop(true);
 		RIGHT_MOTOR.stop(true);
-		traveling = false;
+		this.traveling = false;
 	}
 
 	private boolean isNavigating() {
@@ -136,7 +139,7 @@ public class NavigationWithObstacles implements Runnable {
 		 * This method returns true if another thread has called travelTo() or turnTo()
 		 * and the method has yet to return; false otherwise.
 		 */
-		return traveling;
+		return this.traveling;
 	}
 
 	private void turnTo(double theta) {
@@ -182,14 +185,14 @@ public class NavigationWithObstacles implements Runnable {
 	}
 
 	/**
-	 * @return destination waypoint's x coordinate
+	 * @return destination waypoint's x coordinate.
 	 */
 	public double getDestX() {
 		return this.destX;
 	}
 
 	/**
-	 * @return destination waypoint's y coordinate
+	 * @return destination waypoint's y coordinate.
 	 */
 	public double getDestY() {
 		return this.destY;
@@ -200,8 +203,8 @@ public class NavigationWithObstacles implements Runnable {
 	 * 
 	 * @return traveling
 	 */
-	public static boolean isTraveling() {
-		return traveling;
+	public boolean isTraveling() {
+		return this.traveling;
 	}
 
 	/**
@@ -209,7 +212,7 @@ public class NavigationWithObstacles implements Runnable {
 	 * 
 	 * @param traveling
 	 */
-	public static void setTraveling(boolean traveling) {
-		NavigationWithObstacles.traveling = traveling;
+	public void setTraveling(boolean traveling) {
+		this.traveling = traveling;
 	}
 }

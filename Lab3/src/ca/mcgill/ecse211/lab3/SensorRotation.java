@@ -5,7 +5,7 @@ import static ca.mcgill.ecse211.lab3.Resources.*;
 import ca.mcgill.ecse211.lab3.PController.State;
 
 /**
- * Thread Controlling Sensor's movement
+ * Thread Controlling Sensor's movement.
  */
 public class SensorRotation implements Runnable{
 	

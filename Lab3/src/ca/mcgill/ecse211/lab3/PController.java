@@ -152,10 +152,10 @@ public class PController extends UltrasonicController {
 			if (stopFollowing()) {
 				// Switch state back to INIT
 				state = State.PASSED;
-				
-				// Log current state 
+
+				// Log current state
 				System.out.println("Navigation state switched to PASSED");
-				
+
 				// Stop motors
 				LEFT_MOTOR.stop(true);
 				RIGHT_MOTOR.stop(false);
@@ -173,7 +173,6 @@ public class PController extends UltrasonicController {
 			turnedLeft = false;
 
 			// Navigate to waypoint
-//			NavigationWithObstacles.setTraveling(false);
 			navigatorObstacle.travelTo(navigatorObstacle.getDestX(), navigatorObstacle.getDestY());
 
 			// Change state back to INIT
