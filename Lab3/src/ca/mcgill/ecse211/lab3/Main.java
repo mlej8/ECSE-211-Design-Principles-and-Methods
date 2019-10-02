@@ -5,6 +5,9 @@ import static ca.mcgill.ecse211.lab3.Resources.*;
 import ca.mcgill.ecse211.lab3.Display;
 import lejos.hardware.Button;
 
+/**
+ * The main driver class for the navigation and obstacleAvoidance lab.
+ */
 public class Main {
 	public static void main(String args[]) {
 		
@@ -13,9 +16,9 @@ public class Main {
 		if (buttonChoice == Button.ID_LEFT) {
 			// run with obstacles
 			new Thread(usPoller).start(); // Running a thread running ultrasonic to sensor to keep detecting the walls
-			new Thread(odometer).start();
-			new Thread(navigatorObstacle).start();
-			new Thread(sensorRotator).start();
+			new Thread(odometer).start(); //Running a continuous thread for odometer
+			new Thread(navigatorObstacle).start();  //Running a navigation thread to guide motor to waypoints
+			new Thread(sensorRotator).start(); //Running a Motor thread to control sensor movement
 		} else {
 			// run without obstacles
 			new Thread(navigator).start();
@@ -33,7 +36,6 @@ public class Main {
 
 	/**
 	 * Choose with obstacles or not.
-	 * 
 	 * @return Button choice
 	 */
 	private static int chooseObstaclesOrNot() {
@@ -46,7 +48,11 @@ public class Main {
 		} while (buttonChoice != Button.ID_LEFT && buttonChoice != Button.ID_RIGHT);
 		return buttonChoice;
 	}
-
+	
+	/**
+	 * Thread sleeps for a time period specified by sleepFor
+	 * @param duration
+	 */
 	public static void sleepFor(long duration) {
 		try {
 			Thread.sleep(duration);
