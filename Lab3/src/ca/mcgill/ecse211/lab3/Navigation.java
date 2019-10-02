@@ -40,7 +40,7 @@ public class Navigation implements Runnable {
 	@Override
 	public void run() {
 		
-		int selectedRoute = 3;
+		int selectedRoute = 1;
 		
 		switch (selectedRoute) {
 		case 1:
