@@ -1,7 +1,6 @@
 package ca.mcgill.ecse211.lab3;
 import static ca.mcgill.ecse211.lab3.Resources.*;
-import ca.mcgill.ecse211.lab3.PController.State;
-import static ca.mcgill.ecse211.lab3.PController.state;
+
 /**
  * Samples the US sensor and invokes the selected controller on each cycle.
  * 
