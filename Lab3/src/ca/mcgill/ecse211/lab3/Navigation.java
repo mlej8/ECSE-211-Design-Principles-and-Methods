@@ -10,6 +10,10 @@ public class Navigation implements Runnable {
 	 * Variable storing current route
 	 */
 	private static int[][] currentWaypoints;
+	
+	public double destX;
+	
+	public double destY;
 
 	/**
 	 * Navigation class implements the singleton pattern
@@ -31,7 +35,7 @@ public class Navigation implements Runnable {
 	/**
 	 * {@code true} when robot is traveling.
 	 */
-	private static boolean traveling = false; // false by default
+	private boolean traveling = false; // false by default
 
 	@Override
 	public void run() {
@@ -56,8 +60,11 @@ public class Navigation implements Runnable {
 			break;
 		}
 		
-		for (int[] waypoint : currentWaypoints) {
-			navigator.travelTo(waypoint[0]*TILE_SIZE, waypoint[1]*TILE_SIZE);			
+		for (int[] waypoint : currentWaypoints) {		
+			this.destX=waypoint[0]*TILE_SIZE;
+			this.destY=waypoint[1]*TILE_SIZE;
+			
+			navigator.travelTo(destX, destY);
 			
 			// Sleep while it is traveling
 			while (navigator.isNavigating()) {
@@ -75,12 +82,12 @@ public class Navigation implements Runnable {
 		 * method will poll the odometer for information.
 		 */
 		// Traveling
-		traveling = true;
+		this.traveling = true;
 
 		// Compute displacement
 		double dx = x - odometer.getXYT()[0];
 		double dy = y - odometer.getXYT()[1];
-		
+		System.out.println("DestX: " + x + " DestY: " + y);
 		// Calculate the distance to waypoint
 		double distance = Math.hypot(dx, dy);
 		
@@ -94,7 +101,8 @@ public class Navigation implements Runnable {
 		}	else if (theta < -180.0) {
 			theta = 360.0 + theta;
 		}
-
+		
+		System.out.println("Theta: " + theta + " dx: " + dx + " dy: " + dy);
 		// Turn to the correct angle
 		turnTo(theta);
 		

@@ -40,17 +40,28 @@ public class Resources {
 	/**
 	 * The robot's width in centimeters.
 	 */
-	public static final double TRACK = 15;
+	public static final double TRACK = 15.05; //15.1
 
 	/**
 	 * Turning 90 degrees to start position parallel the wall 
 	 */
 	public static final double RIGHT_ANGLE = 90.0;
 	
+	// Ultrasonic sensor properties
+	/**
+	 * Sensor rotation when navigating.
+	 */
+	public static int SWIPE = 40;
+		
 	/**
 	 * Rotation of the sensor.
 	 */
 	public static final double SENSOR_ROTATION = 20.0;
+	
+	/**
+	 * Sensor rotation speed.
+	 */
+	public static final int SENSOR_ROTATION_SPEED = 150;
 	
 	/**
 	 * Fixed Motor Speed.
@@ -60,7 +71,7 @@ public class Resources {
 	/**
 	 * The speed at which the robot rotates in degrees per second.
 	 */
-	public static final int ROTATE_SPEED = 150;
+	public static final int ROTATE_SPEED = 100;
 
 	/**
 	 * The acceleration.
@@ -75,7 +86,7 @@ public class Resources {
 	/**
 	 * Offset (standoff distance) from the wall (cm).
 	 */
-	public static final int BAND_CENTER = 15;  //32
+	public static final int BAND_CENTER = 18;  
 
 	/**
 	 * Width of dead band (cm) i.e. error threshold.
@@ -111,7 +122,12 @@ public class Resources {
 	 * The right motor.
 	 */
 	public static final EV3LargeRegulatedMotor RIGHT_MOTOR = new EV3LargeRegulatedMotor(LocalEV3.get().getPort("D"));
-
+	
+	/**
+	 * The motor USensor based on
+	 */
+	public static SensorRotation sensorRotator = new SensorRotation();
+	
 	/**
 	 * The ultrasonic sensor.
 	 */
@@ -153,11 +169,12 @@ public class Resources {
 	/**
 	 * Threshold value determining when the robots starts to follow the wall
 	 */
-	public static final double THRESHOLD = 15;
+	public static final double THRESHOLD = 20;
 	
+	public static final double ERROR_MARGIN= 0.5;
 	/**
 	 * Threshold value determining the smallest angle where we can stop following the wall 
 	 */
-	public static final double STOP_THRESHOLD = 3.0;
+	public static final double STOP_THRESHOLD = 5.0;
 
 }

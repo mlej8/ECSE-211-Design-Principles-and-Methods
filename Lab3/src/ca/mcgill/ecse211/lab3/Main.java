@@ -15,6 +15,7 @@ public class Main {
 			new Thread(usPoller).start(); // Running a thread running ultrasonic to sensor to keep detecting the walls
 			new Thread(odometer).start();
 			new Thread(navigatorObstacle).start();
+			new Thread(sensorRotator).start();
 		} else {
 			// run without obstacles
 			new Thread(navigator).start();

@@ -52,6 +52,9 @@ public class PController extends UltrasonicController {
 			System.out.println("Switched state to TURNING");
 			
 		} else if (state == State.TURNING) {
+			// Get the sensor to look forward 
+			rotateMotor.rotate(-rotateMotor.getTachoCount(), false);
+			
 			
 			// Store variables 
 			double x = odometer.getXYT()[0];
@@ -281,8 +284,8 @@ public class PController extends UltrasonicController {
 
 		// Set a maximum correction, filter out corrections that are too big to an upper
 		// bound
-		if (DELTASPD > 70) {
-			DELTASPD = 70;
+		if (DELTASPD > 85) { // 70
+			DELTASPD = 85;
 		}
 		return DELTASPD;
 	}
@@ -301,7 +304,7 @@ public class PController extends UltrasonicController {
 		RIGHT_MOTOR.rotate(-NavigationWithObstacles.convertAngle(RIGHT_ANGLE), false);
 		
 		// Turn sensor 90 degrees to the left to face the wall
-		rotateMotor.rotate(-NavigationWithObstacles.convertAngle(SENSOR_ROTATION));
+		rotateMotor.rotate(NavigationWithObstacles.convertAngle(SENSOR_ROTATION));
 		
 		// Set variable to track we turned right 
 		turnedRight = true;
@@ -321,7 +324,7 @@ public class PController extends UltrasonicController {
 		RIGHT_MOTOR.rotate(NavigationWithObstacles.convertAngle(RIGHT_ANGLE), false);
 
 		// Turn sensor 90 degrees to the right to face the wall
-		rotateMotor.rotate(NavigationWithObstacles.convertAngle(SENSOR_ROTATION));
+		rotateMotor.rotate(-NavigationWithObstacles.convertAngle(SENSOR_ROTATION));
 		
 		// Set variable to track we turned left
 		turnedLeft = true;

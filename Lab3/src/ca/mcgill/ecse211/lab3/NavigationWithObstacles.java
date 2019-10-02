@@ -74,14 +74,15 @@ public class NavigationWithObstacles implements Runnable {
 			destX = waypoint[0] * TILE_SIZE;
 			destY = waypoint[1] * TILE_SIZE;
 
+			
 			// Travel to next waypoint
 			navigatorObstacle.travelTo(destX, destY);
 
 			// Sleep while it is traveling
 			while (navigatorObstacle.isNavigating()) {
 				Main.sleepFor(10 * SLEEPINT);
-			}
-
+				}
+			
 		}
 	}
 
