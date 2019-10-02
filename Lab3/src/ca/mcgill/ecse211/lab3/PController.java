@@ -111,7 +111,8 @@ public class PController extends UltrasonicController {
 		} else if (state == State.FOLLOWING_WALL) {
 			
 			while (!stopFollowing()) {
-				// TOOD: FIX getAngle()
+				System.out.println(this.distance);
+				
 				// Compute error
 				int error = BAND_CENTER - this.distance; // (distance between the US sensor and an obstacle in cm) -
 															// (Standard offset from the wall cm). We need to tweak
@@ -143,13 +144,11 @@ public class PController extends UltrasonicController {
 //			rotateMotor.rotate(-NavigationWithObstacles.convertAngle(EMERGENCY_TURN_ANGLE));
 			
 			// Navigate to waypoint
-			double distanceToWaypoint = distanceToWaypoint();
-			int angle = NavigationWithObstacles.convertDistance(distanceToWaypoint);
-			LEFT_MOTOR.rotate(angle, true);
-			RIGHT_MOTOR.rotate(angle, false);
-			
-			// Set traveling to false
-			NavigationWithObstacles.setTraveling(false);
+//			double distanceToWaypoint = distanceToWaypoint();
+//			int angle = NavigationWithObstacles.convertDistance(distanceToWaypoint);
+//			LEFT_MOTOR.rotate(angle, true);
+//			RIGHT_MOTOR.rotate(angle, false);
+			NavigationWithObstacles.travelTo(navigatorObstacle.getDestX(), navigatorObstacle.getDestY());
 			
 			// Change state back to INIT
 			state = State.INIT;
@@ -247,9 +246,9 @@ public class PController extends UltrasonicController {
 		// Turn right
 		LEFT_MOTOR.rotate(NavigationWithObstacles.convertAngle(RIGHT_ANGLE), true);
 		RIGHT_MOTOR.rotate(-NavigationWithObstacles.convertAngle(RIGHT_ANGLE), false);
-
+		
 		// Turn sensor 90 degrees to the left to face the wall
-		rotateMotor.rotate(NavigationWithObstacles.convertAngle(SENSOR_ROTATION));
+		rotateMotor.rotate(-NavigationWithObstacles.convertAngle(SENSOR_ROTATION));
 	}
 	
 	/**
@@ -266,7 +265,7 @@ public class PController extends UltrasonicController {
 		RIGHT_MOTOR.rotate(NavigationWithObstacles.convertAngle(RIGHT_ANGLE), false);
 
 		// Turn sensor 90 degrees to the right to face the wall
-		rotateMotor.rotate(-NavigationWithObstacles.convertAngle(SENSOR_ROTATION));
+		rotateMotor.rotate(NavigationWithObstacles.convertAngle(SENSOR_ROTATION));
 	}
 
 	/**
@@ -285,6 +284,7 @@ public class PController extends UltrasonicController {
 		System.out.println("Difference: " + theta);
 		
 		if (Math.abs(theta) <= STOP_THRESHOLD) {
+			System.out.println("SWITCHED TO PASSED");
 			return true;
 		}
 		return false;

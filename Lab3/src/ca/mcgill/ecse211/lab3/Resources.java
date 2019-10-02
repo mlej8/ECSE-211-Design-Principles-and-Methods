@@ -50,7 +50,7 @@ public class Resources {
 	/**
 	 * Rotation of the sensor.
 	 */
-	public static final double SENSOR_ROTATION = 30.0;
+	public static final double SENSOR_ROTATION = 20.0;
 	
 	/**
 	 * Fixed Motor Speed.
@@ -139,7 +139,7 @@ public class Resources {
 	/**
 	 * Motor that rotates the sensor.
 	 */
-	public static final EV3MediumRegulatedMotor rotateMotor = new EV3MediumRegulatedMotor(LocalEV3.get().getPort("C"));
+	public static final EV3MediumRegulatedMotor rotateMotor = new EV3MediumRegulatedMotor(LocalEV3.get().getPort("B"));
 
 	/**
 	 * Routes
@@ -153,7 +153,7 @@ public class Resources {
 	/**
 	 * Threshold value determining when the robots starts to follow the wall
 	 */
-	public static final double THRESHOLD = 25;
+	public static final double THRESHOLD = 20;
 	
 	/**
 	 * Threshold value determining the smallest angle where we can stop following the wall 

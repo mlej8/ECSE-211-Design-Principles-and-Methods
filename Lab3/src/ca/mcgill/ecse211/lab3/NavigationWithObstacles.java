@@ -85,7 +85,7 @@ public class NavigationWithObstacles implements Runnable {
 		}
 	}
 
-	private void travelTo(double x, double y) {
+	public static void travelTo(double x, double y) {
 		/**
 		 * This method causes the robot to travel to the absolute field location (x, y),
 		 * specified in tile points. This method should continuously call turnTo(double
@@ -144,7 +144,7 @@ public class NavigationWithObstacles implements Runnable {
 		return traveling;
 	}
 
-	private void turnTo(double theta) {
+	private static void turnTo(double theta) {
 		/**
 		 * This method causes the robot to turn (on point) to the absolute heading theta.
 		 * This method should turn a MINIMAL angle to its target.
