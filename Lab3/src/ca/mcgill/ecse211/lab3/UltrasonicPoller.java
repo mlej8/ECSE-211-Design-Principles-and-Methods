@@ -31,11 +31,6 @@ public class UltrasonicPoller implements Runnable {
     int limitAngle = SWIPE;
     rotateMotor.rotateTo(limitAngle/2, true); 
     while (true) {
-    	
-			/*
-			 * if (state == State.INIT) { rotateMotor.rotateTo(limitAngle, false);
-			 * limitAngle = -limitAngle; }
-			 */
     	usSensor.getDistanceMode().fetchSample(usData, 0); // acquire distance data in meters and store it in
                                                           // usData (an array of float)
       distance = (int) (usData[0] * 100.0); // extract from buffer (region of a physical memory storage used to

@@ -74,14 +74,15 @@ public class NavigationWithObstacles implements Runnable {
 			destX = waypoint[0] * TILE_SIZE;
 			destY = waypoint[1] * TILE_SIZE;
 
-			while (Math.abs(this.destX-odometer.getXYT()[0]) > ERROR_MARGIN || Math.abs(this.destY-odometer.getXYT()[1]) > ERROR_MARGIN) {
-			 
-			// Travel to next waypoint
-			navigatorObstacle.travelTo(destX, destY);
+			while (Math.abs(this.destX - odometer.getXYT()[0]) > ERROR_MARGIN
+					|| Math.abs(this.destY - odometer.getXYT()[1]) > ERROR_MARGIN) {
 
-			// Sleep while it is traveling
-			while (navigatorObstacle.isNavigating()) {
-				Main.sleepFor(10 * SLEEPINT);
+				// Travel to next waypoint
+				navigatorObstacle.travelTo(destX, destY);
+
+				// Sleep while it is traveling
+				while (navigatorObstacle.isNavigating()) {
+					Main.sleepFor(10 * SLEEPINT);
 				}
 			}
 		}
@@ -126,11 +127,6 @@ public class NavigationWithObstacles implements Runnable {
 		LEFT_MOTOR.rotate(convertDistance(distance), true);
 		RIGHT_MOTOR.rotate(convertDistance(distance), false);
 
-    /*
-     * if (state == State.TURNING || state == State.FOLLOWING_WALL) { LEFT_MOTOR.stop(true); RIGHT_MOTOR.stop(false);
-     * return; }
-     */
-
 		// Once the destination is reached, stop both motors
 		LEFT_MOTOR.stop(true);
 		RIGHT_MOTOR.stop(true);
@@ -147,8 +143,8 @@ public class NavigationWithObstacles implements Runnable {
 
 	private void turnTo(double theta) {
 		/**
-		 * This method causes the robot to turn (on point) to the absolute heading theta.
-		 * This method should turn a MINIMAL angle to its target.
+		 * This method causes the robot to turn (on point) to the absolute heading
+		 * theta. This method should turn a MINIMAL angle to its target.
 		 */
 		// Set rotate speed
 		LEFT_MOTOR.setSpeed(ROTATE_SPEED);
@@ -200,17 +196,19 @@ public class NavigationWithObstacles implements Runnable {
 	public double getDestY() {
 		return this.destY;
 	}
-	
+
 	/**
-	 * Getters method for traveling
+	 * Getters method for traveling.
+	 * 
 	 * @return traveling
 	 */
 	public static boolean isTraveling() {
 		return traveling;
 	}
-	
+
 	/**
-	 * Setter method for traveling
+	 * Setter method for traveling.
+	 * 
 	 * @param traveling
 	 */
 	public static void setTraveling(boolean traveling) {

@@ -64,10 +64,6 @@ public class Navigation implements Runnable {
 			this.destX=waypoint[0]*TILE_SIZE;
 			this.destY=waypoint[1]*TILE_SIZE;
 			
-			System.out.println("Destination: " + waypoint[0] + " " + waypoint[1]);
-			System.out.println("X diff: " + (this.destX - odometer.getXYT()[0]));
-			System.out.println("Y diff: " + (this.destY - odometer.getXYT()[1]));
-			
 			while (Math.abs(this.destX-odometer.getXYT()[0]) > ERROR_MARGIN || Math.abs(this.destY-odometer.getXYT()[1]) > ERROR_MARGIN) {
 			
 				// Naigate to destination 
@@ -95,7 +91,7 @@ public class Navigation implements Runnable {
 		// Compute displacement
 		double dx = x - odometer.getXYT()[0];
 		double dy = y - odometer.getXYT()[1];
-		System.out.println("DestX: " + x + " DestY: " + y);
+
 		// Calculate the distance to waypoint
 		double distance = Math.hypot(dx, dy);
 		
@@ -110,7 +106,6 @@ public class Navigation implements Runnable {
 			theta = 360.0 + theta;
 		}
 		
-		System.out.println("Theta: " + theta + " dx: " + dx + " dy: " + dy);
 		// Turn to the correct angle
 		turnTo(theta);
 		
@@ -126,19 +121,19 @@ public class Navigation implements Runnable {
 		traveling = false;
 	}
 
+	/**
+	 * This method returns true if another thread has called travelTo() or turnTo()
+	 * and the method has yet to return; false otherwise.
+	 */
 	private boolean isNavigating() {
-		/**
-		 * This method returns true if another thread has called travelTo() or turnTo()
-		 * and the method has yet to return; false otherwise.
-		 */
 		return traveling;
 	}
 
+	/**
+	 * This method causes the robot to turn (on point) to the absolute heading
+	 * theta. This method should turn a MINIMAL angle to its target.
+	 */	
 	private void turnTo(double theta) {
-		/**
-		 * This method causes the robot to turn (on point) to the absolute heading
-		 * theta. This method should turn a MINIMAL angle to its target.
-		 */
 		
 		// Set rotate speed
 		LEFT_MOTOR.setSpeed(ROTATE_SPEED);
