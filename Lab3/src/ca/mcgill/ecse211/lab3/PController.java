@@ -20,6 +20,10 @@ public class PController extends UltrasonicController {
 
 	public static State state = State.INIT;
 	private static final int PROPORTION_GAIN_SCALE = 4;
+	
+	// Private booleans to keep track of which way we turned 
+	private static boolean turnedRight = false;
+	private static boolean turnedLeft = false;
 
 	public PController() {
 	}
@@ -59,7 +63,7 @@ public class PController extends UltrasonicController {
 				
 				if ((theta >= CLOCKWISE_LOWER_BOUND - RIGHT_ANGLE && theta <= 360) || (theta >= 0 && theta <= CLOCKWISE_UPPER_BOUND - RIGHT_ANGLE)) {
 				// If robot is traveling counterclockwise, turn left
-					sharpTurnRight();
+					sharpTurnLeft();
 				
 				} else if (theta >= COUNTERCLOCKWISE_LOWER_BOUND - RIGHT_ANGLE && theta <= COUNTERCLOCKWISE_UPPER_BOUND - RIGHT_ANGLE)  { 
 				// If going clockwise, turn right
@@ -74,7 +78,7 @@ public class PController extends UltrasonicController {
 					sharpTurnRight();
 				} else if (theta >= COUNTERCLOCKWISE_LOWER_BOUND && theta <= COUNTERCLOCKWISE_UPPER_BOUND) { 
 				// If going counter clockwise, turn left
-					sharpTurnRight();
+					sharpTurnLeft();
 					}
 
 			} else if (x < 2 * TILE_SIZE && y < 2 * TILE_SIZE) {
@@ -86,7 +90,7 @@ public class PController extends UltrasonicController {
 				
 				} else if (theta >= COUNTERCLOCKWISE_LOWER_BOUND - RIGHT_ANGLE && theta <= COUNTERCLOCKWISE_UPPER_BOUND - RIGHT_ANGLE)  { 
 				// If going counter clockwise, turn left
-					sharpTurnRight();
+					sharpTurnLeft();
 					}
 
 			} else if (x > 2 * TILE_SIZE && y < 2 * TILE_SIZE) { 
@@ -94,7 +98,7 @@ public class PController extends UltrasonicController {
 				
 				if ((theta >= CLOCKWISE_LOWER_BOUND && theta <= 360) || (theta >= 0 && theta <= CLOCKWISE_UPPER_BOUND)) {
 				// If robot is traveling counterclockwise, turn left
-					sharpTurnRight();
+					sharpTurnLeft();
 				
 				} else if (theta >= COUNTERCLOCKWISE_LOWER_BOUND && theta <= COUNTERCLOCKWISE_UPPER_BOUND)  { 
 				// If robot is traveling clockwise, turn right
@@ -123,13 +127,23 @@ public class PController extends UltrasonicController {
 				// Compute low and high speed using the calcGain function.
 				int lowSpeed = MOTOR_SPEED - calcGain(error);
 				int highSpeed = MOTOR_SPEED + calcGain(error);
-
+				
+				if(turnedRight) {
 				if (Math.abs(error) <= BAND_WIDTH) {
 					forward();
 				} else if (error > 0) {
-					turnRight(highSpeed);
+					turnRightR(highSpeed);
 				} else if (error < 0) {
-					turnLeft(lowSpeed, highSpeed);
+					turnLeftR(lowSpeed, highSpeed);
+				}
+				} else if (turnedLeft) {
+					if (Math.abs(error) <= BAND_WIDTH) {
+						forward();
+					} else if (error > 0) {
+						turnLeftL(highSpeed);
+					} else if (error < 0) {
+						turnRightL(lowSpeed, highSpeed);
+					}
 				}
 			
 			if (stopFollowing()) {			
@@ -144,7 +158,14 @@ public class PController extends UltrasonicController {
 		} else if (state == State.PASSED) {
 			
 			// Rotate sensor back to looking forward
-//			rotateMotor.rotate(-NavigationWithObstacles.convertAngle(EMERGENCY_TURN_ANGLE));
+			rotateMotor.rotate(-rotateMotor.getTachoCount(), false);
+			
+			// Reset tachocount to 0
+			rotateMotor.resetTachoCount();
+			
+			// Reset turned right or turned left to false
+			turnedRight = false;
+			turnedLeft  = false; 
 			
 			// Navigate to waypoint
 //			double distanceToWaypoint = distanceToWaypoint();
@@ -172,10 +193,10 @@ public class PController extends UltrasonicController {
 	}
 	
 	/**
-	 * Method used to turn right.
+	 * Method used to turn right when sensor is on the right of the wall.
 	 * @param speed
 	 */
-	private static void turnRight(int speed) {
+	private static void turnRightR(int speed) {
 		// if error is bigger than 0, this means that the vehicle is too close from the
 		// wall which means we need to turn right
 		LEFT_MOTOR.setSpeed(speed);
@@ -185,17 +206,43 @@ public class PController extends UltrasonicController {
 	}
 
 	/**
-	 * Method used to turn left.
+	 * Method used to turn left when the sensor is on the left of the wall.
 	 * @param lowSpeed
 	 * @param highSpeed
 	 */
-	private static void turnLeft(int lowSpeed, int highSpeed) {
+	private static void turnLeftR(int lowSpeed, int highSpeed) {
 		// if error is smaller than 0, this means that the vehicle is too far from the
 		// wall, which
 		// means we need to turn left
 		LEFT_MOTOR.setSpeed(lowSpeed);
 		RIGHT_MOTOR.setSpeed(highSpeed);
 		LEFT_MOTOR.forward();
+		RIGHT_MOTOR.forward();
+	}
+	
+	/**
+	 * Method used to turn right when the sensor is on the left of the wall
+	 * @param speed
+	 */
+	private static void turnRightL(int lowSpeed, int highSpeed) {
+		// if error is bigger than 0, this means that the vehicle is too close from the
+		// wall which means we need to turn right
+		LEFT_MOTOR.setSpeed(highSpeed);
+		RIGHT_MOTOR.setSpeed(lowSpeed);
+		LEFT_MOTOR.forward();
+		RIGHT_MOTOR.forward();
+	
+	}
+
+	/**
+	 * Method used to turn left when the sensor is on the left of the wall
+	 * @param lowSpeed
+	 * @param highSpeed
+	 */
+	private static void turnLeftL(int speed) {
+		LEFT_MOTOR.setSpeed(speed);
+		RIGHT_MOTOR.setSpeed(speed);
+		LEFT_MOTOR.backward();
 		RIGHT_MOTOR.forward();
 	}
 
@@ -255,6 +302,9 @@ public class PController extends UltrasonicController {
 		
 		// Turn sensor 90 degrees to the left to face the wall
 		rotateMotor.rotate(-NavigationWithObstacles.convertAngle(SENSOR_ROTATION));
+		
+		// Set variable to track we turned right 
+		turnedRight = true;
 	}
 	
 	/**
@@ -272,6 +322,9 @@ public class PController extends UltrasonicController {
 
 		// Turn sensor 90 degrees to the right to face the wall
 		rotateMotor.rotate(NavigationWithObstacles.convertAngle(SENSOR_ROTATION));
+		
+		// Set variable to track we turned left
+		turnedLeft = true;
 	}
 
 	/**

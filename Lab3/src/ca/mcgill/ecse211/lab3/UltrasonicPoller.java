@@ -28,10 +28,13 @@ public class UltrasonicPoller implements Runnable {
   public void run() {
     int distance;
     int limitAngle = (int) SENSOR_ROTATION;
+    rotateMotor.rotateTo(limitAngle/2, true); 
     while (true) {
     	if (state == State.INIT) {
-    		rotateMotor.rotateTo(limitAngle, true);    		
+    		rotateMotor.rotateTo(limitAngle, true); 
+    		limitAngle = -limitAngle;
     	}
+    	System.out.println("Current tacho count: " + rotateMotor.getTachoCount());
       usSensor.getDistanceMode().fetchSample(usData, 0); // acquire distance data in meters and store it in
                                                           // usData (an array of float)
       distance = (int) (usData[0] * 100.0); // extract from buffer (region of a physical memory storage used to
