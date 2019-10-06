@@ -12,7 +12,7 @@ The goal of this lab was to build a vehicle which can utilize sensors to follow 
 This goal of this lab was to build an accurate odometer for the vehicle built in Lab 1. The odometer utilizes the rotation of the wheels to
 calculate theoretical values while using color sensor for correction.
 
-### Lab 3 - Translation
+### Lab 3 - Navigation and Obstacle Avoidance
 
 The goal of this lab was to build autonomous translation capabilities for the vehicle built so far, while avoid obstacles.
 

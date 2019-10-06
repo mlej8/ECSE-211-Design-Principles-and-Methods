@@ -1,0 +1,11 @@
+bin/
+
+.classpath
+
+.project
+
+*.prefs
+
+*.jar
+
+.settings/
