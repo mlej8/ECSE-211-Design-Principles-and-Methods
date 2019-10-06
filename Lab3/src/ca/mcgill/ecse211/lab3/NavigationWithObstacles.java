@@ -81,10 +81,7 @@ public class NavigationWithObstacles implements Runnable {
 				// Sleep while it is traveling
 				while (navigatorObstacle.isNavigating()) {
 					Main.sleepFor(10 * SLEEPINT); 
-					System.out.println(navigatorObstacle.isNavigating());
 				}
-
-				System.out.println(navigatorObstacle.isNavigating());
 			}
 		}
 	}

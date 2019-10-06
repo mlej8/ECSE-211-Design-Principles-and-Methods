@@ -173,7 +173,11 @@ public class PController extends UltrasonicController {
 			turnedLeft = false;
 
 			// Navigate to waypoint
-			navigatorObstacle.travelTo(navigatorObstacle.getDestX(), navigatorObstacle.getDestY());
+			navigatorObstacle.setTraveling(false);
+			
+			// Stop motors 
+			LEFT_MOTOR.stop(true);
+			RIGHT_MOTOR.stop(false);
 
 			// Change state back to INIT
 			state = State.INIT;

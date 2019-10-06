@@ -1,4 +1,4 @@
-package ca.mcgill.ecse211.lab3;
+	package ca.mcgill.ecse211.lab3;
 import static ca.mcgill.ecse211.lab3.Resources.*;
 
 /**
@@ -26,9 +26,7 @@ public class UltrasonicPoller implements Runnable {
    */
   public void run() {
 	  rotateMotor.setSpeed(SENSOR_ROTATION_SPEED);
-    int distance;
-    int limitAngle = SWIPE;
-    rotateMotor.rotateTo(limitAngle/2, true); 
+    int distance; 
     while (true) {
     	usSensor.getDistanceMode().fetchSample(usData, 0); // acquire distance data in meters and store it in
                                                           // usData (an array of float)

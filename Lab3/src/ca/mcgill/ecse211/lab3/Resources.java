@@ -38,12 +38,12 @@ public class Resources {
 	/**
 	 * The wheel radius in centimeters.
 	 */
-	public static final double WHEEL_RAD = 2.115; 
+	public static final double WHEEL_RAD = 2.085; 
 
 	/**
 	 * The robot's width in centimeters.
 	 */
-	public static final double TRACK = 15.1; 
+	public static final double TRACK = 15.0; 
 
 	/**
 	 * Turning 90 degrees to start position parallel the wall 
