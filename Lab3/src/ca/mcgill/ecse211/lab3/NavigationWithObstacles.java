@@ -131,19 +131,19 @@ public class NavigationWithObstacles implements Runnable {
 		this.traveling = false;
 	}
 
+	/**
+	 * This method returns true if another thread has called travelTo() or turnTo()
+	 * and the method has yet to return; false otherwise.
+	 */
 	private boolean isNavigating() {
-		/**
-		 * This method returns true if another thread has called travelTo() or turnTo()
-		 * and the method has yet to return; false otherwise.
-		 */
 		return this.traveling;
 	}
 
+	/**
+	 * This method causes the robot to turn (on point) to the absolute heading
+	 * theta. This method should turn a MINIMAL angle to its target.
+	 */
 	private void turnTo(double theta) {
-		/**
-		 * This method causes the robot to turn (on point) to the absolute heading
-		 * theta. This method should turn a MINIMAL angle to its target.
-		 */
 		// Set rotate speed
 		LEFT_MOTOR.setSpeed(ROTATE_SPEED);
 		RIGHT_MOTOR.setSpeed(ROTATE_SPEED);

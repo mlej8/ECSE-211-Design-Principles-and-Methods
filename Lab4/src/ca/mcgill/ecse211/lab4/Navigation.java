@@ -1,6 +1,6 @@
-package ca.mcgill.ecse211.lab3;
+package ca.mcgill.ecse211.lab4;
 
-import static ca.mcgill.ecse211.lab3.Resources.*;
+import static ca.mcgill.ecse211.lab4.Resources.*;
 
 public class Navigation implements Runnable {
 
@@ -14,18 +14,13 @@ public class Navigation implements Runnable {
 	/**
 	 * Variable destination's x coordinate.
 	 */
-	private double destX;
+	private double destX = 1 * TILE_SIZE; // set default destination to (1,1)
 
 	/**
 	 * Variable destination's y coordinate.
 	 */
-	private double destY;
+	private double destY = 1 * TILE_SIZE; // set default destination to (1,1)
 
-	/**
-	 * Variable storing current route.
-	 */
-	private static int[][] currentWaypoints;
-	
 	/**
 	 * Navigation class implements the singleton pattern
 	 */
@@ -47,42 +42,18 @@ public class Navigation implements Runnable {
 	@Override
 	public void run() {
 
-		int selectedRoute = 1;
+		while (Math.abs(this.destX - odometer.getXYT()[0]) > ERROR_MARGIN
+				|| Math.abs(this.destY - odometer.getXYT()[1]) > ERROR_MARGIN) {
 
-		switch (selectedRoute) {
-		case 1:
-			currentWaypoints = waypoints1;
-			break;
-		case 2:
-			currentWaypoints = waypoints2;
-			break;
-		case 3:
-			currentWaypoints = waypoints3;
-			break;
-		case 4:
-			currentWaypoints = waypoints4;
-			break;
-		default:
-			System.out.println("Please select a valid circuit");
-			break;
-		}
+			// Naigate to destination
+			navigator.travelTo(navigator.destX, navigator.destY);
 
-		for (int[] waypoint : currentWaypoints) {
-			this.destX = waypoint[0] * TILE_SIZE;
-			this.destY = waypoint[1] * TILE_SIZE;
-
-			while (Math.abs(this.destX - odometer.getXYT()[0]) > ERROR_MARGIN
-					|| Math.abs(this.destY - odometer.getXYT()[1]) > ERROR_MARGIN) {
-
-				// Naigate to destination
-				navigator.travelTo(destX, destY);
-
-				// Sleep while it is traveling
-				while (navigator.isNavigating()) {
-					Main.sleepFor(10 * SLEEPINT);
-				}
+			// Sleep while it is traveling
+			while (navigator.isNavigating()) {
+				Main.sleepFor(10 * SLEEPINT);
 			}
 		}
+
 	}
 
 	private void travelTo(double x, double y) {
