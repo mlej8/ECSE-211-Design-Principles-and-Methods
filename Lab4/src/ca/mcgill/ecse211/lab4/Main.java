@@ -31,7 +31,19 @@ public class Main {
 		displayThread.start();
 
 		// Wait for input once completing ultrasonic localization before navigating to the origin (1,1)
-		while (Button.waitForAnyPress() != Button.ID_LEFT) {}
+		while (buttonChoice != Button.ID_ESCAPE) {
+			
+			// Clear the display
+			LCD.clear();
+
+			LCD.drawString("    Press the      ", 0, 0);
+			LCD.drawString("    escape button  ", 0, 1);
+			LCD.drawString(" |  to start       ", 0, 2);
+			LCD.drawString(" |  lightLocalizer ", 0, 3);
+			LCD.drawString(" V                 ", 0, 4);
+
+			buttonChoice = Button.waitForAnyPress();
+		}
 		
 		// Navigate to origin (1,1)
 		Thread nav = new Thread(navigator);

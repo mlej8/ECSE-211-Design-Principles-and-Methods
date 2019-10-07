@@ -13,10 +13,7 @@ import static ca.mcgill.ecse211.lab4.Resources.*;
  * of 1/70ms or about 14 Hz.
  */
 public class UltrasonicPoller implements Runnable {
-	
-	int distance;
-	int filterControl;
-	
+
 	private float[] usData;
 
 	public UltrasonicPoller() {
@@ -32,35 +29,20 @@ public class UltrasonicPoller implements Runnable {
 	 * @see java.lang.Thread#run()
 	 */
 	public void run() {
-		
+
+		int distance;
+
 		while (true) {
-			usSensor.getDistanceMode().fetchSample(usData, 0); // acquire distance data in meters and store it in
+			usSensor.getDistanceMode().fetchSample(usData, 0);  // acquire distance data in meters and store it in
 																// usData (an array of float)
-			this.distance = (int) (usData[0] * 100.0); // extract from buffer (region of a physical memory storage used to
-													// temporarily store data while it is being moved from one place to
-													// another), convert to cm, cast to int
+			ultrasonicLocalizer.processUSData((int) (usData[0] * 100.0)); // extract from buffer (region of a physical
+																		  // memory storage used to
+																		  // temporarily store data while it is being moved from one place to
+																		  // another), convert to cm, cast to int
 			try {
 				Thread.sleep(50);
 			} catch (Exception e) {
 			}
-		}
-	}
-	
-	/**
-	 * Rudimentary filter - toss out invalid samples corresponding to null signal.
-	 * 
-	 * @param distance: distance in cm
-	 */
-	private void filter(int distance) {
-		if (distance > 1000) {
-			this.distance = 300;
-		} else if (distance >= 255 && filterControl < FILTER_OUT) {
-			this.filterControl++;
-		} else if (distance >= 255) {
-			this.distance = distance;
-		} else {
-			filterControl = 0;
-			this.distance = distance;
 		}
 	}
 }
