@@ -33,10 +33,7 @@ public class UltrasonicPoller implements Runnable {
 		while (true) {
 			usSensor.getDistanceMode().fetchSample(usData, 0);  // acquire distance data in meters and store it in
 																// usData (an array of float)
-			ultrasonicLocalizer.processUSData((int) (usData[0] * 100.0)); // extract from buffer (region of a physical
-																		  // memory storage used to
-																		  // temporarily store data while it is being moved from one place to
-																		  // another), convert to cm, cast to int
+			ultrasonicLocalizer.processUSData((int) (usData[0] * 100.0)); // convert to cm and cast to int
 			try {
 				Thread.sleep(50);
 			} catch (Exception e) {

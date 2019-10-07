@@ -92,8 +92,8 @@ public class Navigation implements Runnable {
 		// Turn on motor
 		LEFT_MOTOR.setSpeed(MOTOR_SPEED);
 		RIGHT_MOTOR.setSpeed(MOTOR_SPEED);
-		LEFT_MOTOR.rotate(convertDistance(distance), true);
-		RIGHT_MOTOR.rotate(convertDistance(distance), false);
+		LEFT_MOTOR.rotate(Converter.convertDistance(distance), true);
+		RIGHT_MOTOR.rotate(Converter.convertDistance(distance), false);
 
 		// Once the destination is reached, stop both motors
 		LEFT_MOTOR.stop(true);
@@ -121,38 +121,15 @@ public class Navigation implements Runnable {
 
 		if (theta < 0) {
 			// If angle is negative, turn left
-			LEFT_MOTOR.rotate(convertAngle(theta), true);
-			RIGHT_MOTOR.rotate(-convertAngle(theta), false);
+			LEFT_MOTOR.rotate(Converter.convertAngle(theta), true);
+			RIGHT_MOTOR.rotate(-Converter.convertAngle(theta), false);
 		} else {
 			// If angle is positive, turn right
-			LEFT_MOTOR.rotate(convertAngle(theta), true);
-			RIGHT_MOTOR.rotate(-convertAngle(theta), false);
+			LEFT_MOTOR.rotate(Converter.convertAngle(theta), true);
+			RIGHT_MOTOR.rotate(-Converter.convertAngle(theta), false);
 		}
 	}
 
-	/**
-	 * Converts input distance to the total rotation of each wheel needed to cover
-	 * that distance.
-	 * 
-	 * @param distance
-	 * @return the wheel rotations necessary to cover the distance
-	 */
-	public static int convertDistance(double distance) {
-		return (int) ((180.0 * distance) / (Math.PI * WHEEL_RAD));
-	}
-
-	/**
-	 * Converts input angle to the total rotation of each wheel needed to rotate the
-	 * robot by that angle.
-	 * 
-	 * @param angle
-	 * @return the wheel rotations necessary to rotate the robot by the angle
-	 */
-	
-	public static int convertAngle(double angle) {
-		return convertDistance(Math.PI * TRACK * angle / 360.0);
-	}
-	
 	/**
 	 * @return destination waypoint's x coordinate.
 	 */
