@@ -30,8 +30,6 @@ public class UltrasonicPoller implements Runnable {
 	 */
 	public void run() {
 
-		int distance;
-
 		while (true) {
 			usSensor.getDistanceMode().fetchSample(usData, 0);  // acquire distance data in meters and store it in
 																// usData (an array of float)
