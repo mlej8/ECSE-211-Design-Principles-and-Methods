@@ -90,9 +90,14 @@ public class Resources {
 	public static final EV3UltrasonicSensor usSensor = new EV3UltrasonicSensor(SensorPort.S1);
 
 	/**
+     * The light sensor.
+     */
+    public static final EV3ColorSensor lightSensor = new EV3ColorSensor(SensorPort.S2);
+    
+	/**
 	 * The ultrasonic poller.
 	 */
-	public static UltrasonicPoller usPoller = new UltrasonicPoller();
+	public static SensorPoller sensorPoller = new SensorPoller();
 
 	/**
 	 * Instance of the Navigation class.

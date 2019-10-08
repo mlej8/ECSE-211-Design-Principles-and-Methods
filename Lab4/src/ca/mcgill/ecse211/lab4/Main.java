@@ -20,20 +20,20 @@ public class Main {
 		
 		if (buttonChoice == Button.ID_LEFT) {
 			// run Failing edge
-			new Thread(usPoller).start(); // Running a thread running ultrasonic to sensor to detect the walls
+			new Thread(sensorPoller).start(); // Running a thread running ultrasonic to sensor to detect the walls
 			new Thread(odometer).start(); // Running a continuous thread for odometer
 			displayThread.start();
 			ultrasonicLocalizer.fallingEdge();
 		} else {
 			// run Rising Edge
-			new Thread(usPoller).start(); // Running a thread running ultrasonic to sensor to detect the walls
+			new Thread(sensorPoller).start(); // Running a thread running ultrasonic to sensor to detect the walls
 			new Thread(odometer).start(); // Running a continuous thread for odometer
 			displayThread.start();
 			ultrasonicLocalizer.risingEdge();
 		}
 
 		// Wait for input once completing ultrasonic localization before navigating to the origin (1,1)
-		while (buttonChoice != Button.ID_ESCAPE) {
+		while (buttonChoice != Button.ID_RIGHT) {
 			
 			// Clear the display
 			LCD.clear();
