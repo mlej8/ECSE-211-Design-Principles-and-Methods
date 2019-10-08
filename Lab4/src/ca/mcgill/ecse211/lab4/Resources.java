@@ -6,6 +6,7 @@ import lejos.hardware.lcd.TextLCD;
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
 import lejos.hardware.motor.EV3MediumRegulatedMotor;
 import lejos.hardware.port.SensorPort;
+import lejos.hardware.sensor.EV3ColorSensor;
 import lejos.hardware.sensor.EV3UltrasonicSensor;
 
 /**
@@ -142,5 +143,10 @@ public class Resources {
 	 * Degree at which to rotate left when executing US sensor localization
 	 */
 	public static double ROTATION_LEFT = -10.0;
+
+	/**
+     * The distance from the robot's wheelBase center to light light sensor
+     */
+    public static final double DIST_CENTRE_TO_LIGHT_SENSOR = 10;
 }
 

@@ -3,6 +3,7 @@ package ca.mcgill.ecse211.lab4;
 import static ca.mcgill.ecse211.lab4.Resources.*;
 
 import ca.mcgill.ecse211.lab4.Display;
+import ca.mcgill.ecse211.lab4.SensorPoller.Mode;
 import lejos.hardware.Button;
 
 /**
@@ -37,45 +38,50 @@ public class Main {
 			// Clear the display
 			LCD.clear();
 
-			LCD.drawString("    Press the      ", 0, 0);
-			LCD.drawString("    escape button  ", 0, 1);
-			LCD.drawString(" |  to start       ", 0, 2);
-			LCD.drawString(" |  lightLocalizer ", 0, 3);
-			LCD.drawString(" V                 ", 0, 4);
+          LCD.drawString("   Press the      ", 0, 0);
+          LCD.drawString("   right button  ", 0, 1);
+          LCD.drawString("   to start       ", 0, 2);
+          LCD.drawString("   lightLocalizer ", 0, 3);
+          LCD.drawString("                   ", 0, 4);
 
-			buttonChoice = Button.waitForAnyPress();
-		}
-		
-		// Navigate to origin (1,1)
-		Thread nav = new Thread(navigator);
-		nav.start();
-		
-		// Wait till navigation thread is done before executing light sensor localization
-		try {
-			nav.join();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		
-		// Execute light sensor localization
-//		lightLocalizer.localize();
-		
-		// Do nothing until exit button is pressed, then exit.
-		while (Button.waitForAnyPress() != Button.ID_ESCAPE)
-			System.exit(0);
-	}
+            buttonChoice = Button.waitForAnyPress();
+        }
+        //Stop fetching data from ultrasonic sensor
+        sensorPoller.setMode(Mode.PAUSE);
+        // Navigate to origin (1,1)
+        Thread nav = new Thread(navigator);
+        nav.start();
+        
+        // Wait till navigation thread is done before executing light sensor localization
+        try {
+            nav.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        
+        
+        // Execute light sensor localization
+        sensorPoller.setMode(Mode.LIGHT);
+        lightLocalizer.localize();
+        nav = new Thread(navigator);
+        nav.start();
+        
+        // Do nothing until exit button is pressed, then exit.
+        while (Button.waitForAnyPress() != Button.ID_ESCAPE)
+            System.exit(0);
+    }
 
-	/**
-	 * Choose with obstacles or not.
-	 * @return Button choice
-	 */
-	private static int chooseFaillingEdgeOrRisingEdge() {
-		int buttonChoice;
-		Display.showText("< Left  | Right >",
-						 "        |        ", 	
-						 "Failling| Rising ", 
-						 "  Edge  |  Edge  ",
-						 "        |        ");
+    /**
+     * Choose with obstacles or not.
+     * @return Button choice
+     */
+    private static int chooseFaillingEdgeOrRisingEdge() {
+        int buttonChoice;
+        Display.showText("< Left  | Right >",
+                         "        |        ",   
+                         "Failling| Rising ", 
+                         "  Edge  |  Edge  ",
+                         "        |        ");
 
 		do {
 			buttonChoice = Button.waitForAnyPress();
