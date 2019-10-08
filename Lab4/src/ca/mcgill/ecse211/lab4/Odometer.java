@@ -76,7 +76,7 @@ public class Odometer implements Runnable {
 	 * variables once. It cannot be accessed externally.
 	 */
 	private Odometer() {
-		setXYT(TILE_SIZE, TILE_SIZE, 0);
+		setXYT(0, 0, 0);
 	}
 
 	/**

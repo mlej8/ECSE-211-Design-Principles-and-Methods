@@ -55,8 +55,16 @@ public class Navigation implements Runnable {
 		}
 
 	}
+	
+	/**
+	 * Method that completely stops the robot from moving. 
+	 */
+	public void stop() {
+		LEFT_MOTOR.stop(true);
+		RIGHT_MOTOR.stop(false);
+	}
 
-	private void travelTo(double x, double y) {
+	public void travelTo(double x, double y) {
 		/**
 		 * This method causes the robot to travel to the absolute field location (x, y),
 		 * specified in tile points. This method should continuously call turnTo(double
@@ -96,8 +104,7 @@ public class Navigation implements Runnable {
 		RIGHT_MOTOR.rotate(Converter.convertDistance(distance), false);
 
 		// Once the destination is reached, stop both motors
-		LEFT_MOTOR.stop(true);
-		RIGHT_MOTOR.stop(true);
+		stop();
 		this.traveling = false;
 	}
 
@@ -105,7 +112,7 @@ public class Navigation implements Runnable {
 	 * This method returns true if another thread has called travelTo() or turnTo()
 	 * and the method has yet to return; false otherwise.
 	 */
-	private boolean isNavigating() {
+	public boolean isNavigating() {
 		return this.traveling;
 	}
 
@@ -113,23 +120,39 @@ public class Navigation implements Runnable {
 	 * This method causes the robot to turn (on point) to the absolute heading
 	 * theta. This method should turn a MINIMAL angle to its target.
 	 */
-	private void turnTo(double theta) {
-
-		// Set rotate speed
-		LEFT_MOTOR.setSpeed(ROTATE_SPEED);
-		RIGHT_MOTOR.setSpeed(ROTATE_SPEED);
+	public void turnTo(double theta) {
+		
+		// Set traveling to true when the robot is turning
+		this.traveling = true;
 
 		if (theta < 0) {
 			// If angle is negative, turn left
-			LEFT_MOTOR.rotate(Converter.convertAngle(theta), true);
-			RIGHT_MOTOR.rotate(-Converter.convertAngle(theta), false);
+			rotateRight(theta);
 		} else {
 			// If angle is positive, turn right
-			LEFT_MOTOR.rotate(Converter.convertAngle(theta), true);
-			RIGHT_MOTOR.rotate(-Converter.convertAngle(theta), false);
+			rotateLeft(theta);
 		}
 	}
 
+	/**
+	 * Method that rotates the motor to the right.
+	 */
+	public void rotateRight(double theta) {		
+		// Set rotate speed
+		LEFT_MOTOR.setSpeed(ROTATE_SPEED);
+		RIGHT_MOTOR.setSpeed(ROTATE_SPEED);
+		LEFT_MOTOR.rotate(Converter.convertAngle(theta), true);
+		RIGHT_MOTOR.rotate(-Converter.convertAngle(theta), false);
+	}
+	
+	public void rotateLeft(double theta) {
+		// Set rotate speed
+		LEFT_MOTOR.setSpeed(ROTATE_SPEED);
+		RIGHT_MOTOR.setSpeed(ROTATE_SPEED);
+		LEFT_MOTOR.rotate(Converter.convertAngle(theta), true);
+		RIGHT_MOTOR.rotate(-Converter.convertAngle(theta), false);
+	}
+	
 	/**
 	 * @return destination waypoint's x coordinate.
 	 */

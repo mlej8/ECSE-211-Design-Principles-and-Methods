@@ -53,6 +53,7 @@ public class PController extends UltrasonicController {
 		} else if (state == State.TURNING) {
 			// Get the sensor to look forward
 			rotateMotor.rotate(-rotateMotor.getTachoCount(), false);
+			navigatorObstacle.setTraveling(true);
 
 			// Store variables
 			double x = odometer.getXYT()[0];

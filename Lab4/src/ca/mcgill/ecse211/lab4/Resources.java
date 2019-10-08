@@ -36,7 +36,7 @@ public class Resources {
 	/**
 	 * The speed at which the robot rotates in degrees per second.
 	 */
-	public static final int ROTATE_SPEED = 100;
+	public static final int ROTATE_SPEED = 50;
 
 	/**
 	 * The acceleration.
@@ -114,6 +114,11 @@ public class Resources {
 	public static final double ERROR_MARGIN = 0.5;
 	
 	/**
+	 * Noise margin for ultrasonic localizer. 
+	 */
+	public static final double NOISE_MARGIN = 3.0;
+	
+	/**
 	 * Instance of US Localizer
 	 */
 	public static UltrasonicLocalizer ultrasonicLocalizer = new UltrasonicLocalizer();
@@ -122,4 +127,20 @@ public class Resources {
 	 * Instance of Light Localizer
 	 */
 	public static LightLocalizer lightLocalizer = new LightLocalizer();
+	
+	/**
+	 * d constant for ultrasonic localizer representing the threshold distance from the wall 
+	 */
+	public static double d = 20.0;
+	
+	/**
+	 * Degree at which to rotate right when executing US sensor localization
+	 */
+	public static double ROTATION_RIGHT = 10.0;
+	
+	/**
+	 * Degree at which to rotate left when executing US sensor localization
+	 */
+	public static double ROTATION_LEFT = -10.0;
 }
+
