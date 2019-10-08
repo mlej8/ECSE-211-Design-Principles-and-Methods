@@ -16,19 +16,17 @@ public class Main {
 	public static void main(String args[]) {
 		
 		int buttonChoice = chooseFaillingEdgeOrRisingEdge();
-		
+
+		// Running sensorPoller, odometer and display threads.
+		new Thread(sensorPoller).start(); // Running a thread running ultrasonic to sensor to detect the walls
+		new Thread(odometer).start(); // Running a continuous thread for odometer
+		displayThread.start();
 		
 		if (buttonChoice == Button.ID_LEFT) {
 			// run Failing edge
-			new Thread(sensorPoller).start(); // Running a thread running ultrasonic to sensor to detect the walls
-			new Thread(odometer).start(); // Running a continuous thread for odometer
-			displayThread.start();
 			ultrasonicLocalizer.fallingEdge();
 		} else {
 			// run Rising Edge
-			new Thread(sensorPoller).start(); // Running a thread running ultrasonic to sensor to detect the walls
-			new Thread(odometer).start(); // Running a continuous thread for odometer
-			displayThread.start();
 			ultrasonicLocalizer.risingEdge();
 		}
 
@@ -39,15 +37,17 @@ public class Main {
 			LCD.clear();
 
           LCD.drawString("   Press the      ", 0, 0);
-          LCD.drawString("   right button  ", 0, 1);
+          LCD.drawString("   Right Button  ", 0, 1);
           LCD.drawString("   to start       ", 0, 2);
-          LCD.drawString("   lightLocalizer ", 0, 3);
+          LCD.drawString("   LightLocalizer ", 0, 3);
           LCD.drawString("                   ", 0, 4);
 
             buttonChoice = Button.waitForAnyPress();
         }
-        //Stop fetching data from ultrasonic sensor
+		
+        // Stop fetching data from ultrasonic sensor
         sensorPoller.setMode(Mode.PAUSE);
+        
         // Navigate to origin (1,1)
         Thread nav = new Thread(navigator);
         nav.start();
@@ -59,6 +59,7 @@ public class Main {
             e.printStackTrace();
         }
         
+        // Set the current angle to 0 assuming ultrasonic localization corrected the odometer
         
         // Execute light sensor localization
         sensorPoller.setMode(Mode.LIGHT);

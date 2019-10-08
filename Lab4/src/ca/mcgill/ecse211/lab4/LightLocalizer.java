@@ -18,8 +18,8 @@ public class LightLocalizer {
     public void localize() {
       LEFT_MOTOR.setSpeed(ROTATE_SPEED);
       RIGHT_MOTOR.setSpeed(ROTATE_SPEED);
-      LEFT_MOTOR.rotate(convertAngle(360), true);
-      RIGHT_MOTOR.rotate(-convertAngle(360), false);
+      LEFT_MOTOR.rotate(Converter.convertAngle(360), true);
+      RIGHT_MOTOR.rotate(-Converter.convertAngle(360), false);
       
       adjustOdometer(intersectionDegrees);
     }
@@ -125,32 +125,9 @@ public class LightLocalizer {
      */
     private double normalizeTheta(double angle) {       //Based on cos property it may not be necessary
       if (angle < 0)
-        return -angle;
+        angle = -angle;
       if (angle >180)
-        return 360 - angle;
-      return -1;
-    }
-    
-    /**
-     * Converts input distance to the total rotation of each wheel needed to cover
-     * that distance.
-     * 
-     * @param distance
-     * @return the wheel rotations necessary to cover the distance
-     */
-    public static int convertDistance(double distance) {
-        return (int) ((180.0 * distance) / (Math.PI * WHEEL_RAD));
-    }
-
-    /**
-     * Converts input angle to the total rotation of each wheel needed to rotate the
-     * robot by that angle.
-     * 
-     * @param angle
-     * @return the wheel rotations necessary to rotate the robot by the angle
-     */
-    
-    public static int convertAngle(double angle) {
-        return convertDistance(Math.PI * TRACK * angle / 360.0);
+        angle = 360 - angle;
+      return Math.toRadians(angle);
     }
 }

@@ -142,7 +142,7 @@ public class Navigation implements Runnable {
 		LEFT_MOTOR.setSpeed(ROTATE_SPEED);
 		RIGHT_MOTOR.setSpeed(ROTATE_SPEED);
 		LEFT_MOTOR.rotate(Converter.convertAngle(theta), true);
-		RIGHT_MOTOR.rotate(-Converter.convertAngle(theta), false);
+		RIGHT_MOTOR.rotate(-Converter.convertAngle(theta), true);
 	}
 	
 	public void rotateLeft(double theta) {
@@ -150,7 +150,7 @@ public class Navigation implements Runnable {
 		LEFT_MOTOR.setSpeed(ROTATE_SPEED);
 		RIGHT_MOTOR.setSpeed(ROTATE_SPEED);
 		LEFT_MOTOR.rotate(Converter.convertAngle(theta), true);
-		RIGHT_MOTOR.rotate(-Converter.convertAngle(theta), false);
+		RIGHT_MOTOR.rotate(-Converter.convertAngle(theta), true);
 	}
 	
 	/**

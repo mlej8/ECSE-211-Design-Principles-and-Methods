@@ -26,7 +26,9 @@ public class SensorPoller implements Runnable {
     public SensorPoller() {
         usData = new float[usSensor.sampleSize()]; // create an array of float of size corresponding to the number of
                                                     // elements in a sample. The number of elements does not change
-        lightData= new float[lightSensor.sampleSize()];                                         // during
+        lightData = new float[lightSensor.sampleSize()];                                         // during
+        
+        this.mode = Mode.ULTRASONIC;
     }
 
     /*
@@ -50,7 +52,7 @@ public class SensorPoller implements Runnable {
               lightSensor.getRedMode().fetchSample(lightData, 0);
               lightLocalizer.processData((int) (lightData[0] * 100.0));;
             }
-            Sleep(50);
+            Main.sleepFor(SLEEPINT);
         }
         
         //Switch to lightSensor}
@@ -59,12 +61,5 @@ public class SensorPoller implements Runnable {
     
     public void setMode(Mode selectedMode) {
       mode = selectedMode;
-    }
-    
-    public void Sleep(int time) {
-      try {
-        Thread.sleep(50);
-    } catch (Exception e) {
-    }
     }
 }

@@ -52,12 +52,12 @@ public class Resources {
 	/**
 	 * Offset (standoff distance) from the wall (cm).
 	 */
-	public static final int BAND_CENTER = 18;  
+	public static final int BAND_CENTER = 30;  
 
 	/**
 	 * Width of dead band (cm) i.e. error threshold.
 	 */
-	public static final int BAND_WIDTH = 6;
+	public static final int BAND_WIDTH = 8;
 
 	/**
 	 * Sleep interval = 50ms = 20 Hz.
@@ -120,11 +120,6 @@ public class Resources {
 	public static final double ERROR_MARGIN = 0.5;
 	
 	/**
-	 * Noise margin for ultrasonic localizer. 
-	 */
-	public static final double NOISE_MARGIN = 3.0;
-	
-	/**
 	 * Instance of US Localizer
 	 */
 	public static UltrasonicLocalizer ultrasonicLocalizer = new UltrasonicLocalizer();
@@ -137,21 +132,26 @@ public class Resources {
 	/**
 	 * d constant for ultrasonic localizer representing the threshold distance from the wall 
 	 */
-	public static double d = 20.0;
+	public static double d = 25.0;
+	
+	/**
+	 * Noise margin for ultrasonic localizer. 
+	 */
+	public static final double NOISE_MARGIN = 3.0;
 	
 	/**
 	 * Degree at which to rotate right when executing US sensor localization
 	 */
-	public static double ROTATION_RIGHT = 10.0;
+	public static double ROTATION_RIGHT = 5.0;
 	
 	/**
 	 * Degree at which to rotate left when executing US sensor localization
 	 */
-	public static double ROTATION_LEFT = -10.0;
+	public static double ROTATION_LEFT = -5.0;
 
 	/**
      * The distance from the robot's wheelBase center to light light sensor
      */
-    public static final double DIST_CENTRE_TO_LIGHT_SENSOR = 10;
+    public static final double DIST_CENTRE_TO_LIGHT_SENSOR = 12.7;
 }
 

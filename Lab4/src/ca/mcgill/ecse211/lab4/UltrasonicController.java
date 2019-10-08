@@ -31,8 +31,8 @@ public abstract class UltrasonicController {
 	 * @param distance: distance in cm
 	 */
 	void filter(int distance) {
-		if (distance > 1000) {
-			this.distance = 300;
+		if (distance > 255) {
+			this.distance = 255;
 		} else if (distance >= 255 && filterControl < FILTER_OUT) {
 			filterControl++;
 		} else if (distance >= 255) {
