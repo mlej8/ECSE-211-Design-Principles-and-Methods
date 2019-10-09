@@ -8,7 +8,7 @@ import lejos.hardware.Sound;
  * Class that uses the ultrasonic sensor to orient itself assuming the robot
  * will start with its center of rotation in the bottom left tile of the field.
  * Its initial orientation (heading) is assumed to be unknown. Angles will be
- * measured clockwise w.r.t. the positive y-axis, as seen on the right. Use the
+ * measured clockwise w.r.t. the positive y-axis. Use the
  * ultrasonic sensor to measure the distance to the two walls nearest the robot
  * to determine the initial orientation of the robot by rotating 360 degrees on
  * itself.
@@ -20,7 +20,7 @@ public class UltrasonicLocalizer extends UltrasonicController {
 	 */
 	public void fallingEdge() {
 
-		// falling edge is the point at which the mesured distance is smaller than d -
+		// Falling edge is the point at which the mesured distance is smaller than d -
 		// NOISE_MARGIN
 		double backWall, leftWall, correctionAngle;
 
@@ -297,9 +297,9 @@ public class UltrasonicLocalizer extends UltrasonicController {
 	public double getCorrectionAngle(double a, double b) {
 		System.out.println("a: " + a + " b: " + b);
 		if (a > b) {
-			return (40.5 - ((a + b) / 2.0));
+			return (40.75 - ((a + b) / 2.0));
 		} else {
-			return (222 - ((a + b) / 2.0)); // bigger value, smaller turn
+			return (222 - ((a + b) / 2.0)); 
 		}
 	}
 }

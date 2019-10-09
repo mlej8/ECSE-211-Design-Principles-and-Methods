@@ -18,8 +18,8 @@ public class SensorPoller implements Runnable {
       
     public SensorPoller() {
         usData = new float[usSensor.sampleSize()]; // create an array of float of size corresponding to the number of
-                                                    // elements in a sample. The number of elements does not change
-        lightData = new float[lightSensor.sampleSize()];                                         // during
+                                                    // elements in a sample. The number of elements does not change.
+        lightData = new float[lightSensor.sampleSize()];                                        
         
         this.mode = Mode.ULTRASONIC;
     }

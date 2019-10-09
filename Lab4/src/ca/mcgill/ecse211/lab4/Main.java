@@ -20,7 +20,7 @@ public class Main {
 		// Running sensorPoller, odometer and display threads.
 		new Thread(sensorPoller).start(); // Running a thread controlling which sensor to fetch from
 		new Thread(odometer).start(); // Running a continuous thread for odometer
-		displayThread.start(); // Running a thread to display current odometer's values
+//		displayThread.start(); // Running a thread to display current odometer's values
 
 		if (buttonChoice == Button.ID_LEFT) {
 			// run Failing edge
@@ -41,13 +41,13 @@ public class Main {
 		LCD.clear();
 
 		LCD.drawString("    Press the       ", 0, 0);
-		LCD.drawString("    Escape Button   ", 0, 1);
+		LCD.drawString("    Right Button    ", 0, 1);
 		LCD.drawString("    to start        ", 0, 2);
 		LCD.drawString("    LightLocalizer  ", 0, 3);
 		LCD.drawString("                    ", 0, 4);
 
 		// Wait for input once completing ultrasonic localization 
-		while (Button.waitForAnyPress() != Button.ID_ESCAPE) {}
+		while (Button.waitForAnyPress() != Button.ID_RIGHT) {}
 
 		// Stop fetching data from ultrasonic sensor and switch to fetch data from light
 		// sensor
