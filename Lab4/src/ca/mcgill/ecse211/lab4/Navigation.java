@@ -56,6 +56,28 @@ public class Navigation implements Runnable {
 
 	}
 	
+	public void findRobotPosition() {
+	       LEFT_MOTOR.resetTachoCount();
+	       RIGHT_MOTOR.resetTachoCount();
+	      
+	       while(!lightLocalizer.getLineTouched()) {
+	          LEFT_MOTOR.setSpeed(MOTOR_SPEED);
+	          RIGHT_MOTOR.setSpeed(MOTOR_SPEED);
+	          LEFT_MOTOR.forward();
+	          RIGHT_MOTOR.forward();
+	       };
+	       stop();
+	       int tachCountLeft= LEFT_MOTOR.getTachoCount();
+	       int tachCountRight= RIGHT_MOTOR.getTachoCount();
+	       
+	       //Go Back to starting position
+	       LEFT_MOTOR.rotate(-tachCountLeft,true);
+	       RIGHT_MOTOR.rotate(-tachCountRight,true);
+	       
+	       double distToGridLine=Math.PI * WHEEL_RAD * (tachCountLeft) / 180-DIST_CENTRE_TO_LIGHT_SENSOR;
+	       odometer.setY(TILE_SIZE-distToGridLine);
+	       odometer.setX(TILE_SIZE-distToGridLine);
+	   }
 	/**
 	 * Method that completely stops the robot from moving. 
 	 */

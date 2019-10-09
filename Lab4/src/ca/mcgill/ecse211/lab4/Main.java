@@ -29,7 +29,7 @@ public class Main {
 			// run Rising Edge
 			ultrasonicLocalizer.risingEdge();
 		}
-
+		buttonChoice = Button.waitForAnyPress();
 		// Wait for input once completing ultrasonic localization before navigating to the origin (1,1)
 		while (buttonChoice != Button.ID_RIGHT) {
 			
@@ -45,10 +45,13 @@ public class Main {
             buttonChoice = Button.waitForAnyPress();
         }
 		
+		
         // Stop fetching data from ultrasonic sensor
         sensorPoller.setMode(Mode.PAUSE);
+        sensorPoller.setMode(Mode.LIGHT);
         
         // Navigate to origin (1,1)
+        navigator.findRobotPosition();
         Thread nav = new Thread(navigator);
         nav.start();
         

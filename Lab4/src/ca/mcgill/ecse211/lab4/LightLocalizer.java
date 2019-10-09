@@ -3,12 +3,13 @@ import static ca.mcgill.ecse211.lab4.Resources.*;
 import lejos.hardware.Sound;
 
 public class LightLocalizer {
-  private static final int MINIMUM_NONBLACK_INTENSITY = 25; //BlackLine at 21,20
+  private static final int MINIMUM_NONBLACK_INTENSITY = 20; //BlackLine at 21,20
   private static final double INTENSITY_RATIO = 1.3;
   private double[] intersectionDegrees=new double[5];
   private int lineCount=0;
   private boolean lineTouched=false;
   private double lastIntensity=-1;
+  private boolean localizerStarted=false;
     
     /**
      * This method controls how the robot moves when using the light sensor. The robot would turn around for 360 
@@ -20,12 +21,22 @@ public class LightLocalizer {
       RIGHT_MOTOR.setSpeed(ROTATE_SPEED);
       LEFT_MOTOR.rotate(Converter.convertAngle(360), true);
       RIGHT_MOTOR.rotate(-Converter.convertAngle(360), false);
-      
+      LEFT_MOTOR.setSpeed(0);
+      RIGHT_MOTOR.setSpeed(0);
       adjustOdometer(intersectionDegrees);
     }
     
+    public void reOrient() {
+      if (odometer.getXYT()[2] > 180) {
+        navigator.rotateRight(360 - odometer.getXYT()[2]); //Turn right
+    } else {
+      navigator.rotateLeft(0 - odometer.getXYT()[2]); //Turn Left
+    }
+      
+    }
     public void processData(int curIntensity){
       // Trigger correction when a black line is detected
+      System.out.println("Current Intensity is: "+curIntensity);
       if (curIntensity < MINIMUM_NONBLACK_INTENSITY) {
         lineTouched = true;
         Sound.beep();
@@ -37,7 +48,7 @@ public class LightLocalizer {
       }
       lastIntensity=curIntensity;
       
-      if(lineTouched) {
+      if(lineTouched&&localizerStarted) {
         intersectionDegrees[lineCount]=odometer.getXYT()[2];
         System.out.println(odometer.getXYT()[2]);
         lineCount++;
@@ -51,7 +62,7 @@ public class LightLocalizer {
      */
     private void adjustOdometer(double[] intersectionDegrees) {
         //Calculate and adjust theta
-        double deltaTheta = -intersectionDegrees[3]+270+(intersectionDegrees[3]-intersectionDegrees[1])/2;
+        double deltaTheta = -intersectionDegrees[3]+276+(intersectionDegrees[3]-intersectionDegrees[1])/2;
           System.out.println("DeltaTheta: " + deltaTheta);
         double adjustedTheta = odometer.getXYT()[2]+deltaTheta;
         if (adjustedTheta > 360)
@@ -63,12 +74,13 @@ public class LightLocalizer {
         //Calculate delta x and delta y.
         double angle_posXToNegX = intersectionDegrees[2] - intersectionDegrees[0];
         double angle_negYToPosY = intersectionDegrees[3] - intersectionDegrees[1];
+        System.out.println("angle_posXToNegX: "+angle_posXToNegX+"angle_negYToPosY: "+angle_negYToPosY);
         double[] deltaXY = new double[2];
-        deltaXY[1] = Math.cos(normalizeTheta(angle_posXToNegX)/2.0)*DIST_CENTRE_TO_LIGHT_SENSOR;
-        deltaXY[0] = Math.cos(normalizeTheta(angle_negYToPosY)/2.0)*DIST_CENTRE_TO_LIGHT_SENSOR;
+        deltaXY[1] = Math.cos(Math.toRadians(normalizeTheta(angle_posXToNegX)/2.0))*DIST_CENTRE_TO_LIGHT_SENSOR;
+        deltaXY[0] = Math.cos(Math.toRadians(normalizeTheta(angle_negYToPosY)/2.0))*DIST_CENTRE_TO_LIGHT_SENSOR;
         //Find quadrant
         int quadrant = findQuadrant(angle_posXToNegX, angle_negYToPosY);
-          System.out.println("The robot's quadrant is: "+quadrant);
+          System.out.println("The robot's quadrant is: "+quadrant+" deltaX: "+deltaXY[0]+" deltaY: "+deltaXY[1]);
         switch (quadrant) {
           case 1:
             odometer.setX(TILE_SIZE+deltaXY[0]);
@@ -125,9 +137,21 @@ public class LightLocalizer {
      */
     private double normalizeTheta(double angle) {       //Based on cos property it may not be necessary
       if (angle < 0)
-        angle = -angle;
+        return -angle;
       if (angle >180)
-        angle = 360 - angle;
-      return Math.toRadians(angle);
+        return 360 - angle;
+      return angle;
+    }
+    
+    public boolean getLineTouched() {
+        return this.lineTouched;
+    }
+    
+    public void setLineTouched(boolean lineTouched) {
+        this.lineTouched=lineTouched;
+    }
+    
+    public void setlocalizerStarted(boolean input) {
+        this.localizerStarted=input;
     }
 }
