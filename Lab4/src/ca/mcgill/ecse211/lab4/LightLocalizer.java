@@ -3,17 +3,43 @@ package ca.mcgill.ecse211.lab4;
 import static ca.mcgill.ecse211.lab4.Resources.*;
 import lejos.hardware.Sound;
 
+/**
+ * This class contains methods needed for light sensor localization. These methods guide the robot to waypoint
+ * (1,1) more precisely after ultrasonic sensor has been used. The robot will drive around in a circle for 360
+ * degrees and detect four black lines in the process. The Theta reading when these lines are touched are stored
+ * into an array. Then error in X, Y, Theta odometer readings are adjusted by calculated values. Finally, the robot
+ * navigates to (1,1) again in main class and the main class should use reOrient() method to orient itself towards
+ * 0 degree axis.
+ */
 public class LightLocalizer {
-	private static final int MINIMUM_NONBLACK_INTENSITY = 20; // BlackLine at 21,20
+    /**
+     * Lower bound for non-black line intensity. When intensity falls below this value, black lines are met.
+     */
+	private static final int MINIMUM_NONBLACK_INTENSITY = 20; 
+	
+	/**
+	 * Maximum ratio for last intensity compared to current intensity when there is no black line. 
+	 */
 	private static final double INTENSITY_RATIO = 1.3;
-	private double[] intersectionDegrees = new double[5];
+	
+	// An array to store theta readings when light sensor intersects 4 black line, X-negative, Y-positive, X-
+	// positive, Y-negative, listed in intersection time order
+	private double[] intersectionDegrees = new double[4];
+	
+	// Index for tracing black lines already intersected by robot up to now
 	private int lineCount = 0;
+	
+	// A boolean to specify if black line is touched
 	private boolean lineTouched = false;
+	
+	// Initial lastIntensity
 	private double lastIntensity = -1;
+	
+	// A boolean to specify if light localization has started
 	private boolean localizerStarted = false;
 
 	/**
-	 * This method controls how the robot moves when using the light sensor. The
+	 * This method controls how the robot moves when using the light sensor to localize. The
 	 * robot would turn around for 360 degrees and then stop. After that, it will
 	 * adjust the odometer readings based on theta reading when black lines are met.
 	 */
@@ -30,7 +56,7 @@ public class LightLocalizer {
 		// Stop motor 
 		navigator.stop();
 		
-		// Adjust to origin
+		// Adjust odometer reading
 		adjustOdometer(intersectionDegrees);
 	}
 
@@ -46,9 +72,14 @@ public class LightLocalizer {
 		}
 	}
 
+	/**
+	 * Process data fetched from light sensor. The boolean lineTouched is set either true or false based on
+	 * current intensity. And if the boolean localizerStarted is true, the theta reading will be stored into
+	 * intersectionDegrees.
+	 * @param curIntensity
+	 */
 	public void processData(int curIntensity) {
 		// Trigger correction when a black line is detected
-		System.out.println("Current Intensity is: " + curIntensity);
 		if (curIntensity < MINIMUM_NONBLACK_INTENSITY) {
 			lineTouched = true;
 			Sound.beep();
@@ -60,7 +91,8 @@ public class LightLocalizer {
 		}
 
 		lastIntensity = curIntensity;
-
+		
+		// Store data into intersectionDegrees array
 		if (lineTouched && localizerStarted) {
 			intersectionDegrees[lineCount] = odometer.getXYT()[2];
 			lineCount++;
@@ -79,7 +111,6 @@ public class LightLocalizer {
 	private void adjustOdometer(double[] intersectionDegrees) {
 		// Calculate and adjust theta
 		double deltaTheta = -intersectionDegrees[3] + 276 + (intersectionDegrees[3] - intersectionDegrees[1]) / 2;
-		System.out.println("DeltaTheta: " + deltaTheta);
 		double adjustedTheta = odometer.getXYT()[2] + deltaTheta;
 		if (adjustedTheta > 360)
 			adjustedTheta -= 360;
@@ -90,14 +121,14 @@ public class LightLocalizer {
 		// Calculate delta x and delta y.
 		double angle_posXToNegX = intersectionDegrees[2] - intersectionDegrees[0];
 		double angle_negYToPosY = intersectionDegrees[3] - intersectionDegrees[1];
-		System.out.println("angle_posXToNegX: " + angle_posXToNegX + "angle_negYToPosY: " + angle_negYToPosY);
 		double[] deltaXY = new double[2];
 		deltaXY[1] = Math.cos(Math.toRadians(normalizeTheta(angle_posXToNegX) / 2.0)) * DIST_CENTRE_TO_LIGHT_SENSOR;
 		deltaXY[0] = Math.cos(Math.toRadians(normalizeTheta(angle_negYToPosY) / 2.0)) * DIST_CENTRE_TO_LIGHT_SENSOR;
+		
 		// Find quadrant
 		int quadrant = findQuadrant(angle_posXToNegX, angle_negYToPosY);
-		System.out
-				.println("The robot's quadrant is: " + quadrant + " deltaX: " + deltaXY[0] + " deltaY: " + deltaXY[1]);
+		
+		// Adjust X and Y reading based on quadrant
 		switch (quadrant) {
 		case 1:
 			odometer.setX(TILE_SIZE + deltaXY[0]);
@@ -123,13 +154,13 @@ public class LightLocalizer {
 	 * 
 	 * @param angleX
 	 * @param angleY
-	 * @return
+	 * @return the quadrant where the robot is in, quadrant is represented in terms of int number 1, 2, 3, 4
 	 */
 	private int findQuadrant(double angleX, double angleY) {
-		// Wheel Center in 4th quadrant
+		// Wheel Center in 1st quadrant
 		if (!isWithin180Degrees(angleX) && !isWithin180Degrees(angleY))
 			return 1;
-		// Wheel Center in 2rd quadrant
+		// Wheel Center in 2nd quadrant
 		if (isWithin180Degrees(angleX) && !isWithin180Degrees(angleY))
 			return 2;
 		// Wheel Center in 3rd quadrant
@@ -141,10 +172,10 @@ public class LightLocalizer {
 
 	/**
 	 * Determine if an angle is within the range 0~180, important for finding out
-	 * which quardrant robot is in.
+	 * which quadrant robot is in.
 	 * 
 	 * @param angle
-	 * @return
+	 * @return a boolean true if an angle is within 180 degrees, false otherwise
 	 */
 	private boolean isWithin180Degrees(double angle) {
 		return (angle >= 0 && angle <= 180);
@@ -155,7 +186,7 @@ public class LightLocalizer {
 	 * range 0~180.
 	 * 
 	 * @param angle
-	 * @return
+	 * @return a normalized angle
 	 */
 	private double normalizeTheta(double angle) { // Based on cos property it may not be necessary
 		if (angle < 0)
@@ -164,15 +195,22 @@ public class LightLocalizer {
 			return 360 - angle;
 		return angle;
 	}
-
+	
+	/**
+	 * Getter method for boolean lineTouched.
+	 * 
+	 * @return value of boolean lineTouched
+	 */
 	public boolean getLineTouched() {
 		return this.lineTouched;
 	}
+	
 
-	public void setLineTouched(boolean lineTouched) {
-		this.lineTouched = lineTouched;
-	}
-
+	/**
+	 * Setter method for boolean localizerStarted.
+	 * 
+	 * @param input
+	 */
 	public void setlocalizerStarted(boolean input) {
 		this.localizerStarted = input;
 	}
