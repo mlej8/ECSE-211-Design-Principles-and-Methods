@@ -27,10 +27,8 @@ public class Converter {
 	 * 
 	 * @param angle
 	 * @return the wheel rotations necessary to rotate the robot by the angle
-	 */
-	
+	 */	
 	public static int convertAngle(double angle) {
 		return convertDistance(Math.PI * TRACK * angle / 360.0);
-	}
-	
+	}	
 }

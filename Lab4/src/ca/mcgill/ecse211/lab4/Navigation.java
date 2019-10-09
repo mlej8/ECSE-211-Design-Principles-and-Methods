@@ -58,6 +58,7 @@ public class Navigation{
 	 * 
 	 */
 	public void findRobotPosition() {
+		
 		LEFT_MOTOR.setSpeed(MOTOR_SPEED);
 		RIGHT_MOTOR.setSpeed(MOTOR_SPEED);
 
@@ -69,8 +70,11 @@ public class Navigation{
 			LEFT_MOTOR.forward();
 			RIGHT_MOTOR.forward();
 		}		
+		
+		// Stop robot once it detects the black line
 		stop();
 		
+		// Note the distance it traveled		
 		int tachCountLeft = LEFT_MOTOR.getTachoCount();
 		int tachCountRight = RIGHT_MOTOR.getTachoCount();
 
@@ -78,16 +82,13 @@ public class Navigation{
 		LEFT_MOTOR.rotate(-tachCountLeft, true);
 		RIGHT_MOTOR.rotate(-tachCountRight, false);
 
+		// 
 		double distToGridLine = Math.PI * WHEEL_RAD * (tachCountLeft) / 180 - DIST_CENTRE_TO_LIGHT_SENSOR;
-		
-		System.out.println("Distance from TILE_SIZE"+ distToGridLine);
 		
 		// Assuming the robot is on the diagonalize line of the tile, the horizontal distance is equal to the vertical distance
 		odometer.setX(TILE_SIZE - distToGridLine);
 		odometer.setY(TILE_SIZE - distToGridLine);
 		lightLocalizer.setlocalizerStarted(true);
-		
-		System.out.println("FindRobotPosition FINISHED");
 	}
 
 	/**
