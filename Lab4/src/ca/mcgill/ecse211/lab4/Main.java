@@ -7,7 +7,7 @@ import ca.mcgill.ecse211.lab4.SensorPoller.Mode;
 import lejos.hardware.Button;
 
 /**
- * The main driver class for the navigation and obstacleAvoidance lab.
+ * The main class controlling the flow of the application.
  */
 public class Main {
 
@@ -46,10 +46,8 @@ public class Main {
 		LCD.drawString("    LightLocalizer  ", 0, 3);
 		LCD.drawString("                    ", 0, 4);
 
-		// Wait for input once completing ultrasonic localization before navigating to
-		// the origin (1,1)
-		while (Button.waitForAnyPress() != Button.ID_ESCAPE) {
-		}
+		// Wait for input once completing ultrasonic localization 
+		while (Button.waitForAnyPress() != Button.ID_ESCAPE) {}
 
 		// Stop fetching data from ultrasonic sensor and switch to fetch data from light
 		// sensor
@@ -64,8 +62,10 @@ public class Main {
 		// Execute light sensor localization
 		lightLocalizer.localize();
 
+		// Navigator to origin (1,1) after light localization
 		navigator.travelToOrigin();
 
+		// Orient back to 0 degree w.r.t. the Y-axis after correction
 		lightLocalizer.reOrient();
 
 		// Do nothing until exit button is pressed, then exit.

@@ -39,6 +39,9 @@ public class Navigation{
 		return navigator;
 	}
 
+	/**
+	 * Method that travels to the origin (1,1).
+	 */
 	public void travelToOrigin() {
 		
 		while (Math.abs(this.destX - odometer.getXYT()[0]) > ERROR_MARGIN
@@ -55,9 +58,10 @@ public class Navigation{
 	}
 
 	/**
-	 * Find current robot position after ultrasonic localization
+	 * Find current robot position after ultrasonic localization by detecting the grid lines assuming the robot is currently on the diagonal line (45 degrees) of a tile.
 	 */
 	public void findRobotPosition() {
+		
 		// Set robot speeds
 		LEFT_MOTOR.setSpeed(MOTOR_SPEED);
 		RIGHT_MOTOR.setSpeed(MOTOR_SPEED);
@@ -93,7 +97,7 @@ public class Navigation{
 	}
 
 	/**
-	 * Method that completely stops the robot from moving.
+	 * Method that stops the robot completely.
 	 */
 	public void stop() {
 		LEFT_MOTOR.stop(true);

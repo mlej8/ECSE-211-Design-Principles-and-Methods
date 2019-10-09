@@ -10,6 +10,7 @@ import static ca.mcgill.ecse211.lab4.Resources.WHEEL_RAD;
  * @author Michael Li
  */
 public class Converter {
+	
 	/**
 	 * Converts input distance to the total rotation of each wheel needed to cover
 	 * that distance.
