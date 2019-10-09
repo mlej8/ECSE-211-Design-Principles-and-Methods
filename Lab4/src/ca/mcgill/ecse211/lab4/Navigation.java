@@ -55,13 +55,14 @@ public class Navigation{
 	}
 
 	/**
-	 * 
+	 * Find current robot position after ultrasonic localization
 	 */
 	public void findRobotPosition() {
-		
+		// Set robot speeds
 		LEFT_MOTOR.setSpeed(MOTOR_SPEED);
 		RIGHT_MOTOR.setSpeed(MOTOR_SPEED);
 
+		// Reset tacho counts
 		LEFT_MOTOR.resetTachoCount();	
 		RIGHT_MOTOR.resetTachoCount();
 
@@ -82,7 +83,7 @@ public class Navigation{
 		LEFT_MOTOR.rotate(-tachCountLeft, true);
 		RIGHT_MOTOR.rotate(-tachCountRight, false);
 
-		// 
+		// Position of the center of rotation
 		double distToGridLine = Math.PI * WHEEL_RAD * (tachCountLeft) / 180 - DIST_CENTRE_TO_LIGHT_SENSOR;
 		
 		// Assuming the robot is on the diagonalize line of the tile, the horizontal distance is equal to the vertical distance
