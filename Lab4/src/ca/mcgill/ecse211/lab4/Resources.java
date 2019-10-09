@@ -132,12 +132,12 @@ public class Resources {
 	/**
 	 * d constant for ultrasonic localizer representing the threshold distance from the wall 
 	 */
-	public static double d = 25.0;
+	public static double d = 45.0; // 25.0
 	
 	/**
 	 * Noise margin for ultrasonic localizer. 
 	 */
-	public static final double NOISE_MARGIN = 3.0;
+	public static final double NOISE_MARGIN = 5.0; //3.0
 	
 	/**
 	 * Degree at which to rotate right when executing US sensor localization

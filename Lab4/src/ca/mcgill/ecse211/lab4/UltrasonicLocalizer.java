@@ -37,12 +37,21 @@ public class UltrasonicLocalizer extends UltrasonicController {
 		System.out.println("Current orientation: " + odometer.getXYT()[2]);
 		
 		// Correct odometer's current orientation
-		odometer.setTheta(correctionAngle + odometer.getXYT()[2]);
+		if (correctionAngle + odometer.getXYT()[2] > 0) {
+			odometer.setTheta(correctionAngle + odometer.getXYT()[2]);	
+		} else {
+			// if currentAngle + odometer.getXYT()[2] is negative, rescale it on 360.
+			odometer.setTheta(360 + correctionAngle + odometer.getXYT()[2]); 
+		}
 		
 		System.out.println("Current orientation after correction: " + odometer.getXYT()[2]);
  	
-		// Turn to 0 degrees w.r.t. the Y-axis.
-		navigator.turnTo(360 - odometer.getXYT()[2]);
+		// Turn to 0 degrees w.r.t. the Y-axis using the minimal angle.
+		if (odometer.getXYT()[2] > 180) {
+			navigator.turnTo(360 - odometer.getXYT()[2]);
+		} else {
+			navigator.turnTo(0 - odometer.getXYT()[2]);
+		}
 		System.out.println("Final Angle: " + odometer.getXYT()[2]);
 	}
 	
@@ -50,10 +59,13 @@ public class UltrasonicLocalizer extends UltrasonicController {
 	 * Method that orients the robot by detecting rising edges
 	 */
 	public void risingEdge() {
-
+		
+		// Filter out noisy data at US sensor initialization
+		while(this.distance == 0 ) {}
+		
 		// rising edge is the point at which the measured distances rises above d +
 		// NOISE_MARGIN
-		double backWall, leftWall, correctionAngle;
+		double backWall, leftWall, correctionAngle;		
 
 		backWall = findRisingEdgeA();
 		leftWall = findRisingEdgeB();
@@ -61,21 +73,27 @@ public class UltrasonicLocalizer extends UltrasonicController {
 		// Get the angle to be added to the heading reported by the odometer to orient
 		// the robot correctly
 		correctionAngle = getCorrectionAngle(backWall, leftWall);
+
+		System.out.println("Correction angle: " + correctionAngle);
+		System.out.println("Current orientation: " + odometer.getXYT()[2]);
 		
-		// Correct current odometer's orientation
-		odometer.setTheta(odometer.getXYT()[2] + correctionAngle);
-		
-		System.out.println("Current Angle");
-		
+		// Correct current odometer's orientation	
+		if (correctionAngle + odometer.getXYT()[2] > 0) {
+			odometer.setTheta(correctionAngle + odometer.getXYT()[2]);	
+		} else {
+			// if currentAngle + odometer.getXYT()[2] is negative, rescale it on 360.
+			odometer.setTheta(360 + correctionAngle + odometer.getXYT()[2]); 
+		}
+
+		System.out.println("Current orientation after correction: " + odometer.getXYT()[2]);
+		// Turn to 0 degrees w.r.t. the Y-axis using the minimal angle.		
 		if (odometer.getXYT()[2] > 180) {
 			navigator.turnTo(360 - odometer.getXYT()[2]);
 		} else {
 			navigator.turnTo(0 - odometer.getXYT()[2]);
 		}
-
-		// Rotate to correct the orientation
-//		navigator.turnTo(correctionAngle);
-
+	
+	System.out.println("Final Angle: " + odometer.getXYT()[2]);
 	}
 
 
@@ -94,6 +112,7 @@ public class UltrasonicLocalizer extends UltrasonicController {
 		while (readUSDistance() < d + NOISE_MARGIN) {
 			navigator.rotateLeft(ROTATION_LEFT);
 		}
+		navigator.stop();
 
 		// Turn right until the robot enters noise margin for the back wall.
 		while (readUSDistance() > d + NOISE_MARGIN) {
@@ -141,6 +160,7 @@ public class UltrasonicLocalizer extends UltrasonicController {
 		while (readUSDistance() < d + NOISE_MARGIN) {
 			navigator.rotateLeft(ROTATION_LEFT);
 		}
+		navigator.stop();
 
 		// Turn left until the robot enters noise margin for the left wall.
 		while (readUSDistance() > d + NOISE_MARGIN) {
@@ -190,6 +210,7 @@ public class UltrasonicLocalizer extends UltrasonicController {
 		while (readUSDistance() > d - NOISE_MARGIN) {
 			navigator.rotateRight(ROTATION_RIGHT);
 		}
+		navigator.stop();
 
 		// Turn right left the robot enters noise margin for the back wall.
 		while (readUSDistance() < d - NOISE_MARGIN) {
@@ -205,6 +226,7 @@ public class UltrasonicLocalizer extends UltrasonicController {
 
 		// Store the angle at which the robot enter noise margin.
 		enteredNoiseMargin = odometer.getXYT()[2];
+		System.out.println("Rising Edge A NOISE MARGIN passed");
 
 		// Turn left until the robot detects the rising edge for the back wall.
 		while (readUSDistance() < d + NOISE_MARGIN) {
@@ -219,7 +241,8 @@ public class UltrasonicLocalizer extends UltrasonicController {
 
 		// Store the angle at which the rising edge is detected.
 		risingEdge = odometer.getXYT()[2];
-
+		System.out.println("Rising Edge A passed");
+		
 		return ((risingEdge + enteredNoiseMargin) / 2);
 	}
 
@@ -239,6 +262,7 @@ public class UltrasonicLocalizer extends UltrasonicController {
 			System.out.println(this.distance);
 			navigator.rotateRight(ROTATION_RIGHT);
 		}
+		navigator.stop();
 		
 		// Turn right until the robot enters noise margin for the left wall.
 		while (readUSDistance() < d - NOISE_MARGIN) {
@@ -254,7 +278,8 @@ public class UltrasonicLocalizer extends UltrasonicController {
 
 		// Store the angle at which the robot enter noise margin.
 		enteredNoiseMargin = odometer.getXYT()[2];
-
+System.out.println("SEcond noise margin");
+		
 		// Turn right until the robot detects the rising edge for the left wall.
 		while (readUSDistance() < d + NOISE_MARGIN) {
 			navigator.rotateRight(ROTATION_RIGHT);
@@ -268,6 +293,7 @@ public class UltrasonicLocalizer extends UltrasonicController {
 
 		// Store the angle at which the rising edge is detected.
 		risingEdge = odometer.getXYT()[2];
+		System.out.println("SEcond Rising Edge");
 
 		return ((risingEdge + enteredNoiseMargin) / 2);
 	}
@@ -292,10 +318,10 @@ public class UltrasonicLocalizer extends UltrasonicController {
 	 */
 	public double getCorrectionAngle(double a, double b) {
 		System.out.println("a: " + a + " b: " + b);
-		if (a < b) {
-			return (45 - ((a + b) / 2.0));
+		if (a > b) {
+			return (40.5 - ((a + b) / 2.0));
 		} else {
-			return (222.5 - ((a + b) / 2.0)); // bigger value, smaller turn
+			return (222 - ((a + b) / 2.0)); // bigger value, smaller turn
 		}
 	}
 }

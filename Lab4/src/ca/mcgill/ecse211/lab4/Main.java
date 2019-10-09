@@ -30,8 +30,14 @@ public class Main {
 			ultrasonicLocalizer.risingEdge();
 		}
 
+		// Log odometer once US localization is done
+		System.out.println("Final Orientation: " + odometer.getXYT()[2]);
+		
+		// Assume current orientation is 0 with respect to the Y-axis
+		odometer.setTheta(0);
+		
 		// Wait for input once completing ultrasonic localization before navigating to the origin (1,1)
-		while (buttonChoice != Button.ID_RIGHT) {
+		while (Button.waitForAnyPress() != Button.ID_RIGHT) {
 			
 			// Clear the display
 			LCD.clear();
@@ -41,10 +47,9 @@ public class Main {
           LCD.drawString("   to start       ", 0, 2);
           LCD.drawString("   LightLocalizer ", 0, 3);
           LCD.drawString("                   ", 0, 4);
-
-            buttonChoice = Button.waitForAnyPress();
         }
 		
+		System.out.println("Navigating");
         // Stop fetching data from ultrasonic sensor
         sensorPoller.setMode(Mode.PAUSE);
         
