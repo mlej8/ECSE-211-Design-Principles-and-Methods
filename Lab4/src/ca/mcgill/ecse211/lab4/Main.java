@@ -39,8 +39,8 @@ public class Main {
 		// Wait for input once completing ultrasonic localization before navigating to the origin (1,1)
 		while (Button.waitForAnyPress() != Button.ID_RIGHT) {
 			
-			// Clear the display
-			LCD.clear();
+		  // Clear the display
+		  LCD.clear();
 
           LCD.drawString("   Press the      ", 0, 0);
           LCD.drawString("   Right Button  ", 0, 1);
@@ -50,32 +50,24 @@ public class Main {
         }
 		
         // Stop fetching data from ultrasonic sensor
-        sensorPoller.setMode(Mode.PAUSE);
-        sensorPoller.setMode(Mode.LIGHT);
+		sensorPoller.setMode(Mode.LIGHT);
+        
+        // Find current robot's position
+        navigator.findRobotPosition();       
         
         // Navigate to origin (1,1)
-        navigator.findRobotPosition();
-        Thread nav = new Thread(navigator);
-        nav.start();
-        
-        // Wait till navigation thread is done before executing light sensor localization
-        try {
-            nav.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        
-        // Set the current angle to 0 assuming ultrasonic localization corrected the odometer
+        navigator.travelToOrigin();
         
         // Execute light sensor localization
-        sensorPoller.setMode(Mode.LIGHT);
         lightLocalizer.localize();
-        nav = new Thread(navigator);
-        nav.start();
+        
+        navigator.travelToOrigin();
+        
+        lightLocalizer.reOrient();
         
         // Do nothing until exit button is pressed, then exit.
         while (Button.waitForAnyPress() != Button.ID_ESCAPE)
-            System.exit(0);
+        	System.exit(0);
     }
 
     /**

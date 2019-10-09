@@ -33,6 +33,8 @@ public class Display implements Runnable {
       LCD.drawString("Y: " + numberFormat.format(position[1]), 0, 1);
       LCD.drawString("T: " + numberFormat.format(position[2]), 0, 2);
 
+      System.out.println("X: " + odometer.getXYT()[0] + " Y: " + odometer.getXYT()[1] + " T: " + odometer.getXYT()[2]);
+      
       // This ensures that the data is updated only once every period
       updateEnd = System.currentTimeMillis();
       if (updateEnd - updateStart < DISPLAY_PERIOD) {

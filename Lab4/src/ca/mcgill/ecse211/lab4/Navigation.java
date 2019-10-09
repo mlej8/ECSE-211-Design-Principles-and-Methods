@@ -2,7 +2,7 @@ package ca.mcgill.ecse211.lab4;
 
 import static ca.mcgill.ecse211.lab4.Resources.*;
 
-public class Navigation implements Runnable {
+public class Navigation{
 
 	private static Navigation navigator;
 
@@ -10,7 +10,7 @@ public class Navigation implements Runnable {
 	 * {@code true} when robot is traveling.
 	 */
 	private boolean traveling = false; // false by default
-	
+
 	/**
 	 * Variable destination's x coordinate.
 	 */
@@ -39,13 +39,12 @@ public class Navigation implements Runnable {
 		return navigator;
 	}
 
-	@Override
-	public void run() {
-
+	public void travelToOrigin() {
+		
 		while (Math.abs(this.destX - odometer.getXYT()[0]) > ERROR_MARGIN
 				|| Math.abs(this.destY - odometer.getXYT()[1]) > ERROR_MARGIN) {
 
-			// Naigate to destination
+			// Navigate to origin (1,1)
 			navigator.travelTo(navigator.destX, navigator.destY);
 
 			// Sleep while it is traveling
@@ -53,33 +52,46 @@ public class Navigation implements Runnable {
 				Main.sleepFor(10 * SLEEPINT);
 			}
 		}
-
 	}
-	
-	public void findRobotPosition() {
-	       LEFT_MOTOR.resetTachoCount();
-	       RIGHT_MOTOR.resetTachoCount();
-	      
-	       while(!lightLocalizer.getLineTouched()) {
-	          LEFT_MOTOR.setSpeed(MOTOR_SPEED);
-	          RIGHT_MOTOR.setSpeed(MOTOR_SPEED);
-	          LEFT_MOTOR.forward();
-	          RIGHT_MOTOR.forward();
-	       };
-	       stop();
-	       int tachCountLeft= LEFT_MOTOR.getTachoCount();
-	       int tachCountRight= RIGHT_MOTOR.getTachoCount();
-	       
-	       //Go Back to starting position
-	       LEFT_MOTOR.rotate(-tachCountLeft,true);
-	       RIGHT_MOTOR.rotate(-tachCountRight,true);
-	       
-	       double distToGridLine=Math.PI * WHEEL_RAD * (tachCountLeft) / 180-DIST_CENTRE_TO_LIGHT_SENSOR;
-	       odometer.setY(TILE_SIZE-distToGridLine);
-	       odometer.setX(TILE_SIZE-distToGridLine);
-	   }
+
 	/**
-	 * Method that completely stops the robot from moving. 
+	 * 
+	 */
+	public void findRobotPosition() {
+		LEFT_MOTOR.setSpeed(MOTOR_SPEED);
+		RIGHT_MOTOR.setSpeed(MOTOR_SPEED);
+
+		LEFT_MOTOR.resetTachoCount();	
+		RIGHT_MOTOR.resetTachoCount();
+
+		// Travel forward until a line is detected
+		while (!lightLocalizer.getLineTouched()) {
+			LEFT_MOTOR.forward();
+			RIGHT_MOTOR.forward();
+		}		
+		stop();
+		
+		int tachCountLeft = LEFT_MOTOR.getTachoCount();
+		int tachCountRight = RIGHT_MOTOR.getTachoCount();
+
+		// Go Back to starting position
+		LEFT_MOTOR.rotate(-tachCountLeft, true);
+		RIGHT_MOTOR.rotate(-tachCountRight, false);
+
+		double distToGridLine = Math.PI * WHEEL_RAD * (tachCountLeft) / 180 - DIST_CENTRE_TO_LIGHT_SENSOR;
+		
+		System.out.println("Distance from TILE_SIZE"+ distToGridLine);
+		
+		// Assuming the robot is on the diagonalize line of the tile, the horizontal distance is equal to the vertical distance
+		odometer.setX(TILE_SIZE - distToGridLine);
+		odometer.setY(TILE_SIZE - distToGridLine);
+		lightLocalizer.setlocalizerStarted(true);
+		
+		System.out.println("FindRobotPosition FINISHED");
+	}
+
+	/**
+	 * Method that completely stops the robot from moving.
 	 */
 	public void stop() {
 		LEFT_MOTOR.stop(true);
@@ -143,47 +155,56 @@ public class Navigation implements Runnable {
 	 * theta. This method should turn a MINIMAL angle to its target.
 	 */
 	public void turnTo(double theta) {
-		
+		System.out.println("Angle to turn : " + theta);
+
 		// Set traveling to true when the robot is turning
 		this.traveling = true;
+		
+		// Set motors' speed
+		LEFT_MOTOR.setSpeed(ROTATE_SPEED);
+		RIGHT_MOTOR.setSpeed(ROTATE_SPEED);
 
 		if (theta < 0) {
 			// If angle is negative, turn left
-			rotateLeft(theta);
+			LEFT_MOTOR.rotate(Converter.convertAngle(theta), true);
+			RIGHT_MOTOR.rotate(-Converter.convertAngle(theta), false);
 		} else {
 			// If angle is positive, turn right
-			rotateRight(theta);
+			LEFT_MOTOR.rotate(Converter.convertAngle(theta), true);
+			RIGHT_MOTOR.rotate(-Converter.convertAngle(theta), false);
 		}
 	}
 
 	/**
 	 * Method that turns right.
+	 * 
 	 * @param theta that is a positive value between [0,360]
 	 */
 	public void rotateRight(double theta) {
 		if (theta > 0) {
-		// Set rotate speed
-		LEFT_MOTOR.setSpeed(ROTATE_SPEED);
-		RIGHT_MOTOR.setSpeed(ROTATE_SPEED);
-		LEFT_MOTOR.rotate(Converter.convertAngle(theta), true);
-		RIGHT_MOTOR.rotate(-Converter.convertAngle(theta), true);
+			// Set rotate speed
+			LEFT_MOTOR.setSpeed(ROTATE_SPEED);
+			RIGHT_MOTOR.setSpeed(ROTATE_SPEED);
+			LEFT_MOTOR.rotate(Converter.convertAngle(theta), true);
+			RIGHT_MOTOR.rotate(-Converter.convertAngle(theta), true);
 		}
 	}
-	
+
 	/**
 	 * Method that turns left.
+	 * 
 	 * @param theta that is a negative value between [-0,-360]
 	 */
 	public void rotateLeft(double theta) {
 		if (theta < 0) {
-		// Set rotate speed
-		LEFT_MOTOR.setSpeed(ROTATE_SPEED);
-		RIGHT_MOTOR.setSpeed(ROTATE_SPEED);
-		LEFT_MOTOR.rotate(Converter.convertAngle(theta), true);
-		RIGHT_MOTOR.rotate(-Converter.convertAngle(theta), true);
+			// Set rotate speed
+			LEFT_MOTOR.setSpeed(ROTATE_SPEED);
+			RIGHT_MOTOR.setSpeed(ROTATE_SPEED);
+			LEFT_MOTOR.rotate(Converter.convertAngle(theta), true);
+			RIGHT_MOTOR.rotate(-Converter.convertAngle(theta), true);
 		}
 	}
-	
+
 	/**
 	 * @return destination waypoint's x coordinate.
 	 */

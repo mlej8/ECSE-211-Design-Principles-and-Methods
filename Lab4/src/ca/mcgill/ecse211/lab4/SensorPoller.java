@@ -20,7 +20,7 @@ public class SensorPoller implements Runnable {
     
     public enum Mode 
     { 
-        ULTRASONIC, LIGHT, PAUSE; 
+        ULTRASONIC, LIGHT; 
     } 
       
     public SensorPoller() {

@@ -40,18 +40,20 @@ public class LightLocalizer {
       if (curIntensity < MINIMUM_NONBLACK_INTENSITY) {
         lineTouched = true;
         Sound.beep();
-      } else if (lastIntensity/(double) curIntensity > INTENSITY_RATIO){
+      } else if (lastIntensity/ (double)curIntensity > INTENSITY_RATIO){
         lineTouched = true;
         Sound.beep();
       } else {
         lineTouched = false;
       }
+      
       lastIntensity=curIntensity;
       
-      if(lineTouched&&localizerStarted) {
-        intersectionDegrees[lineCount]=odometer.getXYT()[2];
-        System.out.println(odometer.getXYT()[2]);
+      if (lineTouched && localizerStarted) {
+        intersectionDegrees[lineCount] = odometer.getXYT()[2];
         lineCount++;
+        if (lineCount == 4)
+        	localizerStarted = false;
       }
     }
     
@@ -148,7 +150,7 @@ public class LightLocalizer {
     }
     
     public void setLineTouched(boolean lineTouched) {
-        this.lineTouched=lineTouched;
+        this.lineTouched = lineTouched;
     }
     
     public void setlocalizerStarted(boolean input) {
