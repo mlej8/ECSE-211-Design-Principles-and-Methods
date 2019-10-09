@@ -149,30 +149,39 @@ public class Navigation implements Runnable {
 
 		if (theta < 0) {
 			// If angle is negative, turn left
-			rotateRight(theta);
+			rotateLeft(theta);
 		} else {
 			// If angle is positive, turn right
-			rotateLeft(theta);
+			rotateRight(theta);
 		}
 	}
 
 	/**
-	 * Method that rotates the motor to the right.
+	 * Method that turns right.
+	 * @param theta that is a positive value between [0,360]
 	 */
-	public void rotateRight(double theta) {		
+	public void rotateRight(double theta) {
+		if (theta > 0) {
 		// Set rotate speed
 		LEFT_MOTOR.setSpeed(ROTATE_SPEED);
 		RIGHT_MOTOR.setSpeed(ROTATE_SPEED);
 		LEFT_MOTOR.rotate(Converter.convertAngle(theta), true);
 		RIGHT_MOTOR.rotate(-Converter.convertAngle(theta), true);
+		}
 	}
 	
+	/**
+	 * Method that turns left.
+	 * @param theta that is a negative value between [-0,-360]
+	 */
 	public void rotateLeft(double theta) {
+		if (theta < 0) {
 		// Set rotate speed
 		LEFT_MOTOR.setSpeed(ROTATE_SPEED);
 		RIGHT_MOTOR.setSpeed(ROTATE_SPEED);
 		LEFT_MOTOR.rotate(Converter.convertAngle(theta), true);
 		RIGHT_MOTOR.rotate(-Converter.convertAngle(theta), true);
+		}
 	}
 	
 	/**
