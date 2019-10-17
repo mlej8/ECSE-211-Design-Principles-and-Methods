@@ -31,15 +31,10 @@ public abstract class UltrasonicController {
 	 * @param distance: distance in cm
 	 */
 	void filter(int distance) {
-		if (distance > 255) {
-			this.distance = 255;
-		} else if (distance <= 0 && filterControl < FILTER_OUT) {
-			System.out.println("Filtered");
-			filterControl++;
-		} else if (distance >= 255 && filterControl < FILTER_OUT) {
+		if (distance >= 255 && filterControl < FILTER_OUT) {
 			filterControl++;
 		} else if (distance >= 255) {
-			this.distance = distance;
+			this.distance = 255;
 		} else {
 			filterControl = 0;
 			this.distance = distance;

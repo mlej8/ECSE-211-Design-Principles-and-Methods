@@ -98,12 +98,12 @@ public class UltrasonicLocalizer extends UltrasonicController {
 		// Rotate counter clockwise until the robot is out of the noise margin zone to
 		// not be facing the wall
 		while (readUSDistance() < d + NOISE_MARGIN) {
-			navigator.rotateLeft(ROTATION_LEFT);
+			navigator.rotate(ROTATION_LEFT);
 		}
 
 		// Turn right until the robot enters noise margin for the back wall.
 		while (readUSDistance() > d + NOISE_MARGIN) {
-			navigator.rotateRight(ROTATION_RIGHT);
+			navigator.rotate(ROTATION_RIGHT);
 		}
 
 		// Stop robot when it enters noise margin
@@ -117,7 +117,7 @@ public class UltrasonicLocalizer extends UltrasonicController {
 
 		// Turn right until the robot detects the falling edge for the back wall.
 		while (readUSDistance() > d - NOISE_MARGIN) {
-			navigator.rotateRight(ROTATION_RIGHT);
+			navigator.rotate(ROTATION_RIGHT);
 		}
 
 		// Stop robot when it detects the falling edge.
@@ -145,12 +145,12 @@ public class UltrasonicLocalizer extends UltrasonicController {
 
 		// Rotate counterclockwise to get out of noise margin.
 		while (readUSDistance() < d + NOISE_MARGIN) {
-			navigator.rotateLeft(ROTATION_LEFT);
+			navigator.rotate(ROTATION_LEFT);
 		}
 
 		// Turn left until the robot enters noise margin for the left wall.
 		while (readUSDistance() > d + NOISE_MARGIN) {
-			navigator.rotateLeft(ROTATION_LEFT);
+			navigator.rotate(ROTATION_LEFT);
 		}
 
 		// Stop robot when it enters noise margin
@@ -164,7 +164,7 @@ public class UltrasonicLocalizer extends UltrasonicController {
 
 		// Turn left until the falling edge is detected for the left wall.
 		while (readUSDistance() > d - NOISE_MARGIN) {
-			navigator.rotateLeft(ROTATION_LEFT);
+			navigator.rotate(ROTATION_LEFT);
 		}
 
 		// Stop robot when it detects the falling edge.
@@ -192,12 +192,12 @@ public class UltrasonicLocalizer extends UltrasonicController {
 
 		// Turn right until the robot is facing the wall
 		while (readUSDistance() > d - NOISE_MARGIN) {
-			navigator.rotateRight(ROTATION_RIGHT);
+			navigator.rotate(ROTATION_RIGHT);
 		}
 
 		// Turn right left the robot enters noise margin for the back wall.
 		while (readUSDistance() < d - NOISE_MARGIN) {
-			navigator.rotateLeft(ROTATION_LEFT);
+			navigator.rotate(ROTATION_LEFT);
 		}
 
 		// Stop robot when it enters noise margin
@@ -211,7 +211,7 @@ public class UltrasonicLocalizer extends UltrasonicController {
 
 		// Turn left until the robot detects the rising edge for the back wall.
 		while (readUSDistance() < d + NOISE_MARGIN) {
-			navigator.rotateLeft(ROTATION_LEFT);
+			navigator.rotate(ROTATION_LEFT);
 		}
 
 		// Stop robot when it detects the rising edge.
@@ -240,13 +240,13 @@ public class UltrasonicLocalizer extends UltrasonicController {
 		// Turn right until the robot is under distance + NOISE_MARGIN of the back wall
 		while (readUSDistance() > d - NOISE_MARGIN) {
 			System.out.println(this.distance);
-			navigator.rotateRight(ROTATION_RIGHT);
+			navigator.rotate(ROTATION_RIGHT);
 		}
 
 		// Turn right until the robot enters noise margin for the left wall.
 		while (readUSDistance() < d - NOISE_MARGIN) {
 			System.out.println(this.distance);
-			navigator.rotateRight(ROTATION_RIGHT);
+			navigator.rotate(ROTATION_RIGHT);
 		}
 
 		// Stop robot when it enters noise margin
@@ -260,7 +260,7 @@ public class UltrasonicLocalizer extends UltrasonicController {
 
 		// Turn right until the robot detects the rising edge for the left wall.
 		while (readUSDistance() < d + NOISE_MARGIN) {
-			navigator.rotateRight(ROTATION_RIGHT);
+			navigator.rotate(ROTATION_RIGHT);
 		}
 
 		// Stop robot when it detects the rising edge.
@@ -294,7 +294,6 @@ public class UltrasonicLocalizer extends UltrasonicController {
 	 * @return
 	 */
 	public double getCorrectionAngle(double a, double b) {
-		System.out.println("a: " + a + " b: " + b);
 		if (a > b) {
 			return (40.75 - ((a + b) / 2.0));
 		} else {

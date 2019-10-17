@@ -14,13 +14,19 @@ public class Navigation {
 	/**
 	 * Variable destination's x coordinate.
 	 */
-	private double destX = 1 * TILE_SIZE; // set default destination to (1,1)
+	private double destX;
 
 	/**
 	 * Variable destination's y coordinate.
 	 */
-	private double destY = 1 * TILE_SIZE; // set default destination to (1,1)
+	private double destY;
 
+	/**
+	 * Origin (1,1) coordinates.
+	 */
+	private static double originX = 1 * TILE_SIZE;
+	private static double originY = 1 * TILE_SIZE;
+	
 	/**
 	 * Navigation class implements the singleton pattern
 	 */
@@ -43,43 +49,41 @@ public class Navigation {
 	 * Method that travels to the origin (1,1).
 	 */
 	public void travelToOrigin() {
-		
-		while (Math.abs(this.destX - odometer.getXYT()[0]) > ERROR_MARGIN
-				|| Math.abs(this.destY - odometer.getXYT()[1]) > ERROR_MARGIN) {
 
 			// Navigate to origin (1,1)
-			navigator.travelTo(navigator.destX, navigator.destY);
+			navigator.travelTo(originX, originY);
 
 			// Sleep while it is traveling
 			while (navigator.isNavigating()) {
 				Main.sleepFor(10 * SLEEPINT);
 			}
-		}
 	}
 
 	/**
-	 * Find current robot position after ultrasonic localization by detecting the grid lines assuming the robot is currently on the diagonal line (45 degrees) of a tile.
+	 * Find current robot position after ultrasonic localization by detecting the
+	 * grid lines assuming the robot is currently on the diagonal line (45 degrees)
+	 * of a tile.
 	 */
 	public void findRobotPosition() {
-		
+
 		// Set robot speeds
 		LEFT_MOTOR.setSpeed(MOTOR_SPEED);
 		RIGHT_MOTOR.setSpeed(MOTOR_SPEED);
 
 		// Reset tacho counts
-		LEFT_MOTOR.resetTachoCount();	
+		LEFT_MOTOR.resetTachoCount();
 		RIGHT_MOTOR.resetTachoCount();
 
 		// Travel forward until a line is detected
 		while (!lightLocalizer.getLineTouched()) {
 			LEFT_MOTOR.forward();
 			RIGHT_MOTOR.forward();
-		}		
-		
+		}
+
 		// Stop robot once it detects the black line
 		stop();
-		
-		// Note the distance it traveled		
+
+		// Note the distance it traveled
 		int tachCountLeft = LEFT_MOTOR.getTachoCount();
 		int tachCountRight = RIGHT_MOTOR.getTachoCount();
 
@@ -89,8 +93,9 @@ public class Navigation {
 
 		// Position of the center of rotation
 		double distToGridLine = Math.PI * WHEEL_RAD * (tachCountLeft) / 180 - DIST_CENTRE_TO_LIGHT_SENSOR;
-		
-		// Assuming the robot is on the diagonalize line of the tile, the horizontal distance is equal to the vertical distance
+
+		// Assuming the robot is on the diagonalize line of the tile, the horizontal
+		// distance is equal to the vertical distance
 		odometer.setX(TILE_SIZE - distToGridLine);
 		odometer.setY(TILE_SIZE - distToGridLine);
 		lightLocalizer.setlocalizerStarted(true);
@@ -126,14 +131,6 @@ public class Navigation {
 		// order to compute angle w.r.t. the y-axis and not w.r.t. the x-axis
 		double theta = Math.toDegrees(Math.atan2(dx, dy)) - odometer.getXYT()[2];
 
-		// If theta is bigger than 180 or smaller than -180, set it to smallest minimal
-		// turning angle
-		if (theta > 180.0) {
-			theta = 360.0 - theta;
-		} else if (theta < -180.0) {
-			theta = 360.0 + theta;
-		}
-
 		// Turn to the correct angle
 		turnTo(theta);
 
@@ -158,57 +155,40 @@ public class Navigation {
 
 	/**
 	 * This method causes the robot to turn (on point) to the absolute heading
-	 * theta. This method should turn a MINIMAL angle to its target.
+	 * theta. This method should turn using the MINIMAL angle to its target.
 	 */
 	public void turnTo(double theta) {
-		System.out.println("Angle to turn : " + theta);
 
 		// Set traveling to true when the robot is turning
 		this.traveling = true;
 		
+		// If theta is bigger than 180 or smaller than -180, set it to smallest minimal
+		// turning angle
+		if (theta > 180.0) {
+			theta = 360.0 - theta;
+		} else if (theta < -180.0) {
+			theta = 360.0 + theta;
+		}
+
 		// Set motors' speed
 		LEFT_MOTOR.setSpeed(ROTATE_SPEED);
 		RIGHT_MOTOR.setSpeed(ROTATE_SPEED);
-
-		if (theta < 0) {
-			// If angle is negative, turn left
-			LEFT_MOTOR.rotate(Converter.convertAngle(theta), true);
-			RIGHT_MOTOR.rotate(-Converter.convertAngle(theta), false);
-		} else {
-			// If angle is positive, turn right
-			LEFT_MOTOR.rotate(Converter.convertAngle(theta), true);
-			RIGHT_MOTOR.rotate(-Converter.convertAngle(theta), false);
-		}
+		LEFT_MOTOR.rotate(Converter.convertAngle(theta), true);
+		RIGHT_MOTOR.rotate(-Converter.convertAngle(theta), false);
 	}
 
 	/**
-	 * Method that turns right.
+	 * Method that rotates continuously (without waiting for the move to complete)
+	 * according to the input theta.
 	 * 
-	 * @param theta that is a positive value between [0,360]
+	 * @param theta that is the angle at which the robot needs to turn
 	 */
-	public void rotateRight(double theta) {
-		if (theta > 0) {
-			// Set rotate speed
-			LEFT_MOTOR.setSpeed(ROTATE_SPEED);
-			RIGHT_MOTOR.setSpeed(ROTATE_SPEED);
-			LEFT_MOTOR.rotate(Converter.convertAngle(theta), true);
-			RIGHT_MOTOR.rotate(-Converter.convertAngle(theta), true);
-		}
-	}
-
-	/**
-	 * Method that turns left.
-	 * 
-	 * @param theta that is a negative value between [-0,-360]
-	 */
-	public void rotateLeft(double theta) {
-		if (theta < 0) {
-			// Set rotate speed
-			LEFT_MOTOR.setSpeed(ROTATE_SPEED);
-			RIGHT_MOTOR.setSpeed(ROTATE_SPEED);
-			LEFT_MOTOR.rotate(Converter.convertAngle(theta), true);
-			RIGHT_MOTOR.rotate(-Converter.convertAngle(theta), true);
-		}
+	public void rotate(double theta) {
+		// Set rotate speed
+		LEFT_MOTOR.setSpeed(ROTATE_SPEED);
+		RIGHT_MOTOR.setSpeed(ROTATE_SPEED);
+		LEFT_MOTOR.rotate(Converter.convertAngle(theta), true);
+		RIGHT_MOTOR.rotate(-Converter.convertAngle(theta), true);
 	}
 
 	/**

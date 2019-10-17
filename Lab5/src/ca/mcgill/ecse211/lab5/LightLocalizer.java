@@ -64,11 +64,11 @@ public class LightLocalizer {
 	 * At the end of light localization, orient robot back to 0 degrees w.r.t the
 	 * Y-axis.
 	 */
-	public void reOrient() {
+	public void orientTo0() {
 		if (odometer.getXYT()[2] > 180) {
-			navigator.rotateRight(360 - odometer.getXYT()[2]); // Turn right
+			navigator.rotate(360 - odometer.getXYT()[2]); // Turn right
 		} else {
-			navigator.rotateLeft(0 - odometer.getXYT()[2]); // Turn Left
+			navigator.rotate(0 - odometer.getXYT()[2]); // Turn Left
 		}
 	}
 
