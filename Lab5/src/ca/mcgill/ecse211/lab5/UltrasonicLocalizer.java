@@ -1,11 +1,11 @@
-package ca.mcgill.ecse211.lab4;
+package ca.mcgill.ecse211.lab5;
 
-import static ca.mcgill.ecse211.lab4.Resources.*;
+import static ca.mcgill.ecse211.lab5.Resources.*;
 
 import lejos.hardware.Sound;
 
 /**
- * Class that uses the ultrasonic sensor to orient itself assuming the robot
+ * Class that uses the ultrasonic sensor to localize itself assuming the robot
  * will start with its center of rotation in the bottom left tile of the field.
  * Its initial orientation (heading) is assumed to be unknown. Angles will be
  * measured clockwise w.r.t. the positive y-axis. Use the ultrasonic sensor to
