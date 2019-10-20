@@ -13,7 +13,7 @@ public class SensorPoller implements Runnable {
     
     public enum Mode 
     { 
-        ULTRASONIC, LIGHT; 
+        ULTRASONIC, LIGHT, PAUSE; 
     } 
       
     public SensorPoller() {
@@ -39,13 +39,14 @@ public class SensorPoller implements Runnable {
                                                                 // usData (an array of float)
             ultrasonicLocalizer.processUSData((int) (usData[0] * 100.0)); // extract from buffer (region of a physical
                                                                           // memory storage used to
-                                                                          // temporarily store data while it is being moved from one place to
+               Main.sleepFor(SLEEPINT);                                                           // temporarily store data while it is being moved from one place to
                                                                           // another), convert to cm, cast to int
             }else if(mode==Mode.LIGHT){
               lightSensor.getRedMode().fetchSample(lightData, 0);
-              lightLocalizer.processData((int) (lightData[0] * 100.0));;
+              lightLocalizer.processData((int) (lightData[0] * 100.0));
+              Main.sleepFor(SLEEPINT+20);
             }
-            Main.sleepFor(SLEEPINT);
+            
         }      
     }
     

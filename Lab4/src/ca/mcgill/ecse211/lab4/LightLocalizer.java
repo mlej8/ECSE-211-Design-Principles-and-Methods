@@ -15,7 +15,7 @@ public class LightLocalizer {
     /**
      * Lower bound for non-black line intensity. When intensity falls below this value, black lines are met.
      */
-	private static final int MINIMUM_NONBLACK_INTENSITY = 20; 
+	private static final int MINIMUM_NONBLACK_INTENSITY = 25; 
 	
 	/**
 	 * Maximum ratio for last intensity compared to current intensity when there is no black line. 
@@ -65,6 +65,7 @@ public class LightLocalizer {
 	 * Y-axis.
 	 */
 	public void reOrient() {
+	
 		if (odometer.getXYT()[2] > 180) {
 			navigator.rotateRight(360 - odometer.getXYT()[2]); // Turn right
 		} else {
@@ -79,6 +80,7 @@ public class LightLocalizer {
 	 * @param curIntensity
 	 */
 	public void processData(int curIntensity) {
+	  System.out.println("Current Intensity is: "+curIntensity);
 		// Trigger correction when a black line is detected
 		if (curIntensity < MINIMUM_NONBLACK_INTENSITY) {
 			lineTouched = true;

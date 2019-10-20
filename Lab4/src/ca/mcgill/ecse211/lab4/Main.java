@@ -55,15 +55,17 @@ public class Main {
 
 		// Find current robot's position
 		navigator.findRobotPosition();
-
+		navigator.stop();
 		// Navigate to origin (1,1)
 		navigator.travelToOrigin();
-
+		navigator.stop();
 		// Execute light sensor localization
 		lightLocalizer.localize();
-
+		navigator.stop();
+		sensorPoller.setMode(Mode.PAUSE);
 		// Navigator to origin (1,1) after light localization
 		navigator.travelToOrigin();
+		navigator.stop();
 
 		// Orient back to 0 degree w.r.t. the Y-axis after correction
 		lightLocalizer.reOrient();

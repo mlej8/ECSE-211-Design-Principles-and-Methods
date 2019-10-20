@@ -84,9 +84,11 @@ public class Navigation{
 		int tachCountRight = RIGHT_MOTOR.getTachoCount();
 
 		// Go Back to starting position
+		LEFT_MOTOR.setSpeed(MOTOR_SPEED);
+	    RIGHT_MOTOR.setSpeed(MOTOR_SPEED);
 		LEFT_MOTOR.rotate(-tachCountLeft, true);
 		RIGHT_MOTOR.rotate(-tachCountRight, false);
-
+		System.out.println("TachoCountCount Resetted: "+(-tachCountLeft));
 		// Position of the center of rotation
 		double distToGridLine = Math.PI * WHEEL_RAD * (tachCountLeft) / 180 - DIST_CENTRE_TO_LIGHT_SENSOR;
 		
@@ -99,9 +101,13 @@ public class Navigation{
 	/**
 	 * Method that stops the robot completely.
 	 */
-	public void stop() {
+	public void stop(){
+	  LEFT_MOTOR.setSpeed(0);
+	  RIGHT_MOTOR.setSpeed(0);
 		LEFT_MOTOR.stop(true);
 		RIGHT_MOTOR.stop(false);
+		
+	 
 	}
 
 	public void travelTo(double x, double y) {
