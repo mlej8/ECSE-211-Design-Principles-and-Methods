@@ -30,13 +30,13 @@ public class LightLocalizer {
 	private int lineCount = 0;
 	
 	// A boolean to specify if black line is touched
-	private boolean lineTouched = false;
+	private boolean lineTouched = false; 
 	
 	// Initial lastIntensity
 	private double lastIntensity = -1;
 	
 	// A boolean to specify if light localization has started
-	private boolean localizerStarted = false;
+	private boolean localizerStarted = true;  //false
 
 	/**
 	 * This method controls how the robot moves when using the light sensor to localize. The

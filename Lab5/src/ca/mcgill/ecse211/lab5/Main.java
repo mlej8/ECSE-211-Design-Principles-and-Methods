@@ -13,8 +13,8 @@ import lejos.hardware.Sound;
 public class Main {
 
 	// Cordinates of the Target point destination
-	private static double targetX = 3.0 * TILE_SIZE;
-	private static double targetY = 3.0 * TILE_SIZE;
+	private static double targetX = 7.5 * TILE_SIZE;
+	private static double targetY = 7.5 * TILE_SIZE;
 
 //	private static Thread displayThread = new Thread(new Display()); // Display information on LCD screen
 
@@ -28,9 +28,6 @@ public class Main {
 			
 			waitToStart();
 			
-			Display.showText("< Left  | Right >", "        |        ", "Stationa| Mobile ", "   ry   | Launch ",
-					" Launch |        ");
-			
 			// Running sensorPoller, odometer and display threads.
 			new Thread(sensorPoller).start(); // Running a thread controlling which sensor to fetch from
 			new Thread(odometer).start(); // Running a continuous thread for odometer
@@ -40,7 +37,7 @@ public class Main {
 			//			displayThread.start(); // Running a thread to display current odometer's values
 
 			// Execute Falling Edge implementation of ultrasonic localization
-			ultrasonicLocalizer.fallingEdge();
+			//ultrasonicLocalizer.fallingEdge();
 
 			// Assume current orientation is 0 with respect to the Y-axis after US
 			// localization
@@ -51,10 +48,10 @@ public class Main {
 			sensorPoller.setMode(Mode.LIGHT);
 
 			// Find current robot's position
-			navigator.findRobotPosition();
+			//navigator.findRobotPosition();
 
 			// Navigate to origin (1,1) approximately
-			navigator.travelToOrigin();
+			//navigator.travelToOrigin();
 
 			// Execute light sensor localization
 			lightLocalizer.localize();
@@ -64,18 +61,20 @@ public class Main {
 
 			// Orient back to 0 degree w.r.t. the Y-axis after correction
 			lightLocalizer.orientTo0();
-
+			System.out.println("Light Localization Finished");
+			
 			// Navigate to to target position
-			navigator.travelTo(targetX, targetY);
+			navigator.findDest(targetX, targetY);
 			
 			// Once at destination, execute light localization to correct error on the odometer
-			lightLocalizer.localize();
+			/*lightLocalizer.localize();
 			navigator.travelTo(targetX, targetY);
-			lightLocalizer.orientTo0();
+			lightLocalizer.orientTo0();*/
 			
 			// Arrived at destination
 			Sound.beep();
-			
+		//	navigator.travelTo(2*TILE_SIZE,2*TILE_SIZE);
+			System.out.println("arrived at 2,2");
 			// TODO: Launch the ball
 			for(int i = 0; i < 4; i++ ) {
 				initiatePauseToReload();

@@ -2,8 +2,13 @@ package ca.mcgill.ecse211.lab5;
 
 import static ca.mcgill.ecse211.lab5.Resources.*;
 
-public class BallLauncher implements Runnable {
-  public void run() {
+public class BallLauncher{
+  
+  public BallLauncher() {
+    
+  }
+
+  public static void mobileLaunch() {
     // TODO: Find a launch Point based on Target Position.
     // Find the Intersection point between currentPoint/circleArc.
 
@@ -19,7 +24,8 @@ public class BallLauncher implements Runnable {
 
     // TODO: Do catapultLaunch five times
   }
-
+  
+  
 /**
  * This method throw the ball by catapult in 45 degree
  */

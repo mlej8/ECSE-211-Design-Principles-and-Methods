@@ -191,7 +191,7 @@ public class Navigation {
 		LEFT_MOTOR.setSpeed(ROTATE_SPEED);
 		RIGHT_MOTOR.setSpeed(ROTATE_SPEED);
 		LEFT_MOTOR.rotate(Converter.convertAngle(theta), true);
-		RIGHT_MOTOR.rotate(-Converter.convertAngle(theta), true);
+		RIGHT_MOTOR.rotate(-Converter.convertAngle(theta), false);
 	}
 	
 	/**
@@ -201,7 +201,7 @@ public class Navigation {
 	 * @param targetX
 	 * @param targetY
 	 */
-	public static void findDest(double targetX, double targetY) {
+	public void findDest(double targetX, double targetY) {
 	  double currentX = odometer.getXYT()[0];
 	  double currentY = odometer.getXYT()[1];
 	  Point2d curPosition = new Point2d(currentX, currentY);
@@ -215,18 +215,42 @@ public class Navigation {
 	  Vector2d trajectory = new Vector2d((currentY-targetY), (currentX-targetX));
 	  double theta = yAxis.angle(trajectory);
 	  
-	  double destX, destY;
-	  
+	  double launchX, launchY;
+	  double dx,dy;
 	  // calculate the intersection of the circle and the line
 	  if(currentY - targetY > 0) { // when the robot is in 1st/2nd quadrant
-	    destY = launchRange * Math.cos(theta);
-	    destX = launchRange * Math.sin(theta);
+	    dy = launchRange * Math.cos(theta);
+	    dx = launchRange * Math.sin(theta);
+	    launchY = targetY + dy;
+	    launchX = targetX + dx;
 	  } else {  // in 3rd/4th quadrant
-	    destY = -launchRange * Math.cos(theta);
-        destX = -launchRange * Math.sin(theta); // TODO: test later
+	    dy = - launchRange * Math.cos(theta);
+	    dx = - launchRange * Math.sin(theta);
+	    launchY = targetY + dy;
+        launchX = targetX + dx; // TODO: test later
 	  }
 	  
-	  navigator.travelTo(destX, destY);
+	  if(dy <= 15 || dx <= 15) {
+	    Point2d target = findCircle(curPosition, throwTo);
+	    launchX = target.x;
+	    launchY = target.y;
+	  }
+	  System.out.println("I am going to X position: " + launchX + " Y position: " + launchY);
+	  travelTo(launchX, launchY);
+	}
+	
+	private static Point2d findCircle (Point2d curPos, Point2d center) {
+	  Point2d target = new Point2d();
+	  if(center.x > center.y) { // upper half
+	    double tX = center.x;
+	    double tY = Math.sqrt(Math.pow(launchRange, 2) - Math.pow((curPos.x - center.x),2)) + center.y;
+	    target = new Point2d(tX, tY);
+	  }else {  // lower half
+	    double tY = curPos.y;
+	    double tX = Math.sqrt(Math.pow(launchRange, 2) - Math.pow((curPos.y - center.y),2)) + center.x;
+	    target = new Point2d(tX, tY);
+	  }
+	  return target;
 	}
 
 	/**

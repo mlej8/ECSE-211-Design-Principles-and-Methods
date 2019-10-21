@@ -110,11 +110,6 @@ public class Resources {
 	public static Odometer odometer = Odometer.getOdometer();
 
 	/**
-	 * Motor that rotates the sensor.
-	 */
-	public static final EV3MediumRegulatedMotor rotateMotor = new EV3MediumRegulatedMotor(LocalEV3.get().getPort("B"));
-
-	/**
 	 * Error margin from destination waypoint.
 	 */
 	public static final double ERROR_MARGIN = 0.5;
@@ -128,6 +123,11 @@ public class Resources {
 	 * Instance of Light Localizer
 	 */
 	public static LightLocalizer lightLocalizer = new LightLocalizer();
+	
+	/** 
+     * Instance of Light Localizer
+     */
+	public static BallLauncher ballLauncher = new BallLauncher();
 	
 	/**
 	 * d constant for ultrasonic localizer representing the threshold distance from the wall 
@@ -152,7 +152,7 @@ public class Resources {
 	/**
      * The distance from the robot's wheelBase center to light sensor.
      */
-    public static final double DIST_CENTRE_TO_LIGHT_SENSOR = 12.7;
+    public static final double DIST_CENTRE_TO_LIGHT_SENSOR = 19.5;
     
     /**
      * The rotation speed of launch motor.
