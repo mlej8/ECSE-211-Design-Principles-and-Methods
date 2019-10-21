@@ -4,7 +4,6 @@ import ca.mcgill.ecse211.lab5.Odometer;
 import lejos.hardware.ev3.LocalEV3;
 import lejos.hardware.lcd.TextLCD;
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
-import lejos.hardware.motor.EV3MediumRegulatedMotor;
 import lejos.hardware.port.SensorPort;
 import lejos.hardware.sensor.EV3ColorSensor;
 import lejos.hardware.sensor.EV3UltrasonicSensor;
@@ -22,7 +21,7 @@ public class Resources {
 	/**
 	 * The robot's width in centimeters.
 	 */
-	public static final double TRACK = 15.0; 
+	public static final double TRACK = 14.525; 
 
 	/**
 	 * Turning 90 degrees to start position parallel the wall 
@@ -37,7 +36,7 @@ public class Resources {
 	/**
 	 * The speed at which the robot rotates in degrees per second.
 	 */
-	public static final int ROTATE_SPEED = 50;
+	public static final int ROTATE_SPEED = 100;
 
 	/**
 	 * The acceleration.
@@ -152,7 +151,7 @@ public class Resources {
 	/**
      * The distance from the robot's wheelBase center to light sensor.
      */
-    public static final double DIST_CENTRE_TO_LIGHT_SENSOR = 19.5;
+    public static final double DIST_CENTRE_TO_LIGHT_SENSOR = 18.8;
     
     /**
      * The rotation speed of launch motor.
@@ -172,7 +171,7 @@ public class Resources {
     /**
      * Ball launch range;
      */
-    public static final double launchRange = 120 + 0.5 * TILE_SIZE;
+    public static final double LAUNCHRANGE = 120 + 0.5 * TILE_SIZE;
     
 }
 

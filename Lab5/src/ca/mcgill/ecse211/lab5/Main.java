@@ -13,8 +13,8 @@ import lejos.hardware.Sound;
 public class Main {
 
 	// Cordinates of the Target point destination
-	private static double targetX = 7.5 * TILE_SIZE;
-	private static double targetY = 7.5 * TILE_SIZE;
+	private static double targetX = 0.5 * TILE_SIZE;
+	private static double targetY = 3.5 * TILE_SIZE;
 
 //	private static Thread displayThread = new Thread(new Display()); // Display information on LCD screen
 
@@ -61,11 +61,10 @@ public class Main {
 
 			// Orient back to 0 degree w.r.t. the Y-axis after correction
 			lightLocalizer.orientTo0();
-			System.out.println("Light Localization Finished");
 			
 			// Navigate to to target position
 			navigator.findDest(targetX, targetY);
-			
+			navigator.travelToLaunchPoint();
 			// Once at destination, execute light localization to correct error on the odometer
 			/*lightLocalizer.localize();
 			navigator.travelTo(targetX, targetY);

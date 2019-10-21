@@ -17,7 +17,7 @@ public class WheelRadiusTests {
     LEFT_MOTOR.setSpeed(ROTATE_SPEED);
     RIGHT_MOTOR.setSpeed(ROTATE_SPEED);
     LEFT_MOTOR.rotate(Converter.convertDistance(2*TILE_SIZE),true);
-    RIGHT_MOTOR.rotate(Converter.convertDistance(2*TILE_SIZE),false);
+    RIGHT_MOTOR.rotate(-Converter.convertDistance(2*TILE_SIZE),false);
   }
   
   

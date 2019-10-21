@@ -3,7 +3,6 @@ package ca.mcgill.ecse211.lab5;
 import static ca.mcgill.ecse211.lab5.Resources.*;
 
 import javax.vecmath.Point2d;
-import javax.vecmath.Vector2d;
 
 public class Navigation {
 
@@ -17,12 +16,12 @@ public class Navigation {
 	/**
 	 * Variable destination's x coordinate.
 	 */
-	private double destX;
+	private double launchX;
 
 	/**
 	 * Variable destination's y coordinate.
 	 */
-	private double destY;
+	private double launchY;
 
 	/**
 	 * Origin (1,1) coordinates.
@@ -61,6 +60,17 @@ public class Navigation {
 				Main.sleepFor(10 * SLEEPINT);
 			}
 	}
+	
+	/**
+     * Method that travels to the launch point (launchX,launchY).
+     */
+    public void travelToLaunchPoint() {
+
+            // Navigate to origin (1,1)
+            System.out.println("Robot is travelling to X: " + this.launchX + " Y: " + this.launchY);
+            navigator.travelTo(this.launchX, this.launchY);
+
+    }
 
 	/**
 	 * Find current robot position after ultrasonic localization by detecting the
@@ -207,60 +217,59 @@ public class Navigation {
 	  Point2d curPosition = new Point2d(currentX, currentY);
 	  Point2d throwTo = new Point2d(targetX, targetY);
 	  
-	  Vector2d yAxis = new Vector2d(0,1);
-	  Vector2d trajectory = new Vector2d((currentY-targetY), (currentX-targetX));
-	  double theta = yAxis.angle(trajectory);
+	  double theta = Math.atan2(currentX-targetX, currentY-targetY);
+	    
+	    double launchX, launchY;
+	    double dx,dy;
+	    // calculate the intersection of the circle and the line
+	    if(theta < 0) { // when the robot is in 2nd/3rd quadrant
+	      dy =   LAUNCHRANGE * Math.cos(-theta);
+	      dx = - LAUNCHRANGE * Math.sin(-theta);
+	      launchY = targetY + dy;
+	      launchX = targetX + dx;
+	    } else {  // in 1st/4th quadrant
+	      dy =   LAUNCHRANGE * Math.cos(theta);
+	      dx =   LAUNCHRANGE * Math.sin(theta);
+	      launchY = targetY + dy;
+	      launchX = targetX + dx; // TODO: test later
+	    }
 	  
-	  double launchX, launchY;
-	  double dx,dy;
-	  // calculate the intersection of the circle and the line
-	  if(currentX - targetX > 0) { // when the robot is in 1st/2nd quadrant
-	    dy = - launchRange * Math.cos(theta);
-	    dx =   launchRange * Math.sin(theta);
-	    launchY = targetY + dy;
-	    launchX = targetX + dx;
-	  } else {  // in 3rd/4th quadrant
-	    dy = - launchRange * Math.cos(theta);
-	    dx = - launchRange * Math.sin(theta);
-	    launchY = targetY + dy;
-        launchX = targetX + dx; // TODO: test later
-	  }
-	  
-	  if(dy <= 15 || dx <= 15) {
+	  if(launchX <= 15 || launchY <= 15) {
 	    Point2d target = findCircle(curPosition, throwTo);
 	    launchX = target.x;
 	    launchY = target.y;
 	  }
 	  System.out.println("I am going to X position: " + launchX + " Y position: " + launchY);
-	  travelTo(launchX, launchY);
+	  this.launchX = launchX;
+	  this.launchY = launchY;
 	}
 	
 	private static Point2d findCircle (Point2d curPos, Point2d center) {
 	  Point2d target = new Point2d();
 	  if(center.x > center.y) { // upper half
-	    double tX = center.x;
-	    double tY = Math.sqrt(Math.pow(launchRange, 2) - Math.pow((curPos.x - center.x),2)) + center.y;
+	    double tX = curPos.x;
+	    double tY = Math.sqrt(Math.pow(LAUNCHRANGE, 2) - Math.pow((curPos.x - center.x),2)) + center.y;
 	    target = new Point2d(tX, tY);
 	  }else {  // lower half
 	    double tY = curPos.y;
-	    double tX = Math.sqrt(Math.pow(launchRange, 2) - Math.pow((curPos.y - center.y),2)) + center.x;
+	    double tX = Math.sqrt(Math.pow(LAUNCHRANGE, 2) - Math.pow((curPos.y - center.y),2)) + center.x;
 	    target = new Point2d(tX, tY);
 	  }
 	  return target;
 	}
 
 	/**
-	 * @return destination waypoint's x coordinate.
+	 * @return launch point's x coordinate.
 	 */
-	public double getDestX() {
-		return this.destX;
+	public double getlaunchX() {
+		return this.launchX;
 	}
 
 	/**
-	 * @return destination waypoint's y coordinate.
+	 * @return launch point's y coordinate.
 	 */
-	public double getDestY() {
-		return this.destY;
+	public double getlaunchY() {
+		return this.launchY;
 	}
 
 	/**
