@@ -7,5 +7,6 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/admin/workspace/lejos-workspace/211-g15/ECSE-211-Design-Principles-and-Methods/Lab5/vecmath.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

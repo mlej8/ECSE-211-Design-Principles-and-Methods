@@ -153,5 +153,26 @@ public class Resources {
      * The distance from the robot's wheelBase center to light sensor.
      */
     public static final double DIST_CENTRE_TO_LIGHT_SENSOR = 12.7;
+    
+    /**
+     * The rotation speed of launch motor.
+     */
+    public static final int motorSpeed = 760;
+    
+    /**
+     * The rotation angle of launch motor.
+     */
+    public static final int rotateAngle = 45;
+
+    /**
+     * Motor instance of the launch motor.
+     */
+    public static final EV3LargeRegulatedMotor launchMotor = new EV3LargeRegulatedMotor(LocalEV3.get().getPort("B"));
+    
+    /**
+     * Ball launch range;
+     */
+    public static final double launchRange = 120 + 0.5 * TILE_SIZE;
+    
 }
 

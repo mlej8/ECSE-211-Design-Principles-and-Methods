@@ -2,6 +2,9 @@ package ca.mcgill.ecse211.lab5;
 
 import static ca.mcgill.ecse211.lab5.Resources.*;
 
+import javax.vecmath.Point2d;
+import javax.vecmath.Vector2d;
+
 public class Navigation {
 
 	private static Navigation navigator;
@@ -189,6 +192,41 @@ public class Navigation {
 		RIGHT_MOTOR.setSpeed(ROTATE_SPEED);
 		LEFT_MOTOR.rotate(Converter.convertAngle(theta), true);
 		RIGHT_MOTOR.rotate(-Converter.convertAngle(theta), true);
+	}
+	
+	/**
+	 * This method uses the given target position (targetX,targetY) to find the ideal launching
+	 * position. x and y are in unit cm. 
+	 * 
+	 * @param targetX
+	 * @param targetY
+	 */
+	public static void findDest(double targetX, double targetY) {
+	  double currentX = odometer.getXYT()[0];
+	  double currentY = odometer.getXYT()[1];
+	  Point2d curPosition = new Point2d(currentX, currentY);
+	  Point2d throwTo = new Point2d(targetX, targetY);
+	  
+	  // let current position and the target position constructs a linear equation: targetY = mx+b
+	  double m = (targetY-currentY)/(targetX-currentX);
+	  double b = targetY - m*targetX;
+	  
+	  Vector2d yAxis = new Vector2d(0,1);
+	  Vector2d trajectory = new Vector2d((currentY-targetY), (currentX-targetX));
+	  double theta = yAxis.angle(trajectory);
+	  
+	  double destX, destY;
+	  
+	  // calculate the intersection of the circle and the line
+	  if(currentY - targetY > 0) { // when the robot is in 1st/2nd quadrant
+	    destY = launchRange * Math.cos(theta);
+	    destX = launchRange * Math.sin(theta);
+	  } else {  // in 3rd/4th quadrant
+	    destY = -launchRange * Math.cos(theta);
+        destX = -launchRange * Math.sin(theta); // TODO: test later
+	  }
+	  
+	  navigator.travelTo(destX, destY);
 	}
 
 	/**
