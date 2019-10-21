@@ -80,7 +80,6 @@ public class LightLocalizer {
 	 * @param curIntensity
 	 */
 	public void processData(int curIntensity) {
-	  System.out.println("Current Intensity is: "+curIntensity);
 		// Trigger correction when a black line is detected
 		if (curIntensity < MINIMUM_NONBLACK_INTENSITY) {
 			lineTouched = true;

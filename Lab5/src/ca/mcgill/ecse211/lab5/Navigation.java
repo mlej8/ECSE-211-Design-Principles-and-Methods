@@ -207,10 +207,6 @@ public class Navigation {
 	  Point2d curPosition = new Point2d(currentX, currentY);
 	  Point2d throwTo = new Point2d(targetX, targetY);
 	  
-	  // let current position and the target position constructs a linear equation: targetY = mx+b
-	  double m = (targetY-currentY)/(targetX-currentX);
-	  double b = targetY - m*targetX;
-	  
 	  Vector2d yAxis = new Vector2d(0,1);
 	  Vector2d trajectory = new Vector2d((currentY-targetY), (currentX-targetX));
 	  double theta = yAxis.angle(trajectory);
@@ -218,9 +214,9 @@ public class Navigation {
 	  double launchX, launchY;
 	  double dx,dy;
 	  // calculate the intersection of the circle and the line
-	  if(currentY - targetY > 0) { // when the robot is in 1st/2nd quadrant
-	    dy = launchRange * Math.cos(theta);
-	    dx = launchRange * Math.sin(theta);
+	  if(currentX - targetX > 0) { // when the robot is in 1st/2nd quadrant
+	    dy = - launchRange * Math.cos(theta);
+	    dx =   launchRange * Math.sin(theta);
 	    launchY = targetY + dy;
 	    launchX = targetX + dx;
 	  } else {  // in 3rd/4th quadrant
