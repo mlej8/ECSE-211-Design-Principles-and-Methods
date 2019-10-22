@@ -163,12 +163,12 @@ public class Resources {
     /**
      * Acceleration of launch motor.
      */
-    public static final int LAUNCH_MOTOR_ACCELERATOR = 2900; 
+    public static final int LAUNCH_MOTOR_ACCELERATOR = 2475; 
     
     /**
      * Launching angle of launch motor
      */
-    public static final int LAUNCH_ANGLE = -70;
+    public static final int LAUNCH_ANGLE = -40;
 
 
     /**
