@@ -70,7 +70,6 @@ public class LightLocalizer {
 		} else {
 			navigator.turnTo(0 - odometer.getXYT()[2]); // Turn Left
 		}
-		System.out.println("After orienting to 0 " + odometer.getXYT()[2]);
 	}
 
 	/**
