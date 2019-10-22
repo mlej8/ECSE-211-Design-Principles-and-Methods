@@ -1,9 +1,5 @@
 package ca.mcgill.ecse211.lab5.tests;
-import static org.junit.Assert.assertEquals;
-import org.junit.Test;
 
-import javax.vecmath.Point2d;
-import javax.vecmath.Vector2d;
 
 public class findDestMethodTests {
   static double currentX;

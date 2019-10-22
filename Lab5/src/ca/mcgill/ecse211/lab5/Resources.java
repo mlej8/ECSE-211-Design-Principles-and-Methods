@@ -163,12 +163,12 @@ public class Resources {
     /**
      * Acceleration of launch motor.
      */
-    public static final int LAUNCH_MOTOR_ACCELERATOR = 2750; // 400000
+    public static final int LAUNCH_MOTOR_ACCELERATOR = 2900; 
     
     /**
      * Launching angle of launch motor
      */
-    public static final int LAUNCH_ANGLE = -55;
+    public static final int LAUNCH_ANGLE = -70;
 
 
     /**
@@ -184,7 +184,7 @@ public class Resources {
     /**
      * Ball launch range;
      */
-    public static final double LAUNCHRANGE = 120 + 0.5 * TILE_SIZE;
+    public static final double LAUNCH_RANGE = 120 + 0.5 * TILE_SIZE;
     
 }
 

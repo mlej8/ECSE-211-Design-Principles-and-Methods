@@ -2,8 +2,6 @@ package ca.mcgill.ecse211.lab5;
 
 import static ca.mcgill.ecse211.lab5.Resources.*;
 
-import javax.vecmath.Point2d;
-
 public class Navigation {
 
 	private static Navigation navigator;
@@ -223,13 +221,13 @@ public class Navigation {
 	    double dx,dy;
 	    // calculate the intersection of the circle and the line
 	    if(theta < 0) { // when the robot is in 2nd/3rd quadrant
-	      dy =   LAUNCHRANGE * Math.cos(-theta);
-	      dx = - LAUNCHRANGE * Math.sin(-theta);
+	      dy =   LAUNCH_RANGE * Math.cos(-theta);
+	      dx = - LAUNCH_RANGE * Math.sin(-theta);
 	      launchY = targetY + dy;
 	      launchX = targetX + dx;
 	    } else {  // in 1st/4th quadrant
-	      dy =   LAUNCHRANGE * Math.cos(theta);
-	      dx =   LAUNCHRANGE * Math.sin(theta);
+	      dy =   LAUNCH_RANGE * Math.cos(theta);
+	      dx =   LAUNCH_RANGE * Math.sin(theta);
 	      launchY = targetY + dy;
 	      launchX = targetX + dx; // TODO: test later
 	    }
@@ -248,11 +246,11 @@ public class Navigation {
 	  double[] target = new double[2];
 	  if(center[0] > center[1]) { // upper half
 	    double tX = curPos[0];
-	    double tY = Math.sqrt(Math.pow(LAUNCHRANGE, 2) - Math.pow((curPos.x - center.x),2)) + center.y;
+	    double tY = Math.sqrt(Math.pow(LAUNCH_RANGE, 2) - Math.pow((curPos.x - center.x),2)) + center.y;
 	    target = new Point2d(tX, tY);
 	  }else {  // lower half
 	    double tY = curPos.y;
-	    double tX = Math.sqrt(Math.pow(LAUNCHRANGE, 2) - Math.pow((curPos.y - center.y),2)) + center.x;
+	    double tX = Math.sqrt(Math.pow(LAUNCH_RANGE, 2) - Math.pow((curPos.y - center.y),2)) + center.x;
 	    target = new Point2d(tX, tY);
 	  }
 	  return target;
