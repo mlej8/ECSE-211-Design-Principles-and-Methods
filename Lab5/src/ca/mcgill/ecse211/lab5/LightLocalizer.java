@@ -36,7 +36,7 @@ public class LightLocalizer {
 	private double lastIntensity = -1;
 	
 	// A boolean to specify if light localization has started
-	private boolean localizerStarted = true;  //false
+	private boolean localizerStarted = false;  
 
 	/**
 	 * This method controls how the robot moves when using the light sensor to localize. The
@@ -79,6 +79,7 @@ public class LightLocalizer {
 	 * @param curIntensity
 	 */
 	public void processData(int curIntensity) {
+		
 		// Trigger correction when a black line is detected
 		if (curIntensity < MINIMUM_NONBLACK_INTENSITY) {
 			lineTouched = true;

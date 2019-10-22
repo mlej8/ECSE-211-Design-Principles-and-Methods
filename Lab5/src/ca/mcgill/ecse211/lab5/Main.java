@@ -12,9 +12,7 @@ import lejos.hardware.Sound;
  */
 public class Main {
 
-	// Cordinates of the Target point destination
-	private static double targetX = 0.5 * TILE_SIZE;
-	private static double targetY = 3.5 * TILE_SIZE;
+
 
 //	private static Thread displayThread = new Thread(new Display()); // Display information on LCD screen
 
@@ -26,19 +24,16 @@ public class Main {
 			ballLauncher.catapultlaunch();
 			}
 		} else if (buttonChoice == Button.ID_RIGHT) {
+			navigator.findDestination();			
 			
 			waitToStart();
 			
-			// Running sensorPoller, odometer and display threads.
+			// Running sensorPoller and odometer threads.
 			new Thread(sensorPoller).start(); // Running a thread controlling which sensor to fetch from
 			new Thread(odometer).start(); // Running a continuous thread for odometer
-			
-			
-			// TODO: Think about the necessity of a display thread ? yes or no? 
-			//			displayThread.start(); // Running a thread to display current odometer's values
 
 			// Execute Falling Edge implementation of ultrasonic localization
-			//ultrasonicLocalizer.fallingEdge();
+			ultrasonicLocalizer.fallingEdge();
 
 			// Assume current orientation is 0 with respect to the Y-axis after US
 			// localization
@@ -49,37 +44,40 @@ public class Main {
 			sensorPoller.setMode(Mode.LIGHT);
 
 			// Find current robot's position
-			//navigator.findRobotPosition();
+			navigator.findRobotPosition();
 
 			// Navigate to origin (1,1) approximately
-			//navigator.travelToOrigin();
+			navigator.travelToOrigin();
 
 			// Execute light sensor localization
 			lightLocalizer.localize();
 
 			// Navigator to true origin (1,1) after light localization
 			navigator.travelToOrigin();
-
+			
 			// Orient back to 0 degree w.r.t. the Y-axis after correction
 			lightLocalizer.orientTo0();
 			
+			// Find launch position after odometer has been corrected
+			navigator.findDestination();
+			
 			// Navigate to to target position
-			navigator.findDest(targetX, targetY);
-			navigator.travelToLaunchPoint();
+//			navigator.travelToLaunchPoint();
 			// Once at destination, execute light localization to correct error on the odometer
 			/*lightLocalizer.localize();
 			navigator.travelTo(targetX, targetY);
 			lightLocalizer.orientTo0();*/
 			
 			// Arrived at destination
-			Sound.beep();
-		//	navigator.travelTo(2*TILE_SIZE,2*TILE_SIZE);
-			System.out.println("arrived at 2,2");
-			// TODO: Launch the ball
-			for(int i = 0; i < 4; i++ ) {
-				initiatePauseToReload();
-				// Launch the ball 4 times
-			}
+//			Sound.twoBeeps();
+			
+			// Launch the ball
+//			ballLauncher.catapultlaunch();
+			
+//			for(int i = 0; i < 4; i++ ) {
+//				initiatePauseToReload();
+//				ballLauncher.catapultlaunch();				
+//			}
 			
 			// Do nothing until exit button is pressed, then exit.
 			while (Button.waitForAnyPress() != Button.ID_ESCAPE)
@@ -118,8 +116,10 @@ public class Main {
 		Display.showText(" 	  Press The	   ", 
 						 "  Center Button  ", 
 						 "     to Start    ",
-						 "    Target x: " + targetX,
-						 "    Target y: " + targetY);
+						 "    Target X: " + navigator.getTargetX(),
+						 "    Target Y: " + navigator.getTargetY(),
+						 "    Launch X: " + navigator.getlaunchX(),
+						 "    Launch Y: " + navigator.getlaunchY());
 
 		do {
 			buttonChoice = Button.waitForAnyPress();
