@@ -22,8 +22,11 @@ public class Main {
 
 		int buttonChoice = chooseStationaryOrMobile();
 		if (buttonChoice == Button.ID_LEFT) {
-			System.out.println("Not implemented yet.");
-			// TODO: Launch catapult 5 times
+			ballLauncher.catapultlaunch();
+			ballLauncher.catapultlaunch();
+			ballLauncher.catapultlaunch();
+			ballLauncher.catapultlaunch();
+			ballLauncher.catapultlaunch();
 		} else if (buttonChoice == Button.ID_RIGHT) {
 			
 			waitToStart();

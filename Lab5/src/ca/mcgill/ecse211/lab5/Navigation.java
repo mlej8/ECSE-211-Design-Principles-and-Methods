@@ -214,8 +214,8 @@ public class Navigation {
 	public void findDest(double targetX, double targetY) {
 	  double currentX = odometer.getXYT()[0];
 	  double currentY = odometer.getXYT()[1];
-	  Point2d curPosition = new Point2d(currentX, currentY);
-	  Point2d throwTo = new Point2d(targetX, targetY);
+	  double[] curPosition = new double[] {currentX, currentY};
+	  double[] throwTo = new double[] {targetX, targetY};
 	  
 	  double theta = Math.atan2(currentX-targetX, currentY-targetY);
 	    
@@ -235,19 +235,19 @@ public class Navigation {
 	    }
 	  
 	  if(launchX <= 15 || launchY <= 15) {
-	    Point2d target = findCircle(curPosition, throwTo);
-	    launchX = target.x;
-	    launchY = target.y;
+	    double[] target = findCircle(curPosition, throwTo);
+	    launchX = target[0];
+	    launchY = target[1];
 	  }
 	  System.out.println("I am going to X position: " + launchX + " Y position: " + launchY);
 	  this.launchX = launchX;
 	  this.launchY = launchY;
 	}
 	
-	private static Point2d findCircle (Point2d curPos, Point2d center) {
-	  Point2d target = new Point2d();
-	  if(center.x > center.y) { // upper half
-	    double tX = curPos.x;
+	private static double[] findCircle (double[] curPos, double[] center) {
+	  double[] target = new double[2];
+	  if(center[0] > center[1]) { // upper half
+	    double tX = curPos[0];
 	    double tY = Math.sqrt(Math.pow(LAUNCHRANGE, 2) - Math.pow((curPos.x - center.x),2)) + center.y;
 	    target = new Point2d(tX, tY);
 	  }else {  // lower half

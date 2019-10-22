@@ -153,20 +153,33 @@ public class Resources {
      */
     public static final double DIST_CENTRE_TO_LIGHT_SENSOR = 18.8;
     
+    
+    // Catapult constants
     /**
      * The rotation speed of launch motor.
      */
-    public static final int motorSpeed = 760;
+    public static final int LAUNCH_MOTOR_SPEED = 800;
     
     /**
-     * The rotation angle of launch motor.
+     * Acceleration of launch motor.
      */
-    public static final int rotateAngle = 45;
+    public static final int LAUNCH_MOTOR_ACCELERATOR = 2750; // 400000
+    
+    /**
+     * Launching angle of launch motor
+     */
+    public static final int LAUNCH_ANGLE = -55;
+
 
     /**
      * Motor instance of the launch motor.
      */
-    public static final EV3LargeRegulatedMotor launchMotor = new EV3LargeRegulatedMotor(LocalEV3.get().getPort("B"));
+    public static final EV3LargeRegulatedMotor leftLaunchMotor = new EV3LargeRegulatedMotor(LocalEV3.get().getPort("B"));
+    
+    /**
+     * Motor instance of the launch motor.
+     */
+    public static final EV3LargeRegulatedMotor rightLaunchMotor = new EV3LargeRegulatedMotor(LocalEV3.get().getPort("C"));
     
     /**
      * Ball launch range;
