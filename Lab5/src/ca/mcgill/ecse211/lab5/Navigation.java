@@ -246,12 +246,12 @@ public class Navigation {
 	  double[] target = new double[2];
 	  if(center[0] > center[1]) { // upper half
 	    double tX = curPos[0];
-	    double tY = Math.sqrt(Math.pow(LAUNCH_RANGE, 2) - Math.pow((curPos.x - center.x),2)) + center.y;
-	    target = new Point2d(tX, tY);
+	    double tY = Math.sqrt(Math.pow(LAUNCH_RANGE, 2) - Math.pow((curPos[0] - center[0]),2)) + center[1];
+	    target = new double[]{tX, tY};
 	  }else {  // lower half
-	    double tY = curPos.y;
-	    double tX = Math.sqrt(Math.pow(LAUNCH_RANGE, 2) - Math.pow((curPos.y - center.y),2)) + center.x;
-	    target = new Point2d(tX, tY);
+	    double tY = curPos[1];
+	    double tX = Math.sqrt(Math.pow(LAUNCH_RANGE, 2) - Math.pow((curPos[1] - center[1]),2)) + center[0];
+	    target = new double[] {tX, tY};
 	  }
 	  return target;
 	}
