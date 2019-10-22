@@ -71,6 +71,9 @@ public class Main {
 			// Arrived at destination
 			Sound.twoBeeps();
 			
+			// turn to face the target
+            navigator.findDestination2();
+            
 			// Launch the ball
 			ballLauncher.catapultlaunch();
 			

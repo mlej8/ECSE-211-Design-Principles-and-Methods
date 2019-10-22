@@ -257,7 +257,7 @@ public class Navigation {
 				// Compute the angle needed to turn; dx and dy are intentionally switched in
 				// order to compute angle w.r.t. the y-axis and not w.r.t. the x-axis
 				double theta = Math.toDegrees(Math.atan2(dx, dy)) - odometer.getXYT()[2];
-
+		navigator.turnTo(theta);
 	}
 	
 	/**
