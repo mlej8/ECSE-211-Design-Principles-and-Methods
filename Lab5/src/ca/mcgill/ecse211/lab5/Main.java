@@ -62,17 +62,18 @@ public class Main {
 			navigator.findDestination();
 			
 			// Navigate to to target position
-//			navigator.travelToLaunchPoint();
+			navigator.travelToLaunchPoint();
+
 			// Once at destination, execute light localization to correct error on the odometer
-			/*lightLocalizer.localize();
-			navigator.travelTo(targetX, targetY);
-			lightLocalizer.orientTo0();*/
+			lightLocalizer.localize();
+			navigator.travelToLaunchPoint();
+			lightLocalizer.orientTo0();
 			
 			// Arrived at destination
-//			Sound.twoBeeps();
+			Sound.twoBeeps();
 			
 			// Launch the ball
-//			ballLauncher.catapultlaunch();
+			ballLauncher.catapultlaunch();
 			
 //			for(int i = 0; i < 4; i++ ) {
 //				initiatePauseToReload();
