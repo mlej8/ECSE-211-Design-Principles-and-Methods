@@ -48,7 +48,7 @@ public class Main {
 
 			// Navigate to origin (1,1) approximately
 			navigator.travelToOrigin();
-
+			odometer.setXYT(0, 0, 0);
 			// Execute light sensor localization
 			lightLocalizer.localize();
 
@@ -65,20 +65,23 @@ public class Main {
 			navigator.travelToLaunchPoint();
 
 			// Once at destination, execute light localization to correct error on the odometer
-			lightLocalizer.localize();
-			navigator.travelToLaunchPoint();
-			lightLocalizer.orientTo0();
+			// lightLocalizer.localize();
+			// navigator.travelToLaunchPoint();
+			// lightLocalizer.orientTo0();
 			
 			// Arrived at destination
 			Sound.twoBeeps();
 			
+			// turn to face the target
+            navigator.findDestination2();
+            
 			// Launch the ball
 			ballLauncher.catapultlaunch();
 			
-//			for(int i = 0; i < 4; i++ ) {
-//				initiatePauseToReload();
-//				ballLauncher.catapultlaunch();				
-//			}
+			for(int i = 0; i < 4; i++ ) {
+				initiatePauseToReload();
+				ballLauncher.catapultlaunch();				
+			}
 			
 			// Do nothing until exit button is pressed, then exit.
 			while (Button.waitForAnyPress() != Button.ID_ESCAPE)
