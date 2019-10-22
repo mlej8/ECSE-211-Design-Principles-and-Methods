@@ -66,10 +66,11 @@ public class LightLocalizer {
 	 */
 	public void orientTo0() {
 		if (odometer.getXYT()[2] > 180) {
-			navigator.rotate(360 - odometer.getXYT()[2]); // Turn right
+			navigator.turnTo(360 - odometer.getXYT()[2]); // Turn right
 		} else {
-			navigator.rotate(0 - odometer.getXYT()[2]); // Turn Left
+			navigator.turnTo(0 - odometer.getXYT()[2]); // Turn Left
 		}
+		System.out.println("After orienting to 0 " + odometer.getXYT()[2]);
 	}
 
 	/**

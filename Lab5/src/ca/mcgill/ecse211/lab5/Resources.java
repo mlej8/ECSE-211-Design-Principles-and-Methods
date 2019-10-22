@@ -16,12 +16,12 @@ public class Resources {
 	/**
 	 * The wheel radius in centimeters.
 	 */
-	public static final double WHEEL_RAD = 2.085; 
+	public static final double WHEEL_RAD = 2.150; 
 
 	/**
 	 * The robot's width in centimeters.
 	 */
-	public static final double TRACK = 14.525; 
+	public static final double TRACK = 15.025; 
 
 	/**
 	 * Turning 90 degrees to start position parallel the wall 
@@ -71,7 +71,7 @@ public class Resources {
 	/**
 	 * The LCD.
 	 */
-	public static final TextLCD LCD = LocalEV3.get().getTextLCD();
+	public static final TextLCD LCDScreen = LocalEV3.get().getTextLCD();
 
 	/**
 	 * The left motor.
@@ -163,7 +163,7 @@ public class Resources {
     /**
      * Acceleration of launch motor.
      */
-    public static final int LAUNCH_MOTOR_ACCELERATOR = 2475; 
+    public static final int LAUNCH_MOTOR_ACCELERATOR = 2550; // 2475 
     
     /**
      * Launching angle of launch motor

@@ -20,23 +20,23 @@ public class Navigation {
 	 * Variable destination's y coordinate.
 	 */
 	private double launchY;
-	
+
 	/**
 	 * Variable target's x coordinate.
 	 */
-	private double targetX = 6 * TILE_SIZE;
+	private static final double targetX = 3 * TILE_SIZE;
 
 	/**
 	 * Variable destination's y coordinate.
 	 */
-	private double targetY = 6 * TILE_SIZE;
+	private static final double targetY = 7 * TILE_SIZE;
 
 	/**
 	 * Origin (1,1) coordinates.
 	 */
 	private static final double originX = 1 * TILE_SIZE;
 	private static final double originY = 1 * TILE_SIZE;
-	
+
 	/**
 	 * Navigation class implements the singleton pattern
 	 */
@@ -60,23 +60,21 @@ public class Navigation {
 	 */
 	public void travelToOrigin() {
 
-			// Navigate to origin (1,1)
-			navigator.travelTo(originX, originY);
+		// Navigate to origin (1,1)
+		navigator.travelTo(originX, originY);
 
-			// Sleep while it is traveling
-			while (navigator.isNavigating()) {
-				Main.sleepFor(10 * SLEEPINT);
-			}
+		// Sleep while it is traveling
+		while (navigator.isNavigating()) {
+			Main.sleepFor(10 * SLEEPINT);
+		}
 	}
-	
+
 	/**
-     * Method that travels to the launch point (launchX, launchY).
-     */
-    public void travelToLaunchPoint() {
-    	
-            System.out.println("Robot is travelling to X: " + this.launchX + " Y: " + this.launchY);
-            navigator.travelTo(this.launchX, this.launchY);
-    }
+	 * Method that travels to the launch point (launchX, launchY).
+	 */
+	public void travelToLaunchPoint() {
+		navigator.travelTo(this.launchX, this.launchY);
+	}
 
 	/**
 	 * Find current robot position after ultrasonic localization by detecting the
@@ -98,9 +96,9 @@ public class Navigation {
 			LEFT_MOTOR.forward();
 			RIGHT_MOTOR.forward();
 		}
-
 		// Stop robot once it detects the black line
 		stop();
+		System.out.println(odometer.getXYT()[2]);
 
 		// Note the distance it traveled
 		int tachCountLeft = LEFT_MOTOR.getTachoCount();
@@ -180,7 +178,7 @@ public class Navigation {
 
 		// Set traveling to true when the robot is turning
 		this.traveling = true;
-		
+
 		// If theta is bigger than 180 or smaller than -180, set it to smallest minimal
 		// turning angle
 		if (theta > 180.0) {
@@ -209,75 +207,77 @@ public class Navigation {
 		LEFT_MOTOR.rotate(Converter.convertAngle(theta), true);
 		RIGHT_MOTOR.rotate(-Converter.convertAngle(theta), true);
 	}
-	
+
 	/**
-	 * This method uses the given target position (targetX,targetY) to find the ideal launching
-	 * position. 
+	 * This method uses the given target position (targetX,targetY) to find the
+	 * ideal launching position.
 	 */
 	public void findDestination() {
-	  double currentX = odometer.getXYT()[0];
-	  double currentY = odometer.getXYT()[1];
-	  double[] curPosition = new double[] {currentX, currentY};
-	  double[] throwTo = new double[] {this.targetX, this.targetY};
-	  
-	  double theta = Math.atan2(currentX-targetX, currentY-targetY);
-	    
-	    double dx,dy;
-	    // calculate the intersection of the circle and the line
-	    if(theta < 0) { // when the robot is in 2nd/3rd quadrant
-	      dy =   LAUNCH_RANGE * Math.cos(-theta);
-	      dx = - LAUNCH_RANGE * Math.sin(-theta);
-	      this.launchY = targetY + dy;
-	      this.launchX = targetX + dx;
-	    } else {  // in 1st/4th quadrant
-	      dy =   LAUNCH_RANGE * Math.cos(theta);
-	      dx =   LAUNCH_RANGE * Math.sin(theta);
-	      this.launchY = targetY + dy;
-	      this.launchX = targetX + dx; // TODO: test later
-	    }
-	  
-	  if (launchX <= 15 || launchY <= 15) {
-	    double[] target = findCircle(curPosition, throwTo);
-	    this.launchX = target[0];
-	    this.launchY = target[1];
-	  }
-	  System.out.println("I am going to X position: " + this.launchX + " Y position: " + this.launchY + "\n The target position X is " + this.targetX + " Y is " + this.targetY);
+		double currentX = odometer.getXYT()[0];
+		double currentY = odometer.getXYT()[1];
+		double[] curPosition = new double[] { currentX, currentY };
+		double[] throwTo = new double[] { targetX, targetY };
+
+		double theta = Math.atan2(currentX - targetX, currentY - targetY);
+
+		double dx, dy;
+		// calculate the intersection of the circle and the line
+		if (theta < 0) { // when the robot is in 2nd/3rd quadrant
+			dy = LAUNCH_RANGE * Math.cos(-theta);
+			dx = -LAUNCH_RANGE * Math.sin(-theta);
+			this.launchY = targetY + dy;
+			this.launchX = targetX + dx;
+		} else { // in 1st/4th quadrant
+			dy = LAUNCH_RANGE * Math.cos(theta);
+			dx = LAUNCH_RANGE * Math.sin(theta);
+			this.launchY = targetY + dy;
+			this.launchX = targetX + dx; // TODO: test later
+		}
+
+		if (launchX <= 15 || launchY <= 15) {
+			double[] target = findCircle(curPosition, throwTo);
+			this.launchX = target[0];
+			this.launchY = target[1];
+		}
+		System.out.println("X position: " + this.launchX + " Y position: " + this.launchY
+				+ "\n The target position X is " + targetX + " Y is " + targetY);
 	}
-	
+
 	public void findDestination2() {
-		
+
 		// Compute angle towards the destination
 		// Compute displacement
-		double dx = this.targetX - odometer.getXYT()[0];
-		double dy = this.targetY - odometer.getXYT()[1];
+		double dx = targetX - odometer.getXYT()[0];
+		double dy = targetY - odometer.getXYT()[1];
 
-				// Calculate the distance to waypoint
-				double distance = Math.hypot(dx, dy);
+		// Calculate the distance to waypoint
+		double distance = Math.hypot(dx, dy);
 
-				// Compute the angle needed to turn; dx and dy are intentionally switched in
-				// order to compute angle w.r.t. the y-axis and not w.r.t. the x-axis
-				double theta = Math.toDegrees(Math.atan2(dx, dy)) - odometer.getXYT()[2];
+		// Compute the angle needed to turn; dx and dy are intentionally switched in
+		// order to compute angle w.r.t. the y-axis and not w.r.t. the x-axis
+		double theta = Math.toDegrees(Math.atan2(dx, dy)) - odometer.getXYT()[2];
+		// Turn to destination
 		navigator.turnTo(theta);
 	}
-	
+
 	/**
 	 * 
 	 * @param curPos
 	 * @param center
 	 * @return
 	 */
-	private static double[] findCircle (double[] curPos, double[] center) {
-	  double[] target = new double[2];
-	  if(center[0] > center[1]) { // upper half
-	    double tX = curPos[0];
-	    double tY = Math.sqrt(Math.pow(LAUNCH_RANGE, 2) - Math.pow((curPos[0] - center[0]),2)) + center[1];
-	    target = new double[]{tX, tY};
-	  }else {  // lower half
-	    double tY = curPos[1];
-	    double tX = Math.sqrt(Math.pow(LAUNCH_RANGE, 2) - Math.pow((curPos[1] - center[1]),2)) + center[0];
-	    target = new double[] {tX, tY};
-	  }
-	  return target;
+	private static double[] findCircle(double[] curPos, double[] center) {
+		double[] target = new double[2];
+		if (center[0] > center[1]) { // upper half
+			double tX = curPos[0];
+			double tY = Math.sqrt(Math.pow(LAUNCH_RANGE, 2) - Math.pow((curPos[0] - center[0]), 2)) + center[1];
+			target = new double[] { tX, tY };
+		} else { // lower half
+			double tY = curPos[1];
+			double tX = Math.sqrt(Math.pow(LAUNCH_RANGE, 2) - Math.pow((curPos[1] - center[1]), 2)) + center[0];
+			target = new double[] { tX, tY };
+		}
+		return target;
 	}
 
 	/**
@@ -316,16 +316,8 @@ public class Navigation {
 		return targetX;
 	}
 
-	public void setTargetX(double targetX) {
-		this.targetX = targetX;
-	}
-
 	public double getTargetY() {
 		return targetY;
-	}
-
-	public void setTargetY(double targetY) {
-		this.targetY = targetY;
 	}
 
 }

@@ -16,7 +16,7 @@ public class Display implements Runnable {
 
   public void run() {
 
-    LCD.clear();
+    LCDScreen.clear();
 
     long updateStart, updateEnd;
 
@@ -29,9 +29,9 @@ public class Display implements Runnable {
 
       // Print x,y, and theta information
       DecimalFormat numberFormat = new DecimalFormat("######0.00");
-      LCD.drawString("X: " + numberFormat.format(position[0]), 0, 0);
-      LCD.drawString("Y: " + numberFormat.format(position[1]), 0, 1);
-      LCD.drawString("T: " + numberFormat.format(position[2]), 0, 2);
+      LCDScreen.drawString("X: " + numberFormat.format(position[0]), 0, 0);
+      LCDScreen.drawString("Y: " + numberFormat.format(position[1]), 0, 1);
+      LCDScreen.drawString("T: " + numberFormat.format(position[2]), 0, 2);
       
       // This ensures that the data is updated only once every period
       updateEnd = System.currentTimeMillis();
@@ -62,9 +62,9 @@ public class Display implements Runnable {
    * @param strings comma-separated list of strings, one per line
    */
   public static void showText(String... strings) {
-    LCD.clear();
+    LCDScreen.clear();
     for (int i = 0; i < strings.length; i++) {
-      LCD.drawString(strings[i], 0, i);
+      LCDScreen.drawString(strings[i], 0, i);
     }
   }
 

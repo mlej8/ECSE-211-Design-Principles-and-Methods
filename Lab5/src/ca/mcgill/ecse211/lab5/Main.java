@@ -35,23 +35,20 @@ public class Main {
 			// Execute Falling Edge implementation of ultrasonic localization
 			ultrasonicLocalizer.fallingEdge();
 
-			// Assume current orientation is 0 with respect to the Y-axis after US
-			// localization
-			odometer.setTheta(0);
-
 			// Stop fetching data from ultrasonic sensor and switch to fetch data from light
 			// sensor
 			sensorPoller.setMode(Mode.LIGHT);
 
 			// Find current robot's position
 			navigator.findRobotPosition();
-
+			odometer.setTheta(0);
+		
 			// Navigate to origin (1,1) approximately
 			navigator.travelToOrigin();
-			odometer.setXYT(0, 0, 0);
+
 			// Execute light sensor localization
 			lightLocalizer.localize();
-
+			
 			// Navigator to true origin (1,1) after light localization
 			navigator.travelToOrigin();
 			
@@ -60,27 +57,25 @@ public class Main {
 			
 			// Find launch position after odometer has been corrected
 			navigator.findDestination();
-			
+
 			// Navigate to to target position
 			navigator.travelToLaunchPoint();
-
-			// Once at destination, execute light localization to correct error on the odometer
-			// lightLocalizer.localize();
-			// navigator.travelToLaunchPoint();
-			// lightLocalizer.orientTo0();
 			
 			// Arrived at destination
 			Sound.twoBeeps();
 			
 			// turn to face the target
             navigator.findDestination2();
-            
+                
 			// Launch the ball
 			ballLauncher.catapultlaunch();
 			
 			for(int i = 0; i < 4; i++ ) {
 				initiatePauseToReload();
-				ballLauncher.catapultlaunch();				
+				ballLauncher.catapultlaunch();	
+				leftLaunchMotor.flt();
+				rightLaunchMotor.flt();
+				sleepFor(5000);
 			}
 			
 			// Do nothing until exit button is pressed, then exit.
@@ -103,7 +98,7 @@ public class Main {
 			buttonChoice = Button.waitForAnyPress();
 		} while (buttonChoice != Button.ID_LEFT && buttonChoice != Button.ID_RIGHT);
 
-		LCD.clear();
+		LCDScreen.clear();
 
 		return buttonChoice;
 	}
@@ -129,7 +124,7 @@ public class Main {
 			buttonChoice = Button.waitForAnyPress();
 		} while (buttonChoice != Button.ID_ENTER);
 
-		LCD.clear();
+		LCDScreen.clear();
 
 		return buttonChoice;
 	}
@@ -147,7 +142,7 @@ public class Main {
 			buttonChoice = Button.waitForAnyPress();
 		} while (buttonChoice != Button.ID_ENTER);
 
-		LCD.clear();
+		LCDScreen.clear();
 
 		return buttonChoice;
 	}
