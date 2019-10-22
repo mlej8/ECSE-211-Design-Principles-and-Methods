@@ -22,11 +22,9 @@ public class Main {
 
 		int buttonChoice = chooseStationaryOrMobile();
 		if (buttonChoice == Button.ID_LEFT) {
+			for(int i = 0; i<5; i++) {
 			ballLauncher.catapultlaunch();
-			ballLauncher.catapultlaunch();
-			ballLauncher.catapultlaunch();
-			ballLauncher.catapultlaunch();
-			ballLauncher.catapultlaunch();
+			}
 		} else if (buttonChoice == Button.ID_RIGHT) {
 			
 			waitToStart();
