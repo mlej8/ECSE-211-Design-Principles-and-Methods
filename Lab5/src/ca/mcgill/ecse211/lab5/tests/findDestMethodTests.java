@@ -16,44 +16,6 @@ public class findDestMethodTests {
    * @param targetX
    * @param targetY
    */
-  public static String findDest(double targetX, double targetY) {
-    double[] curPosition = new double[] {currentX, currentY};
-    double[] throwTo = new double[] {targetX, targetY};
-    
-    double theta = Math.atan2(currentX-targetX, currentY-targetY);
-      
-      double launchX, launchY;
-      double dx,dy;
-      // calculate the intersection of the circle and the line
-      if(theta < 0) { // when the robot is in 2nd/3rd quadrant
-        dy =   launchRange * Math.cos(-theta);
-        dx = - launchRange * Math.sin(-theta);
-        launchY = targetY + dy;
-        launchX = targetX + dx;
-      } else {  // in 1st/4th quadrant
-        dy =   launchRange * Math.cos(theta);
-        dx =   launchRange * Math.sin(theta);
-        launchY = targetY + dy;
-        launchX = targetX + dx; // TODO: test later
-      }
-    
-    if(launchX <= BOUNDARY || launchY <= BOUNDARY) {
-      double[] target = findCircle(curPosition, throwTo);
-      launchX = target[0];
-      launchY = target[1];
-    }
-    System.out.println("I am going to X position: " + keep3Digits(launchX) + " Y position: " + keep3Digits(launchY));
-    return "I am going to X position: " + keep3Digits(launchX) + " Y position: " + keep3Digits(launchY);
-    
-  }
-  
-  /**
-   * This method uses the given target position (targetX,targetY) to find the ideal launching
-   * position. x and y are in unit cm. 
-   * 
-   * @param targetX
-   * @param targetY
-   */
   public static String findDestAtan(double targetX, double targetY) {
     double[] curPosition = new double[] {currentX, currentY};
     double[] throwTo = new double[] {targetX, targetY};
@@ -109,57 +71,7 @@ public class findDestMethodTests {
     return number;
   }
   
-  @Test
-  public void testQuadrant1() {
-    currentX = 5;
-    currentY = 5;
-    launchRange = Math.pow(2, 0.5);
-    double targetX = 3;
-    double targetY = 3;
-    double launchX = 3+launchRange*Math.sin(Math.toRadians(135));
-    double launchY = 3-launchRange*Math.cos(Math.toRadians(135));
-    assertEquals("I am going to X position: " + keep3Digits(launchX) + " Y position: " + keep3Digits(launchY), 
-        findDest(targetX,targetY));
-  }
   
-  @Test
-  public void testQuadrant2() {
-    currentX = 1;
-    currentY = 5;
-    launchRange = Math.pow(2, 0.5);
-    double targetX = 3;
-    double targetY = 3;
-    double launchX = 3-launchRange*Math.sin(Math.toRadians(135));
-    double launchY = 3-launchRange*Math.cos(Math.toRadians(135));
-    assertEquals("I am going to X position: " + keep3Digits(launchX) + " Y position: " + keep3Digits(launchY), 
-        findDest(targetX,targetY));
-  }
-  
-  @Test
-  public void testQuadrant3() {
-    currentX = 1;
-    currentY = 1;
-    launchRange = Math.pow(2, 0.5);
-    double targetX = 3;
-    double targetY = 3;
-    double launchX = 3-launchRange*Math.sin(Math.toRadians(45));
-    double launchY = 3-launchRange*Math.cos(Math.toRadians(45));
-    assertEquals("I am going to X position: " + keep3Digits(launchX) + " Y position: " + keep3Digits(launchY), 
-        findDest(targetX,targetY));
-  }
-  
-  @Test
-  public void testQuadrant4() {
-    currentX = 5;
-    currentY = 1;
-    launchRange = Math.pow(2, 0.5);
-    double targetX = 3;
-    double targetY = 3;
-    double launchX = 3+launchRange*Math.sin(Math.toRadians(45));
-    double launchY = 3-launchRange*Math.cos(Math.toRadians(45));
-    assertEquals("I am going to X position: " + keep3Digits(launchX) + " Y position: " + keep3Digits(launchY), 
-        findDest(targetX,targetY));
-  }
   
   @Test
   public void testQuadrant1ViaAtan() {
