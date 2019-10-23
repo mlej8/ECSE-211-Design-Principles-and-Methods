@@ -98,7 +98,6 @@ public class Navigation {
 		}
 		// Stop robot once it detects the black line
 		stop();
-		System.out.println(odometer.getXYT()[2]);
 
 		// Note the distance it traveled
 		int tachCountLeft = LEFT_MOTOR.getTachoCount();
@@ -231,7 +230,7 @@ public class Navigation {
 			dy = LAUNCH_RANGE * Math.cos(theta);
 			dx = LAUNCH_RANGE * Math.sin(theta);
 			this.launchY = targetY + dy;
-			this.launchX = targetX + dx; // TODO: test later
+			this.launchX = targetX + dx; 
 		}
 
 		if (launchX <= 15 || launchY <= 15) {
@@ -239,8 +238,6 @@ public class Navigation {
 			this.launchX = target[0];
 			this.launchY = target[1];
 		}
-		System.out.println("X position: " + this.launchX + " Y position: " + this.launchY
-				+ "\n The target position X is " + targetX + " Y is " + targetY);
 	}
 
 	public void findDestination2() {
@@ -249,9 +246,6 @@ public class Navigation {
 		// Compute displacement
 		double dx = targetX - odometer.getXYT()[0];
 		double dy = targetY - odometer.getXYT()[1];
-
-		// Calculate the distance to waypoint
-		double distance = Math.hypot(dx, dy);
 
 		// Compute the angle needed to turn; dx and dy are intentionally switched in
 		// order to compute angle w.r.t. the y-axis and not w.r.t. the x-axis

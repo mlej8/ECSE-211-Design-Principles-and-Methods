@@ -27,9 +27,9 @@ public class WheelRadiusTests {
    * @param strings comma-separated list of strings, one per line
    */
   public static void showText(String... strings) {
-    LCD.clear();
+    LCDScreen.clear();
     for (int i = 0; i < strings.length; i++) {
-      LCD.drawString(strings[i], 0, i);
+      LCDScreen.drawString(strings[i], 0, i);
     }
   }
 }
