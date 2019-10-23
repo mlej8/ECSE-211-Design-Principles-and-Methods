@@ -151,7 +151,7 @@ public class Resources {
 	/**
      * The distance from the robot's wheelBase center to light sensor.
      */
-    public static final double DIST_CENTRE_TO_LIGHT_SENSOR = 18.8;
+    public static final double DIST_CENTRE_TO_LIGHT_SENSOR = 13.9;
     
     
     // Catapult constants
@@ -163,7 +163,7 @@ public class Resources {
     /**
      * Acceleration of launch motor.
      */
-    public static final int LAUNCH_MOTOR_ACCELERATOR = 2550; // 2475 
+    public static final int LAUNCH_MOTOR_ACCELERATOR = 2475; // 2475 
     
     /**
      * Launching angle of launch motor

@@ -24,12 +24,12 @@ public class Navigation {
 	/**
 	 * Variable target's x coordinate.
 	 */
-	private static final double targetX = 3 * TILE_SIZE;
+	private static final double targetX = 1 * TILE_SIZE- 0.5*TILE_SIZE;
 
 	/**
 	 * Variable destination's y coordinate.
 	 */
-	private static final double targetY = 7 * TILE_SIZE;
+	private static final double targetY = 7 * TILE_SIZE + 0.5*TILE_SIZE;
 
 	/**
 	 * Origin (1,1) coordinates.

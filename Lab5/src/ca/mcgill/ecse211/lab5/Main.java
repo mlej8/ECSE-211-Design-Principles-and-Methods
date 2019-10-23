@@ -41,16 +41,19 @@ public class Main {
 
 			// Find current robot's position
 			navigator.findRobotPosition();
+			System.out.println("X: " + odometer.getXYT()[0] + " Y: " + odometer.getXYT()[1] + " Theta: " + odometer.getXYT()[2]);
 			odometer.setTheta(0);
+			sleepFor(1000);
 		
 			// Navigate to origin (1,1) approximately
-			navigator.travelToOrigin();
+			navigator.travelTo(TILE_SIZE, TILE_SIZE);
 
 			// Execute light sensor localization
 			lightLocalizer.localize();
 			
 			// Navigator to true origin (1,1) after light localization
 			navigator.travelToOrigin();
+			sleepFor(1000);
 			
 			// Orient back to 0 degree w.r.t. the Y-axis after correction
 			lightLocalizer.orientTo0();
@@ -66,23 +69,20 @@ public class Main {
 			
 			// turn to face the target
             navigator.findDestination2();
+            sleepFor(1000);
                 
 			// Launch the ball
-			ballLauncher.catapultlaunch();
-			
-			for(int i = 0; i < 4; i++ ) {
-				initiatePauseToReload();
-				ballLauncher.catapultlaunch();	
-				leftLaunchMotor.flt();
-				rightLaunchMotor.flt();
+			for(int i = 0; i<5; i++) {
+				ballLauncher.catapultlaunch();
 				sleepFor(5000);
+				}
 			}
 			
 			// Do nothing until exit button is pressed, then exit.
 			while (Button.waitForAnyPress() != Button.ID_ESCAPE)
 				System.exit(0);
-		}
 	}
+	
 
 	/**
 	 * Choose with stationary launch or mobile launch.

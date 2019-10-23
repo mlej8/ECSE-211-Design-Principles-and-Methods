@@ -10,7 +10,7 @@ public class BallLauncher{
  * This method launches the catapult. 
  */
   @SuppressWarnings("deprecation")
-public void catapultlaunch() {
+public synchronized void catapultlaunch() {
 	
 	// Set motors' acceleration and speed 
 	leftLaunchMotor.setAcceleration(LAUNCH_MOTOR_ACCELERATOR);
