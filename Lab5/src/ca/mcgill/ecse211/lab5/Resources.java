@@ -134,11 +134,6 @@ public class Resources {
 	public static double d = 45.0; 
 	
 	/**
-	 * Noise margin for ultrasonic localizer. 
-	 */
-	public static final double NOISE_MARGIN = 5.0; 
-	
-	/**
 	 * Degree at which to rotate right when executing US sensor localization.
 	 */
 	public static double ROTATION_RIGHT = 5.0;
